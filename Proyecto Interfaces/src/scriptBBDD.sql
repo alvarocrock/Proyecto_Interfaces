@@ -95,7 +95,7 @@ fecha_alta date
 
 -- añadir FK a empleados
 alter table empleados add foreign key (id_user) references usuarios (id_user);
--- falla
+--  falla
 alter table empleados add foreign key (rango) references usuarios (rango);
 
 -- añadir FK a ppta(presupuesto)
@@ -106,7 +106,7 @@ alter table ppto add foreign key (id_vehiculo) references vehiculos (id_vehiculo
 -- añadir FK a repara
 alter table repara add foreign key (id_cli) references clientes (id_cli);
 alter table repara add foreign key (id_mec) references empleados (id_emple);
--- falla
+--  falla
 alter table repara add foreign key (id_jefe_taller) references empleados (id_jefe);
 alter table repara add foreign key (id_vehiculo) references vehiculos (id_vehiculo);
 
