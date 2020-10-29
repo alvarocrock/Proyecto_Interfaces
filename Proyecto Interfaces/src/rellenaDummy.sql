@@ -1,4 +1,4 @@
-
+ 
 insert into clientes (DNI, nombre, apellidos,direccion, provincia, poblacion, fecha_alta)
 values ("11111111S", "Antonio","Flores Pérez", "direccion cliente 1", "Málaga", "Málaga", "2020-10-28");
 
