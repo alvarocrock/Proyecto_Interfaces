@@ -16,13 +16,8 @@ public class ControBBDD extends AbstractDAO{
 		super();
 	}
 	
-	//comportamiento para conectar con la bbdd
-	
-	//coportamiento para comprobar el usuario
-	public void comprobar(String nick,String passwd) {
-		
-	}
-	
+
+	//comportamiento que incia la bbdd
 	public void iniciar() {
 		super.iniciar();
 	}
