@@ -7,26 +7,33 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.swing.JOptionPane;
-
 import Common.Constantes;
 
+/**
+
+ * Esta clase define el objeto AbstractDAO de la aplicación.
+ * En ella están todos los métodos para conectar y crear BD, 
+ * consultar, modificar, borrar e insertar registros etc. 
+ * @author Roque Flores Naranjo
+ * 
+ * @version 27/10/2020-1.0
+
+ * @see <a href = "https://www.linkedin.com/in/roque-flores-naranjo/" /> Mi LinkEdin :) </a>
+
+ */
 public abstract class AbstractDAO {
 	
-	// estados
-
-	
+	// ESTADOS**********************
     // conexión a la BD
     public static Connection cn = null;
     // statement
 	public static Statement stm = null;
-    
-    //comportamientos
+
+	// COMPORTAMIENTOS *******************
     /**
      * inicia el DAO
      * crea la conexión a BD y el statement
-     * @return 
      */
     public static void iniciar () {
 		// crea la conexión
@@ -42,7 +49,7 @@ public abstract class AbstractDAO {
         if (ejecutaSQL("USE "+Constantes.BD)) {
         	ejecutaSentencias(Constantes.SQLCREATE);
         } else {
-        	
+        	System.out.println("Base de datos "+ Constantes.SQLCREATE+" abierta correctamente.");
         }
     }
     
