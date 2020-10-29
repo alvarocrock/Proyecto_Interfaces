@@ -1,18 +1,18 @@
 
 create table if not exists clientes(
 
-DNI varchar (20) unique NOT NULL,
-Nombre varchar(20),
-apellidos varchar(20),
-diereccion varchar(20),
-provincia varchar (20),
-poblacion varchar(20),
+DNI varchar (9) unique NOT NULL,
+nombre varchar(50),
+apellidos varchar(50),
+direccion varchar(50),
+provincia varchar (50),
+poblacion varchar(50),
 fecha_alta date,
 id_cli int AUTO_INCREMENT unique NOT NULL primary key
 );
 
 create table if not exists usuarios(
-DNI varchar (20) unique NOT NULL,
+DNI varchar (9) unique NOT NULL,
 Nick varchar (20) not null,
 passwd varchar(20) not null,
 rango varchar(20),
@@ -21,10 +21,17 @@ id_user int AUTO_INCREMENT unique NOT NULL primary key
 );
 
 create table if not exists empleados(
-id_emple int primary key,
+id_emple int AUTO_INCREMENT unique NOT NULL primary key,
 rango varchar(20),
 id_user int,
-id_jefe int
+id_jefe int,
+fecha_alta date,
+DNI varchar (9) unique NOT NULL,
+nombre varchar(50),
+apellidos varchar(50),
+direccion varchar(50),
+provincia varchar (50),
+poblacion varchar(50)
 );
 
 
@@ -33,18 +40,20 @@ id_jefe int
 create table if not exists vehiculos(
 id_vehiculo int auto_increment primary key,
 matricula varchar(20) unique not null,
-bastidor varchar(20) unique not null,
-marca varchar(20),
+bastidor varchar(50) unique not null,
+marca varchar(50),
 modelo varchar(20),
 precio float,
 fecha_alta date,
+id_cliente int,
 id_usuario int,
-id_conce int
+id_conce int,
+tipo varchar(20)
 );
 
 create table if not exists concesionario(
 id_conce int auto_increment primary key,
-nombre varchar(20)
+nombre varchar(50)
 );
 
 create table if not exists ppto(
@@ -100,8 +109,8 @@ fecha_alta date
 alter table empleados add foreign key (id_user) references usuarios (id_user);
 
 
-
-
+alter table vehiculos add foreign key (id_cliente) references clientes (id_cli); 
+alter table vehiculos add foreign key (id_usuario) references usuarios (id_user); 
 alter table vehiculos add foreign key (id_conce) references concesionario (id_conce); 
 
 

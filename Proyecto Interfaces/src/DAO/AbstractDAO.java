@@ -48,9 +48,14 @@ public abstract class AbstractDAO {
         // crea la BD si es necesario
         if (ejecutaSQL("USE "+Constantes.BD)) {
         	ejecutaSentencias(Constantes.SQLCREATE);
+            // carga los datos Dummies
+        	ejecutaSentencias(Constantes.SQLCARGA);
         } else {
         	System.out.println("Base de datos "+ Constantes.SQLCREATE+" abierta correctamente.");
         }
+        
+
+        
     }
     
 	/**
@@ -128,7 +133,7 @@ public abstract class AbstractDAO {
 		try {
 			// ejecuta Statement
             stm.execute(strSQL);
-            JOptionPane.showMessageDialog(null, strSQL, "SQL Ejecutado", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println( "SQL Ejecutado: " + strSQL);
             
         } catch (SQLException e) {
 			e.printStackTrace();
