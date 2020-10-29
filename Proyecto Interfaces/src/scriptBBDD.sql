@@ -39,11 +39,11 @@ modelo varchar(20),
 precio float,
 fecha_alta date,
 id_usuario int,
-id_taller int
+id_conce int
 );
 
-create table if not exists taller(
-id_taller int auto_increment primary key,
+create table if not exists concesionario(
+id_conce int auto_increment primary key,
 nombre varchar(20)
 );
 
@@ -102,7 +102,7 @@ alter table empleados add foreign key (id_user) references usuarios (id_user);
 
 
 
-alter table vehiculos add foreign key (id_taller) references taller (id_taller); 
+alter table vehiculos add foreign key (id_conce) references concesionario (id_conce); 
 
 
 alter table ppto add foreign key (id_cli) references clientes (id_cli);
