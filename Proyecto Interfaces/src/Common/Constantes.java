@@ -1,6 +1,7 @@
 package Common;
 
-public abstract class Constantes {
+
+public abstract class Constantes{
 	//estados
 	public static final String BD = "BDTaller";
 	public static final String CONTROLADOR = "com.mysql.jdbc.Driver";

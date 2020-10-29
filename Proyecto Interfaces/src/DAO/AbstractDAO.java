@@ -26,16 +26,16 @@ public abstract class AbstractDAO {
 	
 	// ESTADOS**********************
     // conexión a la BD
-    public static Connection cn = null;
+    protected Connection cn = null;
     // statement
-	public static Statement stm = null;
+	protected Statement stm = null;
 
 	// COMPORTAMIENTOS *******************
     /**
      * inicia el DAO
      * crea la conexión a BD y el statement
      */
-    public static void iniciar () {
+    public void iniciar () {
 		// crea la conexión
         conectar();
         // crea el statement
@@ -56,7 +56,7 @@ public abstract class AbstractDAO {
 	/**
 	 * Define el objeto connection para conectar con una BD MySQL
 	 */
-    private static void conectar() {
+    protected void conectar() {
         try {
            Class.forName(Constantes.CONTROLADOR);
             cn = DriverManager.getConnection(Constantes.URL, Constantes.USUARIO, Constantes.CLAVE);
@@ -77,7 +77,7 @@ public abstract class AbstractDAO {
 	 * ejecuta sentencias desde un fichero SQL
 	 * @param fileSQL fichero con las sentencias
 	 */
-	public static void ejecutaSentencias(String fileSQL) {
+	public void ejecutaSentencias(String fileSQL) {
 		//lee el fichero
 		String lineas= leeFichero(fileSQL);
 		String [] sentencias=lineas.split(";");
@@ -91,7 +91,7 @@ public abstract class AbstractDAO {
 	 * lee un fichero SQL y devuelve un String con los datos
 	 * @return
 	 */
-	private static String leeFichero(String fileSQL) {
+	private String leeFichero(String fileSQL) {
 		String lineas=" ";
 		BufferedReader lector = null;
 
@@ -122,7 +122,7 @@ public abstract class AbstractDAO {
 	 * @param strSQL el statement SQL a ejecutar
 	 * @return 
 	 */
-	private static boolean ejecutaSQL(String strSQL) {
+	private boolean ejecutaSQL(String strSQL) {
 		boolean resultado=true;
 		
 		try {
