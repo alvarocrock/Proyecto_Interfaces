@@ -69,7 +69,7 @@ create table if not exists ventas
 -- lineas de repara: idReparación, idLinea, idVehículo, CantidadVehículo
 -- Concesionario: idConcesionario, Nombre.
 -- en tablas de Usuarios y Vehículos habría que implementar la relación con 
--- Concesionarios con un idConcesionario.
+-- Concesionarios con un idConcesionario. 
 -- ************************************************
 
 create table if not exists repara
