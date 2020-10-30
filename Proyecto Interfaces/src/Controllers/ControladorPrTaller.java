@@ -28,7 +28,8 @@ public class ControladorPrTaller {
 		// Aqui habría que tomar el usuarioDAO desde la vista
 		
 		// según el tipo de usuario iremos a un menú u otro
-		navegacion();
+		
+		//navegacion();
 		
 		
 		
@@ -36,10 +37,20 @@ public class ControladorPrTaller {
 	}
 	
 	/**
+	 * 
+	 */
+	public boolean comprobarlogin(String user,String contra) {
+		navegacion();
+		return miUsuarioDAO.compobarlogin(user, contra);
+	}
+	
+	
+	
+	/**
 	 * navegación al menú inicial
 	 */
 	private void navegacion() {
-		switch (miUsuarioDAO.getRango()) {
+		switch (miUsuarioDAO.getuser().getRango()) {
 			case "vendedor":
 				//llamar a la GUI de menú inicial ventas
 				
