@@ -18,7 +18,7 @@ public class UsuarioDAO extends  AbstractDAO{
 		try {
             super.conectar();
             stm = (Statement) cn.createStatement();
-            rs = stm.executeQuery("SELECT nick,passwd FROM bdtaller.usuarios;");
+            rs = stm.executeQuery("SELECT nick,passwd FROM usuarios;");
             //miprofe=siguiente();
             while (rs.next()) {
 		        if (rs.getString(1).equals(user) && rs.getString(2).equals(contra) && mibool==false) {

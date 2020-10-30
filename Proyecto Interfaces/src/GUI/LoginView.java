@@ -83,6 +83,7 @@ public class LoginView {
 				
 				if (miuserdao.compobarlogin(JTF_usuario.getText(),JTF_passwd.getText())==true) {
 					JOptionPane.showMessageDialog(null, "login correcto", "resultado login", JOptionPane.INFORMATION_MESSAGE);
+					frame.dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "login incorrecto", "resultado login", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -93,8 +94,17 @@ public class LoginView {
 		
 		panel_1.add(BTN_iniciar_sesion);
 		
-		frame.setVisible(true);
+		// el frame se hace visible desde el controlador
+		// frame.setVisible(true);
 		frame.pack();
 	}
 
+	/**
+	 * Get JFrame
+	 * @return
+	 */
+	public JFrame getFrame() {
+		return frame;
+	}
+	
 }
