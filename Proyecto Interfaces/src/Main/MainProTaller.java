@@ -12,7 +12,7 @@ public class MainProTaller {
 	public static void main(String[] args) {
 		contro= new ControladorPrTaller();
 		//contro.inibbdd();
-		login= new LoginView();
+		//login= new LoginView();
 
 	}
 }

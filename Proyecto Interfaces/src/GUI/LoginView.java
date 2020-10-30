@@ -15,13 +15,14 @@ import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JPasswordField;
 
 public class LoginView {
 
 	private JFrame frame;
 	private JTextField JTF_usuario;
-	private JTextField JTF_passwd;
 	private UsuarioDAO miuserdao;
+	private JPasswordField JPass;
 	
 
 	/**
@@ -52,11 +53,7 @@ public class LoginView {
 		frame.getContentPane().add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new GridLayout(5, 5, 0, 4));
 		
-		JLabel label = new JLabel("");
-		panel_1.add(label);
 		
-		JLabel label_1 = new JLabel("");
-		panel_1.add(label_1);
 		
 		JLabel JLB_usuario = new JLabel("Usuario");
 		panel_1.add(JLB_usuario);
@@ -68,9 +65,8 @@ public class LoginView {
 		JLabel lblNewLabel = new JLabel("Contrase\u00F1a");
 		panel_1.add(lblNewLabel);
 		
-		JTF_passwd = new JTextField();
-		JTF_passwd.setColumns(10);
-		panel_1.add(JTF_passwd);
+		JPass = new JPasswordField();
+		panel_1.add(JPass);
 		
 		JLabel label_2 = new JLabel("");
 		panel_1.add(label_2);
@@ -81,9 +77,9 @@ public class LoginView {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				if (miuserdao.compobarlogin(JTF_usuario.getText(),JTF_passwd.getText())==true) {
+				if (miuserdao.compobarlogin(JTF_usuario.getText(),JPass.getText())==true) {
 					JOptionPane.showMessageDialog(null, "login correcto", "resultado login", JOptionPane.INFORMATION_MESSAGE);
-					frame.dispose();
+					frame.setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(null, "login incorrecto", "resultado login", JOptionPane.INFORMATION_MESSAGE);
 				}
