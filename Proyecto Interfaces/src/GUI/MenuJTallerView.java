@@ -87,7 +87,7 @@ public class MenuJTallerView {
 				FichaClienteView miFichaClientes = new FichaClienteView(miUsuario);
 				miFichaClientes.getFrame().setAlwaysOnTop(true);
 				miFichaClientes.getFrame().setVisible(true);
-				frame.setVisible(false);
+				frame.dispose();
 			}
 		});
 		
@@ -97,10 +97,10 @@ public class MenuJTallerView {
 		BTBusCli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VerTrabajoView miFichaClientes = new VerTrabajoView(miUsuario);
-				VerTrabajoView.getFrame().setAlwaysOnTop(true);
-				VerTrabajoView.getFrame().setVisible(true);
-				frame.setVisible(false);
+				VerTrabajoView verTra = new VerTrabajoView(miUsuario);
+				verTra.getFrame().setAlwaysOnTop(true);
+				verTra.getFrame().setVisible(true);
+				frame.dispose();
 			}
 		});
 		
@@ -110,10 +110,10 @@ public class MenuJTallerView {
 		BTBusCli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				AsignarTrabajoView miFichaClientes = new AsignarTrabajoView(miUsuario);
-				AsignarTrabajoView.getFrame().setAlwaysOnTop(true);
-				AsignarTrabajoView.getFrame().setVisible(true);
-				frame.setVisible(false);
+				AsignarTrabajoView asiTra = new AsignarTrabajoView(miUsuario);
+				asiTra.getFrame().setAlwaysOnTop(true);
+				asiTra.getFrame().setVisible(true);
+				frame.dispose();
 			}
 		});
 		

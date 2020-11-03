@@ -87,7 +87,7 @@ public class MenuVentasView {
 				ProVenView miProVen = new ProVenView(usuario);
 				miProVen.getFrame().setAlwaysOnTop(true);
 				miProVen.getFrame().setVisible(true);
-				frame.setVisible(false);
+				frame.dispose();
 			}
 		});
 		
@@ -99,7 +99,7 @@ public class MenuVentasView {
 				BusCliView miBuscCli = new BusCliView(usuario);
 				miBuscCli.getFrame().setAlwaysOnTop(true);
 				miBuscCli.getFrame().setVisible(true);
-				frame.setVisible(false);
+				frame.dispose();
 			}
 		});
 		
@@ -111,7 +111,7 @@ public class MenuVentasView {
 				FichaClienteView miFichaClientes = new FichaClienteView(usuario);
 				miFichaClientes.getFrame().setAlwaysOnTop(true);
 				miFichaClientes.getFrame().setVisible(true);
-				frame.setVisible(false);
+				frame.dispose();
 			}
 		});
 		
@@ -127,7 +127,7 @@ public class MenuVentasView {
 				ConsVeh miConsVeh = new ConsVeh(usuario);
 				miConsVeh.getFrame().setAlwaysOnTop(true);
 				miConsVeh.getFrame().setVisible(true);
-				frame.setVisible(false);
+				frame.dispose();
 			}
 		});
 		
@@ -139,7 +139,7 @@ public class MenuVentasView {
 				RegistroVehiculosView miFicVeh = new RegistroVehiculosView(usuario);
 				miFicVeh.getFrame().setVisible(true);
 				miFicVeh.getFrame().setAlwaysOnTop(true);
-				frame.setVisible(false);
+				frame.dispose();
 			}
 		});
 		

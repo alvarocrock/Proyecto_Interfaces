@@ -90,7 +90,7 @@ public class MenuMecanicoView {
 				FichaClienteView miFichaClientes = new FichaClienteView(miUsuario);
 				miFichaClientes.getFrame().setAlwaysOnTop(true);
 				miFichaClientes.getFrame().setVisible(true);
-				frame.setVisible(false);
+				frame.dispose();
 			}
 		});
 		
@@ -103,7 +103,7 @@ public class MenuMecanicoView {
 				VerTrabajoView miVerTra = new VerTrabajoView(miUsuario);
 				miVerTra.getFrame().setAlwaysOnTop(true);
 				miVerTra.getFrame().setVisible(true);
-				frame.setVisible(false);
+				frame.dispose();
 			}
 		});
 		
@@ -122,7 +122,7 @@ public class MenuMecanicoView {
 	/*
 	 * Get Frame
 	 */
-	public Window getFrame() {
+	public JFrame getFrame() {
 		return frame;
 	}
 }
