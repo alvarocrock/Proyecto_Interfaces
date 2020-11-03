@@ -13,10 +13,17 @@ import java.awt.CardLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+
 import javax.swing.JSplitPane;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+
+import DAO.VehiculosDAO;
+import Models.Concesionario;
+import Models.Usuarios;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import net.miginfocom.swing.MigLayout;
@@ -25,12 +32,16 @@ import javax.swing.JComboBox;
 public class RegistroVehiculosView {
 
 	private JFrame frame;
+	VehiculosDAO contro;
 	private JTextField JTF_matricula;
 	private JTextField JTF_bastidor;
 	private JTextField JTF_modelo;
 	private JTextField JTF_precio;
-	private JTextField textField;
 	private JTextField JTF_IdCli;
+	private JComboBox combo_conce;
+	private Usuarios miuser;
+	private JTextField JTF_tipo;
+	private final JLabel JLB_tipo = new JLabel("tipo vehiculo");
 
 	/**
 	 * Launch the application.
@@ -39,7 +50,7 @@ public class RegistroVehiculosView {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegistroVehiculosView window = new RegistroVehiculosView();
+					RegistroVehiculosView window = new RegistroVehiculosView(null);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +62,9 @@ public class RegistroVehiculosView {
 	/**
 	 * Create the application.
 	 */
-	public RegistroVehiculosView() {
+	public RegistroVehiculosView(Usuarios user) {
+		miuser=user;
+		contro= new VehiculosDAO();
 		initialize();
 	}
 
@@ -79,8 +92,14 @@ public class RegistroVehiculosView {
 		splitPane.setLeftComponent(panel_1);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 		
-		JLabel lblNewLabel_1 = new JLabel("Usuario actual");
-		panel_1.add(lblNewLabel_1);
+		JLabel Usuario_actual = new JLabel("Usuario actual");
+		panel_1.add(Usuario_actual);
+		
+		JLabel user = new JLabel("");
+		panel_1.add(user);
+		if (miuser!=null) {
+		user.setText(miuser.getNick());
+		}
 		
 		JPanel panel_2 = new JPanel();
 		splitPane.setRightComponent(panel_2);
@@ -114,25 +133,25 @@ public class RegistroVehiculosView {
 		panel_2.add(JTF_precio, "cell 2 4,alignx left");
 		JTF_precio.setColumns(10);
 		
-		JLabel JLB_fecha = new JLabel("Fecha_alta");
-		panel_2.add(JLB_fecha, "cell 0 5");
-		
-		textField = new JTextField();
-		panel_2.add(textField, "cell 2 5,alignx left");
-		textField.setColumns(10);
-		
 		JLabel JLB_id_cli = new JLabel("DNI_cli");
-		panel_2.add(JLB_id_cli, "cell 0 6");
+		panel_2.add(JLB_id_cli, "cell 0 5");
 		
 		JTF_IdCli = new JTextField();
-		panel_2.add(JTF_IdCli, "cell 2 6,alignx left");
+		panel_2.add(JTF_IdCli, "cell 2 5,alignx left");
 		JTF_IdCli.setColumns(10);
 		
 		JLabel JLB_conce = new JLabel("Concesionario");
-		panel_2.add(JLB_conce, "cell 0 7");
+		panel_2.add(JLB_conce, "cell 0 6");
 		
-		JComboBox combo_conce = new JComboBox();
-		panel_2.add(combo_conce, "cell 2 7,growx");
+		
+		combo_conce = new JComboBox();
+		panel_2.add(combo_conce, "cell 2 6,growx");
+		rellenarcombo();
+		panel_2.add(JLB_tipo, "cell 0 7");
+		
+		JTF_tipo = new JTextField();
+		panel_2.add(JTF_tipo, "cell 2 7,alignx left");
+		JTF_tipo.setColumns(10);
 		
 		JPanel panel_3 = new JPanel();
 		panel_2.add(panel_3, "cell 0 9 6 1,alignx right,aligny center");
@@ -143,6 +162,13 @@ public class RegistroVehiculosView {
 		
 		JButton BTN_aceptar = new JButton("Aceptar");
 		panel_3.add(BTN_aceptar);
+	}
+	public void rellenarcombo() {
+		ArrayList<Concesionario> miarray=contro.arrayconce();
+		for (int cont=0;cont<miarray.size();cont++) {
+			combo_conce.addItem(miarray.get(cont).getNombre());
+		}
+		
 	}
 
 }
