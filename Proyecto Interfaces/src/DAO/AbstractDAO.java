@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
@@ -53,9 +54,7 @@ public abstract class AbstractDAO {
         } else {
         	System.out.println("Base de datos "+ Constantes.SQLCREATE+" abierta correctamente.");
         }
-        
-
-        
+             
     }
     
 	/**
@@ -127,7 +126,7 @@ public abstract class AbstractDAO {
 	 * @param strSQL el statement SQL a ejecutar
 	 * @return 
 	 */
-	private boolean ejecutaSQL(String strSQL) {
+	protected boolean ejecutaSQL(String strSQL) {
 		boolean resultado=true;
 		
 		try {
@@ -144,6 +143,24 @@ public abstract class AbstractDAO {
         }
 		return resultado;
 	}
+	
+	/**
+	 * ejecuta una consulta SQL dado un String
+	 * @param strSql
+	 * @return un Resulset con los resultados
+	 */
+	protected ResultSet consultaSQL(String strSql) {
+		ResultSet rst=null;
+		try {
+			rst = stm.executeQuery(strSql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rst;
+	}
+
+
+	
 	
 	//*************** fin
 }
