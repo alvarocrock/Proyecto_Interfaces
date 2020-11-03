@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
@@ -29,6 +30,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JComboBox;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class RegistroVehiculosView {
 
@@ -47,7 +50,7 @@ public class RegistroVehiculosView {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -59,6 +62,7 @@ public class RegistroVehiculosView {
 			}
 		});
 	}
+	*/
 
 	/**
 	 * Create the application.
@@ -159,11 +163,46 @@ public class RegistroVehiculosView {
 		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton BTN_cancelar = new JButton("Cancelar");
+		BTN_cancelar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				MenuVentasView miMenuV = new MenuVentasView(miuser);
+				miMenuV.getFrame().setVisible(true);
+				frame.dispose();
+			}
+		});
 		panel_3.add(BTN_cancelar);
 		
 		JButton BTN_aceptar = new JButton("Aceptar");
+		BTN_aceptar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				add();
+			}
+		});
 		panel_3.add(BTN_aceptar);
 	}
+	
+	public void add() {
+		String matricula=JTF_matricula.getText();
+		String bastidor=JTF_bastidor.getText();
+		String marca=JTF_matricula.getText();
+		String modelo=JTF_modelo.getText();
+		float precio=Float.parseFloat(JTF_precio.getText());
+		int id_cli = contro.getidcli(JTF_IdCli.getText());
+		int id_user = miuser.getId();
+		int id_conce = contro.getidconce(combo_conce.getSelectedItem().toString());
+		String tipo= JLB_tipo.getText(); 
+		if (id_cli!=0) {
+		contro.crearregistro(matricula, bastidor, marca, modelo, precio, id_cli, id_user, id_conce, tipo);
+		}else if (matricula.equals("")|| bastidor.equals("")||marca.equals("")||modelo.equals("")||tipo.equals("")) {
+			JOptionPane.showMessageDialog(null, "Porfavor rellene todas las casillas", "Message", JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(null, "Porfavor inserte un dni que exista en la bbdd", "Message", JOptionPane.INFORMATION_MESSAGE);
+		}
+		
+	}
+	
 	public void rellenarcombo() {
 		ArrayList<Concesionario> miarray=contro.arrayconce();
 		for (int cont=0;cont<miarray.size();cont++) {

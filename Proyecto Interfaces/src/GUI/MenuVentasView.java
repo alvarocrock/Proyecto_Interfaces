@@ -72,7 +72,7 @@ public class MenuVentasView {
 		
 		JLabel LBNomUsu = new JLabel("Nombre de Usuario");
 		PNUsuario.add(LBNomUsu, "cell 0 1,alignx left,aligny center");
-		LBNomUsu.setText("Nombre usuario");
+		LBNomUsu.setText(usuario.getNick());
 		
 		// panel central
 		JPanel PNCentral = new JPanel();

@@ -23,13 +23,14 @@ import net.miginfocom.swing.MigLayout;
 public class MenuJTallerView {
 
 	private JFrame frame;
-
+	Usuarios miuser;
 
 	/**
 	 * Create the application.
 	 * @param usuarios 
 	 */
 	public MenuJTallerView(Usuarios usuarios) {
+		miuser=usuarios;
 		initialize();
 	}
 
@@ -72,6 +73,7 @@ public class MenuJTallerView {
 		
 		JLabel LBNomUsu = new JLabel("Nombre de Usuario");
 		PNUsuario.add(LBNomUsu, "cell 0 1,alignx left,aligny center");
+		LBNomUsu.setText(miuser.getNick());
 		
 		// panel central
 		JPanel PNCentral = new JPanel();

@@ -31,9 +31,8 @@ public class MenuMecanicoView {
 	 * Create the application.
 	 */
 	public MenuMecanicoView(Usuarios Usuario) {
-		initialize();
 		miUsuario=Usuario;
-		
+		initialize();
 	}
 
 	/**
@@ -75,6 +74,7 @@ public class MenuMecanicoView {
 		
 		JLabel LBNomUsu = new JLabel("Nombre de Usuario");
 		PNUsuario.add(LBNomUsu, "cell 0 1,alignx left,aligny center");
+		LBNomUsu.setText(miUsuario.getNick());
 		
 		// panel central
 		JPanel PNCentral = new JPanel();

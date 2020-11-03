@@ -126,6 +126,7 @@ public class LoginView {
 			case "jefeTaller":
 				//llamar a la GUI de menú inicial jefe de taller
 				
+				
 				break;
 			default:
 				System.out.println("¿Comorrrrrrrr?");
