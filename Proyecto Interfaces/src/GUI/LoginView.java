@@ -78,8 +78,9 @@ public class LoginView {
 			public void mouseClicked(MouseEvent e) {
 				
 				if (miuserdao.compobarlogin(JTF_usuario.getText(),JPass.getText())==true) {
-					JOptionPane.showMessageDialog(null, "login correcto", "resultado login", JOptionPane.INFORMATION_MESSAGE);
 					frame.setVisible(false);
+					JOptionPane.showMessageDialog(null, "login correcto", "resultado login", JOptionPane.INFORMATION_MESSAGE);
+					navegacion();
 				} else {
 					JOptionPane.showMessageDialog(null, "login incorrecto", "resultado login", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -102,5 +103,32 @@ public class LoginView {
 	public JFrame getFrame() {
 		return frame;
 	}
-	
+	/**
+	 * navegación al menú inicial
+	 */
+	private void navegacion() {
+		switch ( miuserdao.getuser().getRango()) {
+			case "vendedor":
+				//llamar a la GUI de menú inicial ventas
+				MenuVentasView miMenuV = new MenuVentasView(miuserdao.getuser());
+				miMenuV.getFrame().setVisible(true);
+				break;
+			case "mecanico":
+				//llamar a la GUI de menú inicial taller
+				MenuMecanicoView miMenuM = new MenuMecanicoView(miuserdao.getuser());
+				miMenuM.getFrame().setVisible(true);
+				break;
+			case "jefe":
+				//llamar a la GUI de menú inicial Jefe
+				MenuJTallerView miMenuJT = new MenuJTallerView(miuserdao.getuser());
+				miMenuJT.getFrame().setVisible(true);
+				break;
+			case "jefeTaller":
+				//llamar a la GUI de menú inicial jefe de taller
+				
+				break;
+			default:
+				System.out.println("¿Comorrrrrrrr?");
+		}			
+	}
 }

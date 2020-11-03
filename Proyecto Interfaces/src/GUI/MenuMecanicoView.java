@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Window;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.TitledBorder;
 
+import Models.Usuarios;
 import net.miginfocom.swing.MigLayout;
 
 import javax.imageio.ImageIO;
@@ -22,12 +25,15 @@ import javax.swing.ImageIcon;
 public class MenuMecanicoView {
 
 	private JFrame frame;
+	private Usuarios miUsuario;
 
 	/**
 	 * Create the application.
 	 */
-	public MenuMecanicoView() {
+	public MenuMecanicoView(Usuarios Usuario) {
 		initialize();
+		miUsuario=Usuario;
+		
 	}
 
 	/**
@@ -78,15 +84,39 @@ public class MenuMecanicoView {
 		JButton BTProVen = new JButton("Ficha clientes");
 		BTProVen.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Clientes.png")));
 		PNCentral.add(BTProVen, "flowx,cell 0 1,alignx right,aligny top");
+		BTProVen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FichaClienteView miFichaClientes = new FichaClienteView(miUsuario);
+				miFichaClientes.getFrame().setAlwaysOnTop(true);
+				miFichaClientes.getFrame().setVisible(true);
+				frame.setVisible(false);
+			}
+		});
 		
 		JButton BTBusCli = new JButton("Ver trabajo");
 		BTBusCli.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Trabajo.png")));
 		PNCentral.add(BTBusCli, "cell 2 1");
+		BTBusCli.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VerTrabajoView miVerTra = new VerTrabajoView(miUsuario);
+				miVerTra.getFrame().setAlwaysOnTop(true);
+				miVerTra.getFrame().setVisible(true);
+				frame.setVisible(false);
+			}
+		});
 		
 		JButton BTSalir = new JButton("Salir");
 		PNCentral.add(BTSalir, "cell 0 2");
 		BTSalir.setSelectedIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Salida.png")));
 		BTSalir.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Salida.png")));
+		BTSalir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+			}
+		});
 	}
 	
 	/*

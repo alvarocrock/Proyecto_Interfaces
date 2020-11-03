@@ -5,15 +5,19 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Window;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.TitledBorder;
 
+import Models.Usuarios;
 import net.miginfocom.swing.MigLayout;
 
 public class MenuJTallerView {
@@ -23,8 +27,9 @@ public class MenuJTallerView {
 
 	/**
 	 * Create the application.
+	 * @param usuarios 
 	 */
-	public MenuJTallerView() {
+	public MenuJTallerView(Usuarios usuarios) {
 		initialize();
 	}
 
@@ -76,19 +81,52 @@ public class MenuJTallerView {
 		JButton BTProVen = new JButton("Ficha clientes   ");
 		BTProVen.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Clientes.png")));
 		PNCentral.add(BTProVen, "flowx,cell 0 1,alignx right,aligny top");
+		BTProVen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FichaClienteView miFichaClientes = new FichaClienteView(miUsuario);
+				miFichaClientes.getFrame().setAlwaysOnTop(true);
+				miFichaClientes.getFrame().setVisible(true);
+				frame.setVisible(false);
+			}
+		});
 		
 		JButton BTBusCli = new JButton("Ver trabajo");
 		BTBusCli.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Trabajo.png")));
 		PNCentral.add(BTBusCli, "cell 2 1");
+		BTBusCli.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VerTrabajoView miFichaClientes = new VerTrabajoView(miUsuario);
+				VerTrabajoView.getFrame().setAlwaysOnTop(true);
+				VerTrabajoView.getFrame().setVisible(true);
+				frame.setVisible(false);
+			}
+		});
 		
 		JButton BTAsignar = new JButton("Asignar trabajo");
 		BTAsignar.setIcon(new ImageIcon(MenuJTallerView.class.getResource("/png/RegTra.png")));
 		PNCentral.add(BTAsignar, "cell 0 2");
+		BTBusCli.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				AsignarTrabajoView miFichaClientes = new AsignarTrabajoView(miUsuario);
+				AsignarTrabajoView.getFrame().setAlwaysOnTop(true);
+				AsignarTrabajoView.getFrame().setVisible(true);
+				frame.setVisible(false);
+			}
+		});
 		
 		JButton BTSalir = new JButton("Salir           ");
 		PNCentral.add(BTSalir, "cell 2 2");
 		BTSalir.setSelectedIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Salida.png")));
 		BTSalir.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Salida.png")));
+		BTBusCli.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+			}
+		});
 	}
 
 	/*

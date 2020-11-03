@@ -13,6 +13,7 @@ import java.awt.CardLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.util.ArrayList;
 
 import javax.swing.JSplitPane;
@@ -169,6 +170,11 @@ public class RegistroVehiculosView {
 			combo_conce.addItem(miarray.get(cont).getNombre());
 		}
 		
+	}
+
+	public JFrame getFrame() {
+		// TODO Auto-generated method stub
+		return frame;
 	}
 
 }

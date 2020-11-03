@@ -29,15 +29,7 @@ public class ControladorPrTaller {
 		miLoginView.getFrame().setAlwaysOnTop(true);
 		miLoginView.getFrame().setVisible(true);
 		
-		// Aqui habría que tomar el usuarioDAO desde la vista
-		
-		// según el tipo de usuario iremos a un menú u otro
-		
-		//navegacion();
-		
-		
-		
-		System.out.println("fin");
+		System.out.println("fin ControladorTaller");
 	}
 	
 	/**

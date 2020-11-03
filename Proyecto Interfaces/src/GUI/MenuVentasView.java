@@ -11,10 +11,14 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Window;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import net.miginfocom.swing.MigLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MenuVentasView {
 
@@ -68,24 +72,86 @@ public class MenuVentasView {
 		
 		JLabel LBNomUsu = new JLabel("Nombre de Usuario");
 		PNUsuario.add(LBNomUsu, "cell 0 1,alignx left,aligny center");
-		LBNomUsu.setText(usuario.getNick());
+		LBNomUsu.setText("Nombre usuario");
 		
 		// panel central
 		JPanel PNCentral = new JPanel();
 		splitPane.setRightComponent(PNCentral);
-		PNCentral.setLayout(new MigLayout("", "[][center][center][center]", "[][][][][]"));
+		PNCentral.setLayout(new MigLayout("", "[][center][center][center]", "[][][][][][][]"));
 		
 		JButton BTProVen = new JButton("Propuesta de ventas");
 		PNCentral.add(BTProVen, "cell 3 1,alignx right,aligny top");
+		BTProVen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ProVenView miProVen = new ProVenView(usuario);
+				miProVen.getFrame().setAlwaysOnTop(true);
+				miProVen.getFrame().setVisible(true);
+				frame.setVisible(false);
+			}
+		});
 		
 		JButton BTBusCli = new JButton("Buscar cliente");
 		PNCentral.add(BTBusCli, "cell 3 2");
+		BTBusCli.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				BusCliView miBuscCli = new BusCliView(usuario);
+				miBuscCli.getFrame().setAlwaysOnTop(true);
+				miBuscCli.getFrame().setVisible(true);
+				frame.setVisible(false);
+			}
+		});
 		
-		JButton BTFicCli = new JButton("Ficha de Clientes");
+		JButton BTFicCli = new JButton("Añadir de Clientes");
 		PNCentral.add(BTFicCli, "cell 3 3");
+		BTFicCli.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FichaClienteView miFichaClientes = new FichaClienteView(usuario);
+				miFichaClientes.getFrame().setAlwaysOnTop(true);
+				miFichaClientes.getFrame().setVisible(true);
+				frame.setVisible(false);
+			}
+		});
 		
-		JButton BTConsVeh = new JButton("Consulta de vehículos");
+		JButton BTConsVeh = new JButton("Buscar vehículos");
+		BTConsVeh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		PNCentral.add(BTConsVeh, "cell 3 4");
+		BTConsVeh.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ConsVeh miConsVeh = new ConsVeh(usuario);
+				miConsVeh.getFrame().setAlwaysOnTop(true);
+				miConsVeh.getFrame().setVisible(true);
+				frame.setVisible(false);
+			}
+		});
+		
+		JButton BTFicVeh = new JButton("Ficha de vehículos");
+		PNCentral.add(BTFicVeh, "cell 3 5");
+		BTFicVeh.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				RegistroVehiculosView miFicVeh = new RegistroVehiculosView(usuario);
+				miFicVeh.getFrame().setVisible(true);
+				miFicVeh.getFrame().setAlwaysOnTop(true);
+				frame.setVisible(false);
+			}
+		});
+		
+		JButton BTSalir = new JButton("Salir");
+		PNCentral.add(BTSalir, "cell 3 6");
+		BTSalir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+			}
+		});
+		
 	}
 
 	/*
