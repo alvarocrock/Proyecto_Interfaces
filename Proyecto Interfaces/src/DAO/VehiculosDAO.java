@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+
 import com.mysql.jdbc.Statement;
 
 import Models.Concesionario;
@@ -96,6 +98,47 @@ public class VehiculosDAO extends AbstractDAO{
 				e.printStackTrace();
 				 }
         	}
+
+		return miint;
+		
+	}
+	
+	/**
+	 * comportamiento que retorna el id del concesiona rio en base a su nombre
+	 * @param nombre
+	 * @return
+	 */
+	public int getidconce(String nombre) {
+		int miint=0;
+		ResultSet rs=null;
+		try {
+            super.conectar();
+            stm = (Statement) cn.createStatement();
+            rs = stm.executeQuery("SELECT id_conce FROM proyecto.concesionario where nombre='"+nombre+"';");
+            while (rs.next()) {
+            miint=rs.getInt(1);	
+            }
+            
+      
+        } catch (SQLException e) {
+            e.printStackTrace();    
+        } finally {
+        	try {
+        		if (cn!=null) {
+        			cn.close();
+        		}
+        		if (stm!=null) {
+        			stm.close();
+        		}
+        		if (rs!=null) {
+        			rs.close();
+        		}
+        		}
+				catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				 }
+        	}
 		return miint;
 	}
 		
@@ -116,9 +159,11 @@ public class VehiculosDAO extends AbstractDAO{
 		      + " VALUES ('"+matricula+"', '"+bastidor+"', '"+marca+"', '"+modelo+"', '"+precio+"', '"+mifecha+"', '"+id_cli+"', '"+id_user+"', '"+id_conce+"', '"+tipo+"');";
 		      
 		      stm.executeUpdate(consulta);
+		      JOptionPane.showMessageDialog(null, "vehicle added successfully to database", "Message", JOptionPane.INFORMATION_MESSAGE);
 
 		    } catch (SQLException e) {
-		      e.printStackTrace();
+		    	JOptionPane.showMessageDialog(null, "Something went wrong", "Message", JOptionPane.INFORMATION_MESSAGE);
+		      //e.printStackTrace();
 		    } finally {
 		      try {
 		        // Close connection
