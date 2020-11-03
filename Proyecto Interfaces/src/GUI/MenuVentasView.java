@@ -4,6 +4,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
+
+import Models.Usuarios;
+
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -16,12 +19,13 @@ import net.miginfocom.swing.MigLayout;
 public class MenuVentasView {
 
 	private JFrame frame;
-
+	private Usuarios usuario;
 
 	/**
 	 * Create the application.
 	 */
-	public MenuVentasView() {
+	public MenuVentasView(Usuarios miuser) {
+		usuario=miuser;
 		initialize();
 	}
 
@@ -64,6 +68,7 @@ public class MenuVentasView {
 		
 		JLabel LBNomUsu = new JLabel("Nombre de Usuario");
 		PNUsuario.add(LBNomUsu, "cell 0 1,alignx left,aligny center");
+		LBNomUsu.setText(usuario.getNick());
 		
 		// panel central
 		JPanel PNCentral = new JPanel();

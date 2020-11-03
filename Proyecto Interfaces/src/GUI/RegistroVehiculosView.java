@@ -20,6 +20,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JComboBox;
 
 public class RegistroVehiculosView {
 
@@ -30,8 +31,6 @@ public class RegistroVehiculosView {
 	private JTextField JTF_precio;
 	private JTextField textField;
 	private JTextField JTF_IdCli;
-	private JTextField JTF_IdConce;
-	private JTextField JTF_tipo;
 
 	/**
 	 * Launch the application.
@@ -122,26 +121,18 @@ public class RegistroVehiculosView {
 		panel_2.add(textField, "cell 2 5,alignx left");
 		textField.setColumns(10);
 		
-		JLabel JLB_id_cli = new JLabel("ID_cliente");
+		JLabel JLB_id_cli = new JLabel("DNI_cli");
 		panel_2.add(JLB_id_cli, "cell 0 6");
 		
 		JTF_IdCli = new JTextField();
 		panel_2.add(JTF_IdCli, "cell 2 6,alignx left");
 		JTF_IdCli.setColumns(10);
 		
-		JLabel JLB_id_conce = new JLabel("ID_concesionario");
-		panel_2.add(JLB_id_conce, "cell 0 7");
+		JLabel JLB_conce = new JLabel("Concesionario");
+		panel_2.add(JLB_conce, "cell 0 7");
 		
-		JTF_IdConce = new JTextField();
-		panel_2.add(JTF_IdConce, "cell 2 7,alignx left");
-		JTF_IdConce.setColumns(10);
-		
-		JLabel JLB_TIPO = new JLabel("tipo");
-		panel_2.add(JLB_TIPO, "cell 0 8");
-		
-		JTF_tipo = new JTextField();
-		panel_2.add(JTF_tipo, "cell 2 8,alignx left");
-		JTF_tipo.setColumns(10);
+		JComboBox combo_conce = new JComboBox();
+		panel_2.add(combo_conce, "cell 2 7,growx");
 		
 		JPanel panel_3 = new JPanel();
 		panel_2.add(panel_3, "cell 0 9 6 1,alignx right,aligny center");
