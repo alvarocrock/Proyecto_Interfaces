@@ -163,7 +163,7 @@ public class VehiculosDAO extends AbstractDAO{
 
 		    } catch (SQLException e) {
 		    	JOptionPane.showMessageDialog(null, "Something went wrong", "Message", JOptionPane.INFORMATION_MESSAGE);
-		      //e.printStackTrace();
+		      e.printStackTrace();
 		    } finally {
 		      try {
 		        // Close connection

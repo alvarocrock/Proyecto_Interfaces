@@ -46,6 +46,7 @@ public class RegistroVehiculosView {
 	private Usuarios miuser;
 	private JTextField JTF_tipo;
 	private final JLabel JLB_tipo = new JLabel("tipo vehiculo");
+	private JTextField JTF_marca;
 
 	/**
 	 * Launch the application.
@@ -78,7 +79,7 @@ public class RegistroVehiculosView {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(150, 150, 550, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -108,7 +109,7 @@ public class RegistroVehiculosView {
 		
 		JPanel panel_2 = new JPanel();
 		splitPane.setRightComponent(panel_2);
-		panel_2.setLayout(new MigLayout("", "[grow][][grow][grow][][]", "[][][][][][][][][][grow]"));
+		panel_2.setLayout(new MigLayout("", "[grow][][grow][grow][][]", "[][][][][][][][][][][grow]"));
 		
 		JLabel JLB_matricula = new JLabel("Matricula");
 		panel_2.add(JLB_matricula, "cell 0 1");
@@ -124,42 +125,49 @@ public class RegistroVehiculosView {
 		panel_2.add(JTF_bastidor, "cell 2 2,alignx left");
 		JTF_bastidor.setColumns(10);
 		
+		JLabel JLB_marca = new JLabel("Marca");
+		panel_2.add(JLB_marca, "cell 0 3");
+		
+		JTF_marca = new JTextField();
+		panel_2.add(JTF_marca, "cell 2 3,alignx left");
+		JTF_marca.setColumns(10);
+		
 		JLabel JLB_modelo = new JLabel("Modelo");
-		panel_2.add(JLB_modelo, "cell 0 3");
+		panel_2.add(JLB_modelo, "cell 0 4");
 		
 		JTF_modelo = new JTextField();
-		panel_2.add(JTF_modelo, "cell 2 3,alignx left");
+		panel_2.add(JTF_modelo, "cell 2 4,alignx left");
 		JTF_modelo.setColumns(10);
 		
 		JLabel JLB_precio = new JLabel("Precio");
-		panel_2.add(JLB_precio, "cell 0 4");
+		panel_2.add(JLB_precio, "cell 0 5");
 		
 		JTF_precio = new JTextField();
-		panel_2.add(JTF_precio, "cell 2 4,alignx left");
+		panel_2.add(JTF_precio, "cell 2 5,alignx left");
 		JTF_precio.setColumns(10);
 		
 		JLabel JLB_id_cli = new JLabel("DNI_cli");
-		panel_2.add(JLB_id_cli, "cell 0 5");
+		panel_2.add(JLB_id_cli, "cell 0 6");
 		
 		JTF_IdCli = new JTextField();
-		panel_2.add(JTF_IdCli, "cell 2 5,alignx left");
+		panel_2.add(JTF_IdCli, "cell 2 6,alignx left");
 		JTF_IdCli.setColumns(10);
 		
 		JLabel JLB_conce = new JLabel("Concesionario");
-		panel_2.add(JLB_conce, "cell 0 6");
+		panel_2.add(JLB_conce, "cell 0 7");
 		
 		
 		combo_conce = new JComboBox();
-		panel_2.add(combo_conce, "cell 2 6,growx");
+		panel_2.add(combo_conce, "cell 2 7,growx");
 		rellenarcombo();
-		panel_2.add(JLB_tipo, "cell 0 7");
+		panel_2.add(JLB_tipo, "cell 0 8");
 		
 		JTF_tipo = new JTextField();
-		panel_2.add(JTF_tipo, "cell 2 7,alignx left");
+		panel_2.add(JTF_tipo, "cell 2 8,alignx left");
 		JTF_tipo.setColumns(10);
 		
 		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, "cell 0 9 6 1,alignx right,aligny center");
+		panel_2.add(panel_3, "cell 0 10 6 1,alignx right,aligny center");
 		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton BTN_cancelar = new JButton("Cancelar");
@@ -186,19 +194,26 @@ public class RegistroVehiculosView {
 	public void add() {
 		String matricula=JTF_matricula.getText();
 		String bastidor=JTF_bastidor.getText();
-		String marca=JTF_matricula.getText();
+		String marca=JTF_marca.getText();
 		String modelo=JTF_modelo.getText();
-		float precio=Float.parseFloat(JTF_precio.getText());
-		int id_cli = contro.getidcli(JTF_IdCli.getText());
+		float precio;
+		if (JTF_precio.getText().isEmpty()) {
+			precio=0;
+		} else {
+			precio=Float.parseFloat(JTF_precio.getText());
+		}
+		//si id cliente es 1 significa que no tiene vehiculo asignado
+		int id_cli=1;
+		if (!JTF_IdCli.getText().isEmpty()) {
+		 id_cli= contro.getidcli(JTF_IdCli.getText());
+		}
 		int id_user = miuser.getId();
 		int id_conce = contro.getidconce(combo_conce.getSelectedItem().toString());
 		String tipo= JLB_tipo.getText(); 
-		if (id_cli!=0) {
+		if (!matricula.equals("")|| !bastidor.equals("")||!marca.equals("")||!modelo.equals("")||!tipo.equals("")) {
 		contro.crearregistro(matricula, bastidor, marca, modelo, precio, id_cli, id_user, id_conce, tipo);
 		}else if (matricula.equals("")|| bastidor.equals("")||marca.equals("")||modelo.equals("")||tipo.equals("")) {
 			JOptionPane.showMessageDialog(null, "Porfavor rellene todas las casillas", "Message", JOptionPane.INFORMATION_MESSAGE);
-		} else {
-			JOptionPane.showMessageDialog(null, "Porfavor inserte un dni que exista en la bbdd", "Message", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 	}
