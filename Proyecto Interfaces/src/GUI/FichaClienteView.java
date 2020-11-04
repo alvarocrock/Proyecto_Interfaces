@@ -229,7 +229,7 @@ public class FichaClienteView {
 						// insertar el registro
 						miCliDAO.addCliente(cliente);
 					}
-
+					daBotones(true);
 					refrescaReg();
 				}
 			});
@@ -364,9 +364,6 @@ public class FichaClienteView {
 		TFProv.setText(miCliente.getProvincia());
 		TFPob.setText(miCliente.getProvincia());
 	}
-	
-
-	
 
 	/*
 	 * Get Frame

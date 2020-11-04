@@ -103,7 +103,7 @@ public class MenuVentasView {
 			}
 		});
 		
-		JButton BTFicCli = new JButton("Añadir de Clientes");
+		JButton BTFicCli = new JButton("Ficha de Clientes");
 		PNCentral.add(BTFicCli, "cell 3 3");
 		BTFicCli.addMouseListener(new MouseAdapter() {
 			@Override
@@ -131,7 +131,7 @@ public class MenuVentasView {
 			}
 		});
 		
-		JButton BTFicVeh = new JButton("Registrar veh\u00C3\u00ADculos");
+		JButton BTFicVeh = new JButton("Registrar vehículos");
 		PNCentral.add(BTFicVeh, "cell 3 5");
 		BTFicVeh.addMouseListener(new MouseAdapter() {
 			@Override

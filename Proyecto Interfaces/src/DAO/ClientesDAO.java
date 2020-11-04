@@ -90,7 +90,7 @@ public class ClientesDAO extends AbstractDAO {
 	 * @return objeto que representa al primer cliente del rst
 	 */
 	public Clientes primero() {
-		String 	strSql="select * from clientes";
+		String 	strSql="select * from clientes order by id_cli";
 		Clientes cliente=null;
 		
 		// ejecuta la consulta
@@ -113,7 +113,7 @@ public class ClientesDAO extends AbstractDAO {
 	 * @return Objeto cliente que representa el registro anterior
 	 */
 	public Clientes anterior(String DNI) {
-		String 	strSql="select * from clientes";
+		String 	strSql="select * from clientes order by id_cli";
 		Clientes cliente=null;
 		int miFila;
 		
@@ -126,7 +126,8 @@ public class ClientesDAO extends AbstractDAO {
 			// se posiciona en el primer registro
 			rst.previous();
 			// crea el cliente
-			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5),rst.getString(6), rst.getDate(7));
+			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), 
+					rst.getString(5),rst.getString(6), rst.getDate(7));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -143,7 +144,7 @@ public class ClientesDAO extends AbstractDAO {
 	public int buscaDNI(String dNI) {
 		int resultado=1;
 		boolean encontrado=false;
-		String 	strSql="select DNI from clientes";
+		String 	strSql="select DNI from clientes order by id_cli";
 		
 		// ejecuta la consultaa
 		ResultSet rst=super.consultaSQL(strSql);
@@ -171,7 +172,7 @@ public class ClientesDAO extends AbstractDAO {
 	 * @return Objeto cliente que representa el registro siguiente
 	 */
 	public Clientes siguiente(String DNI) {
-		String 	strSql="select * from clientes";
+		String 	strSql="select * from clientes order by id_cli";
 		Clientes cliente=null;
 				
 		//Obtengo la fila
@@ -184,7 +185,8 @@ public class ClientesDAO extends AbstractDAO {
 			// se posiciona en el primer registro
 			rst.next();
 			// crea el cliente
-			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5),rst.getString(6), rst.getDate(7));
+			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), 
+					rst.getString(5),rst.getString(6), rst.getDate(7));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -197,7 +199,7 @@ public class ClientesDAO extends AbstractDAO {
 	 * @return
 	 */
 	public Clientes ultimo() {
-		String 	strSql="select * from clientes";
+		String 	strSql="select * from clientes order by id_cli";
 		Clientes cliente=null;
 		
 		// ejecuta la consulta
@@ -206,7 +208,8 @@ public class ClientesDAO extends AbstractDAO {
 			// se posiciona en el último registro
 			rst.last();
 			// crea el cliente
-			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5),rst.getString(6), rst.getDate(7));
+			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), 
+					rst.getString(5),rst.getString(6), rst.getDate(7));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -219,7 +222,7 @@ public class ClientesDAO extends AbstractDAO {
 	 * @return número de registros en la tabla de clientes
 	 */
 	public int count() {
-		String 	strSql="select DNI from clientes";
+		String 	strSql="select DNI from clientes order by id_cli";
 		int count=0;
 		
 		// ejecuta la consulta
@@ -243,23 +246,4 @@ public class ClientesDAO extends AbstractDAO {
 		return count;
 	}
 
-	/**
-	 * extrae el número de fila dado un DNI
-	 * @param DNI
-	 * @return Número de fila en la tabla dado el DNI
-	 */
-	public int getRow(String DNI) {
-		int resultado=0;
-		String 	strSql="select DNI from clientes where DNI = '" + DNI +"'";
-		// ejecuta la consulta
-		ResultSet rst=super.consultaSQL(strSql);
-		try {
-			resultado= rst.getRow()+1;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return resultado;
-	}
-	
 }
