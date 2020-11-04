@@ -1,15 +1,20 @@
 package DAO;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
-import GUI.Clientes;
+import javax.swing.JOptionPane;
+
+import Models.Clientes;
+import javafx.util.converter.LocalDateTimeStringConverter;
 
 public class ClientesDAO extends AbstractDAO {
 
 	public ClientesDAO() {
 		super();
-	}
+}
 	
 	/**
 	 * Borra un cliente con un DNI determinado
@@ -28,8 +33,10 @@ public class ClientesDAO extends AbstractDAO {
 	public boolean ComprobarCliente(String DNI) {
 		boolean resultado=false;
 		String 	strSql="select DNI from clientes where DNI='"+DNI+"'";
+		
 		// ejecuta la consulta
 		ResultSet rst=super.consultaSQL(strSql);
+		
 		// devuelve rst.next (falso si no existe, true si existe)
 		try {
 			resultado= rst.next();
@@ -41,21 +48,218 @@ public class ClientesDAO extends AbstractDAO {
 	}
 
 	/**
-	 * guarda un cliente que ya existe
-	 * @param cliente
+	 * Añade un cliente
+	 * @param cliente objeto cliente a añadir
+	 */
+	public void addCliente(Clientes cliente) {
+		String 	strSql="insert into clientes "
+				+ " (nombre, apellidos, direccion, provincia, poblacion, fecha_alta, DNI) "
+				+ "values ('" + cliente.getNombre() +"', '"
+				+ cliente.getApellido() +"', '"
+				+ cliente.getDireccion() +"', '"
+				+ cliente.getProvincia() +"', '"
+				+ cliente.getPoblacion() +"', '"
+				+ Date.valueOf(LocalDate.now()) + "', '"
+				+ cliente.getDNI()+"');";
+		// Se ejecuta correctamente el SQL
+		if (super.ejecutaSQL(strSql))
+			JOptionPane.showMessageDialog(null, "Registro insertado correctamente", "Añadir cliente", JOptionPane.INFORMATION_MESSAGE);
+		
+	}
+
+	/**
+	 * modifica un ciente que ya existe
+	 * @param cliente objeto cliente a modificar
 	 */
 	public void updateCliente(Clientes cliente) {
+		
 		String 	strSql="update clientes "
 				+ " set nombre = '" + cliente.getNombre() +"',"
 				+" apellidos = '" + cliente.getApellido() +"',"
 				+" direccion = '" + cliente.getDireccion() +"',"
 				+" provincia = '" + cliente.getProvincia() +"',"
 				+" poblacion = '" + cliente.getPoblacion() +"',"
-				+" id_cli = '" + cliente.getIdCli() +"',"				
-				+ "where DNI='"+cliente.getDNI()+"'";
-		super.ejecutaSQL(strSql);
-		
+				+ " fecha_alta = '" + Date.valueOf(LocalDate.now()) + "' "
+				+ "where DNI='"+cliente.getDNI()+"';";
+		if (super.ejecutaSQL(strSql))
+			JOptionPane.showMessageDialog(null, "Registro modificado correctamente", "Modificar cliente", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
+	/**
+	 * se posiciona en el primer cliente
+	 * @return objeto que representa al primer cliente del rst
+	 */
+	public Clientes primero() {
+		String 	strSql="select * from clientes";
+		Clientes cliente=null;
+		
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		try {
+			// se posiciona en el primer registro
+			rst.first();
+			// crea el cliente
+			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5),rst.getString(6), rst.getDate(7));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// devuelve el cliente 
+		return cliente;
+	}
+	
+	/**
+	 * busca el registro anterior
+	 * @return Objeto cliente que representa el registro anterior
+	 */
+	public Clientes anterior(String DNI) {
+		String 	strSql="select * from clientes";
+		Clientes cliente=null;
+		int miFila;
+		
+		miFila=buscaDNI(DNI);
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		try {
+			// se posiciona en la fila dado el DNI
+			rst.absolute(miFila);
+			// se posiciona en el primer registro
+			rst.previous();
+			// crea el cliente
+			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5),rst.getString(6), rst.getDate(7));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// devuelve el cliente 
+		return cliente;
+	}
+
+	/**
+	 * Busca un DNI y devuelve la fila en la que está
+	 * @param dNI
+	 * @return
+	 */
+	public int buscaDNI(String dNI) {
+		int resultado=1;
+		boolean encontrado=false;
+		String 	strSql="select DNI from clientes";
+		
+		// ejecuta la consultaa
+		ResultSet rst=super.consultaSQL(strSql);
+		try {
+			rst.last();
+			rst.first();
+			while (!encontrado) {
+				if (dNI.equals(rst.getString(1))) {
+					encontrado=true;
+				} else {
+					rst.next();
+					resultado++;
+				}
+
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+
+	/**
+	 * busca el registro siguiente
+	 * @return Objeto cliente que representa el registro siguiente
+	 */
+	public Clientes siguiente(String DNI) {
+		String 	strSql="select * from clientes";
+		Clientes cliente=null;
+				
+		//Obtengo la fila
+		int miFila=buscaDNI(DNI);
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		try {
+			// se posiciona en la fila dado el DNI
+			rst.absolute(miFila);
+			// se posiciona en el primer registro
+			rst.next();
+			// crea el cliente
+			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5),rst.getString(6), rst.getDate(7));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// devuelve el cliente 
+		return cliente;
+	}
+
+	/**
+	 * devuelve un objeto cliente representando el último registro de la tabla
+	 * @return
+	 */
+	public Clientes ultimo() {
+		String 	strSql="select * from clientes";
+		Clientes cliente=null;
+		
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		try {
+			// se posiciona en el último registro
+			rst.last();
+			// crea el cliente
+			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5),rst.getString(6), rst.getDate(7));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// devuelve el cliente 
+		return cliente;
+	}
+
+	/**
+	 * cuenta los registros en la tabla de clientes
+	 * @return número de registros en la tabla de clientes
+	 */
+	public int count() {
+		String 	strSql="select DNI from clientes";
+		int count=0;
+		
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+			try {
+				// si hay registros
+				if (rst.next()) {
+					// se posiciona en el primer registro
+					rst.first();
+					count=1;
+					// mientras haya registros suma 1 al contador
+					while (rst.next()) {
+						count++;
+					}
+				} else count=0;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		// devuelve el número de registros 
+		return count;
+	}
+
+	/**
+	 * extrae el número de fila dado un DNI
+	 * @param DNI
+	 * @return Número de fila en la tabla dado el DNI
+	 */
+	public int getRow(String DNI) {
+		int resultado=0;
+		String 	strSql="select DNI from clientes where DNI = '" + DNI +"'";
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		try {
+			resultado= rst.getRow()+1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return resultado;
+	}
 	
 }

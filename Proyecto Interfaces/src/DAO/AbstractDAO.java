@@ -32,27 +32,31 @@ public abstract class AbstractDAO {
 	protected Statement stm = null;
 
 	// COMPORTAMIENTOS *******************
+	public AbstractDAO() {
+		iniciar();
+	}
     /**
      * inicia el DAO
      * crea la conexión a BD y el statement
      */
+	
     public void iniciar () {
 		// crea la conexión
         conectar();
         // crea el statement
         try {
-			stm = cn.createStatement();
+			stm = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
         // crea la BD si es necesario
         if (ejecutaSQL("USE "+Constantes.BD)) {
+        	System.out.println("Base de datos "+ Constantes.BD+" abierta correctamente.");
+        } else {
         	ejecutaSentencias(Constantes.SQLCREATE);
             // carga los datos Dummies
         	ejecutaSentencias(Constantes.SQLCARGA);
-        } else {
-        	System.out.println("Base de datos "+ Constantes.SQLCREATE+" abierta correctamente.");
         }
              
     }
@@ -136,7 +140,7 @@ public abstract class AbstractDAO {
             
         } catch (SQLException e) {
 			e.printStackTrace();
-            JOptionPane.showMessageDialog(null, strSQL, "Error: "+e.getMessage(), JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, strSQL, "Error: "+e.getMessage(), JOptionPane.ERROR_MESSAGE);
 			resultado=false;
 		} finally {
 			

@@ -1,4 +1,4 @@
-package GUI;
+package Models;
 
 import java.sql.Date;
 
@@ -11,7 +11,6 @@ public class Clientes {
 	private String provincia;
 	private String poblacion;
 	private Date fecha_alta;
-	private String idCli;
 	
 	
 	//Comportamientos
@@ -24,11 +23,10 @@ public class Clientes {
 	 * @param provincia
 	 * @param poblacion
 	 * @param fecha_alta
-	 * @param idCli
 	 * @param dNI
 	 */
 	public Clientes(String dNI, String nombre, String apellido, String direccion, String provincia, String poblacion,
-			Date fecha_alta, String idCli) {
+			Date fecha_alta) {
 		
 		super();
 		this.nombre = nombre;
@@ -37,7 +35,6 @@ public class Clientes {
 		this.provincia = provincia;
 		this.poblacion = poblacion;
 		this.fecha_alta = fecha_alta;
-		this.idCli = idCli;
 		DNI = dNI;
 	}
 	
@@ -64,9 +61,7 @@ public class Clientes {
 	public Date getFecha_alta() {
 		return fecha_alta;
 	}
-	public String getIdCli() {
-		return idCli;
-	}
+
 
 	
 }
