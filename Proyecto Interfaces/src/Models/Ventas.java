@@ -7,15 +7,25 @@ public class Ventas {
 	int id_emple;
 	String fechappto;
 	String fechavalidez;
+	int id_vehiculo;
 	float precio;
 	
-	public Ventas(int id_v, int id_clie,int miid_emple, String mifechappto,String FV,float miprecio) {
+	public Ventas(int id_v, int id_clie,int miid_emple, String mifechappto,String FV,int id_vehi,float miprecio) {
 		id_ventas=id_v;
 		id_cli=id_clie;
 		id_emple=miid_emple;
 		fechappto=mifechappto;
 		fechavalidez=FV;
+		id_vehiculo=id_vehi;
 		precio=miprecio;
+	}
+
+	public int getId_vehiculo() {
+		return id_vehiculo;
+	}
+
+	public void setId_vehiculo(int id_vehiculo) {
+		this.id_vehiculo = id_vehiculo;
 	}
 
 	public int getId_ventas() {

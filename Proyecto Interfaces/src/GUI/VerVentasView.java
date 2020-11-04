@@ -31,7 +31,7 @@ public class VerVentasView {
 
 	private JFrame frame;
 	private Usuarios miuser;
-	private JTextField JTF_cli;
+	private JTextField JTF_cli_nombre;
 	private JTextField JTF_id_venta;
 	private JTextField JTF_empleado;
 	private JTextField JTF_fecha_alta;
@@ -39,6 +39,8 @@ public class VerVentasView {
 	private JTextField JTF_matriculavehiculo;
 	private JList list;
 	private VentasDAO contro;
+	private JTextField JTF_precio;
+	private JTextField JTF_ape_cli;
 	/**
 	 * Create the application.
 	 */
@@ -53,7 +55,7 @@ public class VerVentasView {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 650, 500);
+		frame.setBounds(100, 100, 550, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -104,8 +106,8 @@ public class VerVentasView {
 		
 		
 		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, BorderLayout.CENTER);
-		panel_3.setLayout(new MigLayout("", "[][][grow][grow]", "[][][][][][][][][]"));
+		panel_2.add(panel_3, BorderLayout.WEST);
+		panel_3.setLayout(new MigLayout("", "[][][grow][grow]", "[][][][][][][][][][][]"));
 		
 		JLabel lblNewLabel_1 = new JLabel("Datos venta");
 		panel_3.add(lblNewLabel_1, "cell 1 0");
@@ -114,52 +116,92 @@ public class VerVentasView {
 		panel_3.add(lblNewLabel_2, "cell 1 2,alignx trailing");
 		
 		JTF_id_venta = new JTextField();
+		JTF_id_venta.setEditable(false);
 		panel_3.add(JTF_id_venta, "cell 2 2,alignx left");
 		JTF_id_venta.setColumns(10);
 		
-		JLabel JLB_cliente = new JLabel("Cliente");
-		panel_3.add(JLB_cliente, "cell 1 3");
+		JLabel JLB_nom_cliente = new JLabel("Nombre  Cliente");
+		panel_3.add(JLB_nom_cliente, "cell 1 3");
 		
-		JTF_cli = new JTextField();
-		panel_3.add(JTF_cli, "cell 2 3,alignx left");
-		JTF_cli.setColumns(10);
+		JTF_cli_nombre = new JTextField();
+		JTF_cli_nombre.setEditable(false);
+		panel_3.add(JTF_cli_nombre, "cell 2 3,alignx left");
+		JTF_cli_nombre.setColumns(10);
+		
+		JButton JBT_volver = new JButton("Volver");
+		JBT_volver.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				MenuVentasView miMenuV = new MenuVentasView(miuser);
+				miMenuV.getFrame().setVisible(true);
+				frame.dispose();
+			}
+		});
+		
+		JLabel JLB_ape_cli = new JLabel("Apellido cliente");
+		panel_3.add(JLB_ape_cli, "cell 1 4,alignx trailing");
+		
+		JTF_ape_cli = new JTextField();
+		JTF_ape_cli.setEditable(false);
+		panel_3.add(JTF_ape_cli, "cell 2 4,growx");
+		JTF_ape_cli.setColumns(10);
 		
 		JLabel JLB_empleado = new JLabel("Empleado");
-		panel_3.add(JLB_empleado, "cell 1 4,alignx trailing");
+		panel_3.add(JLB_empleado, "cell 1 5,alignx trailing");
 		
 		JTF_empleado = new JTextField();
-		panel_3.add(JTF_empleado, "cell 2 4,alignx left");
+		JTF_empleado.setEditable(false);
+		panel_3.add(JTF_empleado, "cell 2 5,alignx left");
 		JTF_empleado.setColumns(10);
 		
 		JLabel lblNewLabel_3 = new JLabel("Fecha alta");
-		panel_3.add(lblNewLabel_3, "cell 1 5,alignx trailing");
+		panel_3.add(lblNewLabel_3, "cell 1 6,alignx trailing");
 		
 		JTF_fecha_alta = new JTextField();
-		panel_3.add(JTF_fecha_alta, "cell 2 5,alignx left");
+		JTF_fecha_alta.setEditable(false);
+		panel_3.add(JTF_fecha_alta, "cell 2 6,alignx left");
 		JTF_fecha_alta.setColumns(10);
 		
 		JLabel lblNewLabel_4 = new JLabel("Fecha Validez");
-		panel_3.add(lblNewLabel_4, "cell 1 6,alignx trailing");
+		panel_3.add(lblNewLabel_4, "cell 1 7,alignx trailing");
 		
 		JTF_fecha_validez = new JTextField();
-		panel_3.add(JTF_fecha_validez, "cell 2 6,alignx left");
+		JTF_fecha_validez.setEditable(false);
+		panel_3.add(JTF_fecha_validez, "cell 2 7,alignx left");
 		JTF_fecha_validez.setColumns(10);
 		
 		JLabel lblNewLabel_5 = new JLabel("Matricula vehiculo");
-		panel_3.add(lblNewLabel_5, "cell 1 7,alignx trailing");
+		panel_3.add(lblNewLabel_5, "cell 1 8,alignx trailing");
 		
 		JTF_matriculavehiculo = new JTextField();
-		panel_3.add(JTF_matriculavehiculo, "cell 2 7,alignx left");
+		JTF_matriculavehiculo.setEditable(false);
+		panel_3.add(JTF_matriculavehiculo, "cell 2 8,alignx left");
 		JTF_matriculavehiculo.setColumns(10);
 		
-		JButton JBT_volver = new JButton("Volver");
-		panel_3.add(JBT_volver, "cell 3 8");
+		JLabel JLB_precio = new JLabel("                    Precio");
+		panel_3.add(JLB_precio, "cell 1 9,alignx trailing");
+		
+		JTF_precio = new JTextField();
+		JTF_precio.setEditable(false);
+		panel_3.add(JTF_precio, "cell 2 9,alignx left");
+		JTF_precio.setColumns(10);
+		panel_3.add(JBT_volver, "cell 3 10");
 		
 		
 	}
 	
 	public void actualizardatos() {
-		JTF_empleado.setText(list.getSelectedValue().toString());
+		Ventas miventa=contro.getuserbyid(Integer.parseInt(list.getSelectedValue().toString()));
+		JTF_cli_nombre.setText(contro.getnombrecli(miventa.getId_cli()));
+		JTF_ape_cli.setText(contro.getapellidocli(miventa.getId_cli()));
+		JTF_empleado.setText(contro.getnick(miventa.getId_emple()));
+		JTF_id_venta.setText(String.valueOf(miventa.getId_ventas()));
+		JTF_matriculavehiculo.setText(contro.getmatricula(miventa.getId_vehiculo()));
+		JTF_fecha_alta.setText(miventa.getFechappto());
+		JTF_fecha_validez.setText(miventa.getFechavalidez());
+		JTF_precio.setText(String.valueOf(miventa.getPrecio()));
+
+		
 	}
 	
 	public DefaultListModel addelement() {
