@@ -212,8 +212,8 @@ public class RegistroVehiculosView {
 		String tipo= JLB_tipo.getText(); 
 		if (!matricula.equals("")|| !bastidor.equals("")||!marca.equals("")||!modelo.equals("")||!tipo.equals("")) {
 		contro.crearregistro(matricula, bastidor, marca, modelo, precio, id_cli, id_user, id_conce, tipo);
-		}else if (matricula.equals("")|| bastidor.equals("")||marca.equals("")||modelo.equals("")||tipo.equals("")) {
-			JOptionPane.showMessageDialog(null, "Porfavor rellene todas las casillas", "Message", JOptionPane.INFORMATION_MESSAGE);
+		}else {
+			JOptionPane.showMessageDialog(null, "Porfavor rellene todas las casillas o rellene bine todos los campos", "Message", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 	}

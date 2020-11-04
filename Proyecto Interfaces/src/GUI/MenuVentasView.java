@@ -79,12 +79,12 @@ public class MenuVentasView {
 		splitPane.setRightComponent(PNCentral);
 		PNCentral.setLayout(new MigLayout("", "[][center][center][center]", "[][][][][][][]"));
 		
-		JButton BTProVen = new JButton("Propuesta de ventas");
-		PNCentral.add(BTProVen, "cell 3 1,alignx right,aligny top");
+		JButton BTProVen = new JButton("ver ventas");
+		PNCentral.add(BTProVen, "cell 3 1,alignx center,aligny top");
 		BTProVen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ProVenView miProVen = new ProVenView(usuario);
+				VerVentasView miProVen = new VerVentasView(usuario);
 				miProVen.getFrame().setAlwaysOnTop(true);
 				miProVen.getFrame().setVisible(true);
 				frame.dispose();
@@ -131,7 +131,7 @@ public class MenuVentasView {
 			}
 		});
 		
-		JButton BTFicVeh = new JButton("Ficha de vehículos");
+		JButton BTFicVeh = new JButton("Registrar veh\u00C3\u00ADculos");
 		PNCentral.add(BTFicVeh, "cell 3 5");
 		BTFicVeh.addMouseListener(new MouseAdapter() {
 			@Override
