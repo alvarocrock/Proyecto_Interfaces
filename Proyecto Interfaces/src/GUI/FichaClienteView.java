@@ -55,11 +55,11 @@ public class FichaClienteView {
 	private JButton BTultimo;
 	private JTextField TFPob;
 	private JTextField TFDir;
+	private JButton BTBuscar;
 	
 	/**
 	 * Constructor con usuario
 	 */
-
 	public FichaClienteView(Usuarios miuser) {
 		usuario=miuser;
 		miCliDAO = new ClientesDAO ();
@@ -213,6 +213,20 @@ public class FichaClienteView {
 			JPanel panelBotonera = new JPanel();
 			PNCentral.add(panelBotonera, "cell 0 5");
 			
+			BTBuscar = new JButton("Buscar");
+			panelBotonera.add(BTBuscar);
+			BTBuscar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// llamada a buscar cliente
+					frame.dispose();
+					BusCliView miBusqueda = new BusCliView(usuario);
+					miBusqueda.getFrame().setAlwaysOnTop(true);
+					miBusqueda.getFrame().setVisible(true);
+
+				}
+			});
+			
 			BTBorra = new JButton("Borrar");
 			panelBotonera.add(BTBorra);
 			BTBorra.addActionListener(new ActionListener() {
@@ -225,6 +239,9 @@ public class FichaClienteView {
 							JOptionPane.YES_NO_OPTION,
 							JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_NO_OPTION) {
 						miCliDAO.borraCliente(TFDni.getText());	
+						Clientes miCliente = miCliDAO.primero();
+						// cargar cliente en form
+						cargaCliente(miCliente);
 						refrescaReg();
 					}
 
@@ -356,14 +373,12 @@ public class FichaClienteView {
 			panelBotoneras.setMaximumSize(new Dimension(1000, 60));
 			panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
 			PNCentral.add(panelBotoneras, "cell 0 4");
-			//Border bordeRegistros = BorderFactory.createLineBorder(Color.BLUE,1);
 	}
 	
 	/**
 	 * Activa/desactiva botones
 	 * @param estado
 	 */
-
 	protected void daBotones(boolean estado) {
 		BTBorra.setEnabled(estado);
 		BTAnterior.setEnabled(estado);

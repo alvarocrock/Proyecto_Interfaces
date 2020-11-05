@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import com.mysql.jdbc.Statement;
 
+import Models.Clientes;
 import Models.Concesionario;
 import Models.Usuarios;
 
@@ -180,8 +181,56 @@ public class VehiculosDAO extends AbstractDAO{
 		
 		
 	}
+
+
+	public ArrayList<String> cargaListaDAO() {
+		ArrayList<String> miArray = new ArrayList<String>();
+		String 	strSql="select id_vehiculo,matricula,marca,modelo,precio from vehiculo order by id_vehiculo";
+		
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		// recorre el rst y guarda en el array
+		try {
+			while (rst.next()) {
+				String str = " ";
+				str=String.valueOf(rst.getInt(1))+" | ";
+				str=str + rst.getString(2)+" | ";
+				str=str + rst.getString(4)+" | ";
+				str=str + rst.getString(5)+" | ";
+				str=str + rst.getFloat(6)+" | ";
+				miArray.add(str);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		return miArray;
+	}
 	
-	
+	/**
+	 * devuelve un vehiculo dado un id de vehiculo
+	 * @param idVeh
+	 * @return
+	 */
+	public Clientes goToIdVeh(int idVeh) {
+		String 	strSql="select * from vehiculos where id_vehiculo = " + idVeh + ";";
+		
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		// crea el cliente
+		Vehiculos veh=null;
+
+		try {
+			rst.first();
+			veh = new Vehiculos(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getString(4), 
+					rst.getDouble(5),rst.getDate(6), rst.getInt(7), rst.getInt(8),rst.getInt(9),rst.getString(10)));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return veh;
+	}
 	
 
 }

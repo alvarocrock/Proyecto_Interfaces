@@ -2,14 +2,15 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -18,10 +19,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -29,43 +29,42 @@ import javax.swing.border.TitledBorder;
 import com.sun.glass.events.MouseEvent;
 
 import DAO.ClientesDAO;
+import DAO.VehiculosDAO;
 import Models.Clientes;
 import Models.Usuarios;
 import net.miginfocom.swing.MigLayout;
-import javax.swing.JList;
 
-public class BusCliView {
-	
+public class ConsVeh {
+
 	private JFrame frame;
 	private Usuarios usuario;
-	private ClientesDAO miCliDAO;
+	private VehiculosDAO miVehDAO;
 	private JLabel LBUsuario;
 	private JLabel LBNomUsu;
 	private JLabel LBRegistros;
+	private DefaultListModel<String> listModel;
+	private JList<String> LSVehi;
+	private JLabel LBTitLista;
 	private JButton BTSeleccionar;
 	private JButton BTSalir;
-	private JButton BTPrimero;
 	private JButton BTAnterior;
 	private JButton BTSiguiente;
 	private JButton BTultimo;
-	private JList<String> LSCliente;
-	private ClientesDAO miClienteDAO;
-	private DefaultListModel<String> listModel;
-	private JLabel LBTitLista;
-	
+
 	/**
 	 * Create the application.
 	 */
-
-	public BusCliView(Usuarios miuser) {
+	public ConsVeh(Usuarios miuser) {
 		usuario=miuser;
-		miCliDAO = new ClientesDAO ();
+		miVehDAO = new VehiculosDAO();
 		initialize();
 		// carga usuario
 		LBUsuario.setText(usuario.getNick());
 		LBNomUsu.setText(usuario.getNick());
 		refrescaReg();
+
 	}
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -84,7 +83,7 @@ public class BusCliView {
 			frame.getContentPane().add(PNTitulo, "cell 0 0,growx,aligny top");
 			PNTitulo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			
-			JLabel LBTitulo = new JLabel("Consulta de clientes");
+			JLabel LBTitulo = new JLabel("Consulta de vehículos");
 			LBTitulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			LBTitulo.setForeground(Color.BLUE);
 			PNTitulo.add(LBTitulo);
@@ -115,15 +114,15 @@ public class BusCliView {
 				// Crea el modelo de lista
 				listModel = new DefaultListModel <String>();
 				// llama a clienteDAO devuelve rst con los datos y llama a cargar la lista
-				miClienteDAO = new ClientesDAO();
-				cargaLista(miClienteDAO.cargaListaDAO());
+				miVehDAO = new VehiculosDAO();
+				cargaLista(miVehDAO.cargaListaDAO());
 				// crea y configura la Jlista
-				LSCliente = new JList <String>(listModel);
-				LSCliente.setBorder(BorderFactory.createEmptyBorder(5, 5	, 5, 5));
-				LSCliente.setVisibleRowCount(5);
-				LSCliente.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				LSCliente.setSelectedIndex(0);
-				LSCliente.addMouseListener(new MouseAdapter() {
+				LSVehi = new JList <String>(listModel);
+				LSVehi.setBorder(BorderFactory.createEmptyBorder(5, 5	, 5, 5));
+				LSVehi.setVisibleRowCount(5);
+				LSVehi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				LSVehi.setSelectedIndex(0);
+				LSVehi.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent me) {
 			            if (me.getClickCount() == 2) {
 	
@@ -131,10 +130,10 @@ public class BusCliView {
 			         }
 				});
 				
-				LBTitLista = new JLabel("ID        DNI              Nombre              Apellidos");
+				// label de la lista
+				LBTitLista = new JLabel("ID        Matrícula       Marca              Modelo              Precio");
 				PNCentral.add(LBTitLista, "cell 0 0");
-				
-				PNCentral.add(LSCliente, "cell 0 1 1 6,grow");
+				PNCentral.add(LSVehi, "cell 0 1 1 6,grow");
 				
 				// panel para los botones de la botonera
 				JPanel panelBotonera = new JPanel();
@@ -167,7 +166,7 @@ public class BusCliView {
 				panelRegistros.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
 				PNCentral.add(panelRegistros, "cell 0 8");
 				
-				BTPrimero = new JButton("<<");
+				JButton BTPrimero = new JButton("<<");
 				BTPrimero.setToolTipText("Primer registro.");
 				BTPrimero.setForeground(Color.RED);
 				BTPrimero.setFont(new Font("Tahoma", Font.BOLD, 8));
@@ -175,7 +174,7 @@ public class BusCliView {
 				BTPrimero.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						LSCliente.setSelectedIndex(0);
+						LSVehi.setSelectedIndex(0);
 						refrescaReg();
 					}
 				});
@@ -188,7 +187,7 @@ public class BusCliView {
 				BTAnterior.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (LSCliente.getSelectedIndex()>0) LSCliente.setSelectedIndex(LSCliente.getSelectedIndex()-1);
+						if (LSVehi.getSelectedIndex()>0) LSVehi.setSelectedIndex(LSVehi.getSelectedIndex()-1);
 						refrescaReg();
 					}
 				});
@@ -207,8 +206,8 @@ public class BusCliView {
 				BTSiguiente.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (LSCliente.getSelectedIndex() < LSCliente.getModel().getSize()-1) 
-							LSCliente.setSelectedIndex(LSCliente.getSelectedIndex()+1);
+						if (LSVehi.getSelectedIndex() < LSVehi.getModel().getSize()-1) 
+							LSVehi.setSelectedIndex(LSVehi.getSelectedIndex()+1);
 						refrescaReg();
 					}
 				});
@@ -221,7 +220,7 @@ public class BusCliView {
 				BTultimo.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						LSCliente.setSelectedIndex(LSCliente.getModel().getSize()-1);
+						LSVehi.setSelectedIndex(LSVehi.getModel().getSize()-1);
 						refrescaReg();
 					}
 				});
@@ -234,26 +233,26 @@ public class BusCliView {
 		}
 
 	/**
-	 * llama a ficha de clientes con el  cliente seleccionado
+	 * llama a ficha de vehículos con el  cliente seleccionado
 	 */
 	protected void seleccionar() {
-		// coger id_cli de la lista
-		String linea = LSCliente.getSelectedValue();
+		// coger id_vehiculo de la lista
+		String linea = LSVehi.getSelectedValue();
 		String campos [] = linea.split(" | ");
-		int idCli=Integer.parseInt(campos[0]);
-		// llamada a menu ventas con el idcli
+		int idVeh=Integer.parseInt(campos[0]);
+		// llamada a ficha vehículos con el id_vehiculo
 		frame.dispose();
-		FichaClienteView miFicCli = new FichaClienteView(usuario,idCli);
-		miFicCli.getFrame().setAlwaysOnTop(true);
-		miFicCli.getFrame().setVisible(true);
+		RegistroVehiculosView miRegVeh = new RegistroVehiculosView(usuario,idVeh);
+		miRegVeh.getFrame().setAlwaysOnTop(true);
+		miRegVeh.getFrame().setVisible(true);
 	}
 	
 	/**
-	 * recorre array y añade a la lista (Id, DNI Nombre Apellidos)
-	 * @param cargaListaDAO
+	 * recorre array y añade a la lista (Id, matriculo marca modelo precio)
+	 * @param Array con los datos
 	 */
 	private void cargaLista(ArrayList<String> miArray) {
-		// recorre array y añade a la lista (Id, DNI Nombre Apellidos)
+		// recorre array y añade a la lista (Id, matriculo marca modelo precio)
 		for (int i=0;i<miArray.size();i++) {
 			listModel.addElement(miArray.get(i));
 		}
@@ -265,12 +264,13 @@ public class BusCliView {
 	 */
 	private void refrescaReg() {
 		// coger id_cli de la lista
-		String linea = LSCliente.getSelectedValue();
+		String linea = LSVehi.getSelectedValue();
 		String campos [] = linea.split(" | ");
-		int idCli=Integer.parseInt(campos[0]);
-		String p="Registro " + idCli + " de "+ LSCliente.getModel().getSize()+".";
+		int idVeh=Integer.parseInt(campos[0]);
+		String p="Registro " + idVeh + " de "+ LSVehi.getModel().getSize()+".";
 		LBRegistros.setText(p);	
 	}
+	
 	/*
 	 * Get Frame
 	 */
@@ -279,3 +279,5 @@ public class BusCliView {
 	}
 
 }
+
+

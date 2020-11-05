@@ -247,10 +247,6 @@ public class ClientesDAO extends AbstractDAO {
 		return count;
 	}
 
-	/**
-	 * devuelve un Array con los clientes de la tabla a meter en la lista
-	 * @return
-	 */
 	public ArrayList<String> cargaListaDAO() {
 		ArrayList<String> miArray = new ArrayList<String>();
 		String 	strSql="select id_cli,DNI,nombre,apellidos from clientes order by id_cli";
@@ -274,7 +270,7 @@ public class ClientesDAO extends AbstractDAO {
 			
 		return miArray;
 	}
-
+	
 	/**
 	 * devuelve un cliente dado un id de cliente
 	 * @param idCli
@@ -298,5 +294,4 @@ public class ClientesDAO extends AbstractDAO {
 		}
 		return cliente;
 	}
-
 }
