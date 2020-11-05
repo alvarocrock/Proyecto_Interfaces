@@ -84,6 +84,7 @@ public class BusCliView {
 			PNTitulo.setBackground(Color.LIGHT_GRAY);
 			frame.getContentPane().add(PNTitulo, "cell 0 0,growx,aligny top");
 			PNTitulo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			PNTitulo.setBackground(Color.decode("#264653"));
 			
 			JLabel LBTitulo = new JLabel("Consulta de clientes");
 			LBTitulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -98,6 +99,7 @@ public class BusCliView {
 			JPanel PNUsuario = new JPanel();
 			splitPane.setLeftComponent(PNUsuario);
 			PNUsuario.setLayout(new MigLayout("", "[91px]", "[14px][14px]"));
+			PNUsuario.setBackground(Color.decode("#2A9D8F"));
 			
 			
 			LBUsuario = new JLabel("Usuario Actual");
@@ -112,6 +114,7 @@ public class BusCliView {
 			JPanel PNCentral = new JPanel();
 			splitPane.setRightComponent(PNCentral);
 			PNCentral.setLayout(new MigLayout("", "[grow,center]", "[grow][grow][][][][][][]"));
+			PNCentral.setBackground(Color.decode("#2A9D8F"));
 
 				// Crea el modelo de lista
 				listModel = new DefaultListModel <String>();
@@ -229,6 +232,8 @@ public class BusCliView {
 				panelBotoneras.setMaximumSize(new Dimension(1000, 60));
 				panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
 				PNCentral.add(panelBotoneras, "cell 0 5");
+				panelBotonera.setBackground(Color.decode("#2A9D8F"));
+				panelBotoneras.setBackground(Color.decode("#2A9D8F"));
 		}
 
 	/**

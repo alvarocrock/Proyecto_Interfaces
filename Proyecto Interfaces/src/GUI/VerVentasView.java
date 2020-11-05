@@ -12,6 +12,7 @@ import Models.Usuarios;
 import Models.Ventas;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -26,6 +27,7 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.awt.Font;
 
 public class VerVentasView {
 
@@ -61,6 +63,7 @@ public class VerVentasView {
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.NORTH);
+		panel.setBackground(Color.decode("#264653"));
 		
 		JLabel JLB_titulo = new JLabel("Ver ventas");
 		panel.add(JLB_titulo);
@@ -71,6 +74,7 @@ public class VerVentasView {
 		JPanel panel_1 = new JPanel();
 		splitPane.setLeftComponent(panel_1);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
+		panel_1.setBackground(Color.decode("#2A9D8F"));
 		
 		JLabel lblNewLabel = new JLabel("Usuario Actual");
 		panel_1.add(lblNewLabel);
@@ -82,24 +86,32 @@ public class VerVentasView {
 		JPanel panel_2 = new JPanel();
 		splitPane.setRightComponent(panel_2);
 		panel_2.setLayout(new BorderLayout(0, 0));
+		panel_2.setBackground(Color.decode("#2A9D8F"));
 		
 		
 		
 		
 		JPanel panel_4 = new JPanel();
+		//panel_4.setBounds(30,30,40,40);
 		panel_2.add(panel_4, BorderLayout.EAST);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.Y_AXIS));
+		panel_4.setBackground(Color.decode("#2A9D8F"));
 		
 		JLabel JLB_lista = new JLabel("Lista ventas");
 		panel_4.add(JLB_lista);
 		
 		list = new JList();
+		list.setVisibleRowCount(30);
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				actualizardatos();
 			}
 		});
+		
+		JLabel lblNewLabel_6 = new JLabel("ID_venta, cliente, usuario");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 8));
+		panel_4.add(lblNewLabel_6);
 		panel_4.add(list);
 		list.setModel(addelement());
 		
@@ -108,6 +120,7 @@ public class VerVentasView {
 		JPanel panel_3 = new JPanel();
 		panel_2.add(panel_3, BorderLayout.WEST);
 		panel_3.setLayout(new MigLayout("", "[][][grow][grow]", "[][][][][][][][][][][]"));
+		panel_3.setBackground(Color.decode("#2A9D8F"));
 		
 		JLabel lblNewLabel_1 = new JLabel("Datos venta");
 		panel_3.add(lblNewLabel_1, "cell 1 0");
@@ -191,7 +204,9 @@ public class VerVentasView {
 	}
 	
 	public void actualizardatos() {
-		Ventas miventa=contro.getuserbyid(Integer.parseInt(list.getSelectedValue().toString()));
+		String [] Lista=list.getSelectedValue().toString().split("-");
+		int id=Integer.parseInt(Lista[0]);
+		Ventas miventa=contro.getuserbyid(id);
 		JTF_cli_nombre.setText(contro.getnombrecli(miventa.getId_cli()));
 		JTF_ape_cli.setText(contro.getapellidocli(miventa.getId_cli()));
 		JTF_empleado.setText(contro.getnick(miventa.getId_emple()));
@@ -209,7 +224,7 @@ public class VerVentasView {
 		//Ventas venta= new Ventas(1,1,1,"ini","fin",(float) 3.0);
 		//model.addElement("primer elemento");
 		//model.addElement("segundo elemento");
-		ArrayList<Integer> lista=contro.getventas();
+		ArrayList<String> lista=(ArrayList<String>) contro.getventas();
 		for (int cont=0;cont<lista.size();cont++) {
 			model.addElement(lista.get(cont));
 		}

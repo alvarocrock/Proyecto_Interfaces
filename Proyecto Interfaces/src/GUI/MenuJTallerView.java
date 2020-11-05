@@ -51,6 +51,7 @@ public class MenuJTallerView {
 		PNTitulo.setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(PNTitulo, "cell 0 0,growx,aligny top");
 		PNTitulo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		PNTitulo.setBackground(Color.decode("#264653"));
 		
 		JLabel LBTitulo = new JLabel("Menú jefe de taller");
 		LBTitulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -65,6 +66,7 @@ public class MenuJTallerView {
 		JPanel PNUsuario = new JPanel();
 		splitPane.setLeftComponent(PNUsuario);
 		PNUsuario.setLayout(new MigLayout("", "[91px]", "[14px][14px][][][][]"));
+		PNUsuario.setBackground(Color.decode("#2A9D8F"));
 		
 		
 		JLabel LBUsuario = new JLabel("Usuario Actual");
@@ -79,6 +81,7 @@ public class MenuJTallerView {
 		JPanel PNCentral = new JPanel();
 		splitPane.setRightComponent(PNCentral);
 		PNCentral.setLayout(new MigLayout("", "[][][center][center][center]", "[][][]"));
+		PNCentral.setBackground(Color.decode("#2A9D8F"));
 		
 		JButton BTProVen = new JButton("Ficha clientes   ");
 		BTProVen.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Clientes.png")));

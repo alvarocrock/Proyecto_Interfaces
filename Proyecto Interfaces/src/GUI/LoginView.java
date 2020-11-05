@@ -3,6 +3,8 @@ package GUI;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -44,6 +46,7 @@ public class LoginView {
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.NORTH);
+		panel.setBackground(Color.decode("#264653"));
 		
 		JLabel JLB_login = new JLabel("Login");
 		JLB_login.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -52,6 +55,8 @@ public class LoginView {
 		JPanel panel_1 = new JPanel();
 		frame.getContentPane().add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new GridLayout(5, 5, 0, 4));
+		panel_1.setBackground(Color.decode("#2A9D8F"));
+		
 		
 		
 		
