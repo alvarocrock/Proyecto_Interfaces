@@ -338,7 +338,11 @@ public class VehiculosDAO extends AbstractDAO{
 	
 	/**
 	 * Busca una matricula y devuelve la fila en la que está
+<<<<<<< HEAD
 	 * @param matricula
+=======
+	 * @param dNI
+>>>>>>> branch 'master' of https://github.com/alvarocrock/Proyecto_Interfaces
 	 * @return
 	 */
 	public int buscaMatricula(String matricula) {
@@ -366,6 +370,95 @@ public class VehiculosDAO extends AbstractDAO{
 		}
 		return resultado;
 	}
+	
+	/**
+	 * busca el registro siguiente
+	 * @return Objeto cliente que representa el registro anterior
+	 */
+	public Vehiculos siguiente(String matricula) {
+		String 	strSql="select * from vehiculos order by id_vehiculo";
+		Vehiculos mivehiculo=null;
+		int miFila;
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		miFila=buscaMatricula(matricula);
+		try {
+			// se posiciona en el primer registro
+			rst.absolute(miFila);
+			
+			rst.next();
+			// crea el cliente
+			mivehiculo = new Vehiculos(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
+					rst.getString(7),rst.getInt(8),rst.getInt(9),rst.getInt(10),rst.getString(11));
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// devuelve el cliente 
+		return mivehiculo;
+	}
+	
+	/**
+	 * se posiciona en el ultimo vehiculo
+	 * @return objeto que representa al primer cliente del rst
+	 */
+	public Vehiculos ultimo() {
+		String 	strSql="select * from vehiculos order by id_vehiculo";
+		Vehiculos mivehiculo=null;
+		
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		try {
+			// se posiciona en el primer registro
+			rst.last();
+			// crea el cliente
+			mivehiculo = new Vehiculos(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
+					rst.getString(7),rst.getInt(8),rst.getInt(9),rst.getInt(10),rst.getString(11));
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// devuelve el cliente 
+		return mivehiculo;
+	}
+	
+	/**
+	 * cuenta los registros en la tabla de clientes
+	 * @return número de registros en la tabla de clientes
+	 */
+	public int count() {
+		String 	strSql="select matricula from vehiculos";
+		int count=0;
+		
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+			try {
+				// si hay registros
+				if (rst.next()) {
+					// se posiciona en el primer registro
+					rst.first();
+					count=1;
+					// mientras haya registros suma 1 al contador
+					while (rst.next()) {
+						count++;
+					}
+				} else count=0;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		// devuelve el número de registros 
+		return count;
+	}
+	
+	
+
+	
+
+	
+	
 
 	/**
 	 * cuenta los registros en la tabla de vehiculos

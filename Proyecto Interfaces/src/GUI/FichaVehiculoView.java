@@ -75,7 +75,13 @@ public class FichaVehiculoView {
 		cargaVehiculo(miVehDAO.primero());
 		// refresca LBRegistros
 		refrescaReg();
+<<<<<<< HEAD
 	}
+=======
+
+	}
+	*/
+>>>>>>> branch 'master' of https://github.com/alvarocrock/Proyecto_Interfaces
 	
 	/**
 	 * Constructor con usuario e id de cliente
