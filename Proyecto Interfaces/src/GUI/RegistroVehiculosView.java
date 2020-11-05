@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
@@ -86,6 +87,7 @@ public class RegistroVehiculosView {
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.NORTH);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel.setBackground(Color.decode("#264653"));
 		
 		JLabel lblNewLabel = new JLabel("Registro vehiculos");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -97,6 +99,7 @@ public class RegistroVehiculosView {
 		JPanel panel_1 = new JPanel();
 		splitPane.setLeftComponent(panel_1);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
+		panel_1.setBackground(Color.decode("#2A9D8F"));
 		
 		JLabel Usuario_actual = new JLabel("Usuario actual");
 		panel_1.add(Usuario_actual);
@@ -110,6 +113,7 @@ public class RegistroVehiculosView {
 		JPanel panel_2 = new JPanel();
 		splitPane.setRightComponent(panel_2);
 		panel_2.setLayout(new MigLayout("", "[grow][][grow][grow][][]", "[][][][][][][][][][][grow]"));
+		panel_2.setBackground(Color.decode("#2A9D8F"));
 		
 		JLabel JLB_matricula = new JLabel("Matricula");
 		panel_2.add(JLB_matricula, "cell 0 1");
@@ -169,6 +173,7 @@ public class RegistroVehiculosView {
 		JPanel panel_3 = new JPanel();
 		panel_2.add(panel_3, "cell 0 10 6 1,alignx right,aligny center");
 		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_3.setBackground(Color.decode("#2A9D8F"));
 		
 		JButton BTN_cancelar = new JButton("Cancelar");
 		BTN_cancelar.addMouseListener(new MouseAdapter() {
@@ -209,11 +214,11 @@ public class RegistroVehiculosView {
 		}
 		int id_user = miuser.getId();
 		int id_conce = contro.getidconce(combo_conce.getSelectedItem().toString());
-		String tipo= JLB_tipo.getText(); 
+		String tipo= JTF_tipo.getText(); 
 		if (!matricula.equals("")|| !bastidor.equals("")||!marca.equals("")||!modelo.equals("")||!tipo.equals("")) {
 		contro.crearregistro(matricula, bastidor, marca, modelo, precio, id_cli, id_user, id_conce, tipo);
 		}else {
-			JOptionPane.showMessageDialog(null, "Porfavor rellene todas las casillas o rellene bine todos los campos", "Message", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Porfavor rellene todas las casillas o rellene bien todos los campos", "Message", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 	}

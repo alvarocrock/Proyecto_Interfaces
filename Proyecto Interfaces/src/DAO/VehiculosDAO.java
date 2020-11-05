@@ -326,7 +326,7 @@ public class VehiculosDAO extends AbstractDAO{
 	}
 	
 	/**
-	 * Busca un DNI y devuelve la fila en la que está
+	 * Busca una matricula y devuelve la fila en la que está
 	 * @param dNI
 	 * @return
 	 */
