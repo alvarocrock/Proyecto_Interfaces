@@ -2,8 +2,10 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.TextField;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +13,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,32 +20,29 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.border.Border;
+import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.plaf.BorderUIResource.LineBorderUIResource;
-
-import com.sun.webkit.ContextMenu.ShowContext;
 
 import DAO.ClientesDAO;
 import Models.Clientes;
 import Models.Usuarios;
-import jdk.nashorn.internal.objects.annotations.Setter;
 import net.miginfocom.swing.MigLayout;
-import javax.swing.border.LineBorder;
-import javax.swing.JTextField;
 
-public class FichaClienteView {
+public class FichaVehiculoView {
 
-	private JFrame frame;
 	private Usuarios usuario;
-	private ClientesDAO miCliDAO;
-	private JTextField TFDni;
-	private JTextField TFNombre;
-	private JTextField TFApellidos;
-	private JTextField TFProv;
+	private ClientesDAO miVehDAO;
 	private JLabel LBUsuario;
 	private JLabel LBNomUsu;
+	private JTextField TFDni;
 	private JLabel LBRegistros;
+	private JTextField TFNombre;
+	private JTextField TFApellidos;
+	private JTextField TFDir;
+	private JTextField TFProv;
+	private JTextField TFPob;
+	private JButton BTBuscar;
 	private JButton BTBorra;
 	private JButton BTGuardar;
 	private JButton BTNuevo;
@@ -53,22 +51,20 @@ public class FichaClienteView {
 	private JButton BTAnterior;
 	private JButton BTSiguiente;
 	private JButton BTultimo;
-	private JTextField TFPob;
-	private JTextField TFDir;
-	private JButton BTBuscar;
-	
+	private Window frame;
+
 	/**
 	 * Constructor con usuario
 	 */
-	public FichaClienteView(Usuarios miuser) {
+	public FichaVehiculoView(Usuarios miuser) {
 		usuario=miuser;
-		miCliDAO = new ClientesDAO ();
+		miVehDAO = new ClientesDAO ();
 		initialize();
 		// carga usuario
 		LBUsuario.setText(usuario.getNick());
-		LBNomUsu.setText(usuario.getRango());
+		LBNomUsu.setText(usuario.getRango()());
 		// carga registro
-		cargaCliente(miCliDAO.primero());
+		cargaCliente(miVehDAO.primero());
 		// refresca LBRegistros
 		refrescaReg();
 
@@ -77,17 +73,17 @@ public class FichaClienteView {
 	/**
 	 * Constructor con usuario e id de cliente
 	 * @param miuser
-	 * @param idCli
+	 * @param idVeh
 	 */
-	public FichaClienteView(Usuarios miuser, int idCli) {
+	public FichaVehiculoView(Usuarios miuser, int idVeh) {
 		usuario=miuser;
-		miCliDAO = new ClientesDAO ();
+		miVehDAO = new ClientesDAO ();
 		initialize();
 		// carga usuario
 		LBUsuario.setText(usuario.getNick());
 		LBNomUsu.setText(usuario.getNick());
 		// carga registro
-		cargaCliente(miCliDAO.goToIdCli(idCli));
+		cargaCliente(miVehDAO.goToIdCli(idVeh));
 		// refresca LBRegistros
 		refrescaReg();
 	}
@@ -96,7 +92,7 @@ public class FichaClienteView {
 	 * Refresca el label de control de registros
 	 */
 	private void refrescaReg() {
-		String p="Registro " + String.valueOf(miCliDAO.buscaDNI(TFDni.getText()) + " de "+ String.valueOf(miCliDAO.count())+".");
+		String p="Registro " + String.valueOf(miVehDAO.buscaDNI(TFDni.getText()) + " de "+ String.valueOf(miVehDAO.count())+".");
 		LBRegistros.setText(p);	
 	}
 
@@ -105,7 +101,7 @@ public class FichaClienteView {
 	 */
 	private void initialize() {
 		// Frame principal
-		frame = new JFrame();
+		JFrame frame = new JFrame();
 		frame.setBounds(100, 100, 500, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[434px]", "[35px][226px]"));
@@ -246,8 +242,8 @@ public class FichaClienteView {
 							"Borrar registro", 
 							JOptionPane.YES_NO_OPTION,
 							JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_NO_OPTION) {
-						miCliDAO.borraCliente(TFDni.getText());	
-						Clientes miCliente = miCliDAO.primero();
+						miVehDAO.borraCliente(TFDni.getText());	
+						Clientes miCliente = miVehDAO.primero();
 						// cargar cliente en form
 						cargaCliente(miCliente);
 						refrescaReg();
@@ -265,12 +261,12 @@ public class FichaClienteView {
 					Clientes cliente=new Clientes(TFDni.getText(),TFNombre.getText(),TFApellidos.getText(),TFDir.getText(),
 							TFProv.getText(),TFPob.getText(),Date.valueOf(LocalDate.now()));
 					// comprobar si ya existe el registro
-					if (miCliDAO.ComprobarCliente(TFDni.getText())) {
+					if (miVehDAO.ComprobarCliente(TFDni.getText())) {
 						// guardar el registro
-						miCliDAO.updateCliente(cliente);	
+						miVehDAO.updateCliente(cliente);	
 					} else {
 						// insertar el registro
-						miCliDAO.addCliente(cliente);
+						miVehDAO.addCliente(cliente);
 					}
 					daBotones(true);
 					refrescaReg();
@@ -318,7 +314,7 @@ public class FichaClienteView {
 			BTPrimero.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Clientes miCliente = miCliDAO.primero();
+					Clientes miCliente = miVehDAO.primero();
 					// cargar cliente en form
 					cargaCliente(miCliente);
 					refrescaReg();
@@ -333,7 +329,7 @@ public class FichaClienteView {
 			BTAnterior.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Clientes miCliente = miCliDAO.anterior(TFDni.getText());
+					Clientes miCliente = miVehDAO.anterior(TFDni.getText());
 					// cargar cliente en form
 					cargaCliente(miCliente);
 					refrescaReg();
@@ -354,7 +350,7 @@ public class FichaClienteView {
 			BTSiguiente.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Clientes miCliente = miCliDAO.siguiente(TFDni.getText());
+					Clientes miCliente = miVehDAO.siguiente(TFDni.getText());
 					// cargar cliente en form
 					cargaCliente(miCliente);
 					refrescaReg();
@@ -369,7 +365,7 @@ public class FichaClienteView {
 			BTultimo.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Clientes miCliente = miCliDAO.ultimo();
+					Clientes miCliente = miVehDAO.ultimo();
 					// cargar cliente en form
 					cargaCliente(miCliente);
 					refrescaReg();
