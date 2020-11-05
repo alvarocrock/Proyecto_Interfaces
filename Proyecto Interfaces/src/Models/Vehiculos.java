@@ -1,22 +1,26 @@
 package Models;
 
+import java.sql.Date;
+
 public class Vehiculos {
 	
-	//id, matricula, bastidor, marca, modelo,precio, fecha alta, id cli, id_user, idconce,tipo
-	int id;
+	//, matricula, bastidor, marca, modelo,precio, fecha alta, id cli, id_user, idconce
+
 	String matricula;
 	String bastidor;
 	String marca;
 	String modelo;
 	float precio;
-	String fecha_alta;
+	Date fecha_alta;
 	int id_cli;
 	int id_user;
 	int id_conce;
-	String tipo;
+
 	
-	public Vehiculos(int miid,String mimatricula, String mibastidor,String mimarca, String mimodelo, float miprecio,String mifecha_alta , int miid_cli,int mi_id_user,int miid_conce,String mitipo) {
-		id=miid;
+	public Vehiculos(String mimatricula, String mibastidor,String mimarca, String 
+			mimodelo, float miprecio,Date mifecha_alta , int miid_cli,int mi_id_user,
+			int miid_conce) {
+
 		matricula=mimatricula;
 		bastidor=mibastidor;
 		marca=mimarca;
@@ -26,17 +30,10 @@ public class Vehiculos {
 		id_cli=miid_cli;
 		id_user=mi_id_user;
 		id_conce=miid_conce;
-		tipo=mitipo;
+
 		
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getMatricula() {
 		return matricula;
@@ -78,12 +75,8 @@ public class Vehiculos {
 		this.precio = precio;
 	}
 
-	public String getFecha_alta() {
+	public Date getFecha_alta() {
 		return fecha_alta;
-	}
-
-	public void setFecha_alta(String fecha_alta) {
-		this.fecha_alta = fecha_alta;
 	}
 
 	public int getId_cli() {
@@ -110,12 +103,6 @@ public class Vehiculos {
 		this.id_conce = id_conce;
 	}
 
-	public String getTipo() {
-		return tipo;
-	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
 
 }

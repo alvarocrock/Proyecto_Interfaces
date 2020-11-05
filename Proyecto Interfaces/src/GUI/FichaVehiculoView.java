@@ -10,7 +10,10 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.function.Consumer;
 
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
@@ -25,19 +28,21 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import DAO.ClientesDAO;
+import DAO.VehiculosDAO;
 import Models.Clientes;
 import Models.Usuarios;
+import Models.Vehiculos;
 import net.miginfocom.swing.MigLayout;
 
 public class FichaVehiculoView {
 
 	private Usuarios usuario;
-	private ClientesDAO miVehDAO;
+	private VehiculosDAO miVehDAO;
 	private JLabel LBUsuario;
 	private JLabel LBNomUsu;
-	private JTextField TFDni;
+	private JTextField TFMatricula;
 	private JLabel LBRegistros;
-	private JTextField TFNombre;
+	private JTextField TFBastidor;
 	private JTextField TFMarca;
 	private JTextField TFModelo;
 	private JTextField TFPrecio;
@@ -51,16 +56,17 @@ public class FichaVehiculoView {
 	private JButton BTAnterior;
 	private JButton BTSiguiente;
 	private JButton BTultimo;
-	private Window frame;
+	private JFrame frame;
 	private JTextField TFConce;
 
 
 	/**
 	 * Constructor con usuario
-	 */
-	/*public FichaVehiculoView(Usuarios miuser) {
+	*/
+	  public FichaVehiculoView(Usuarios miuser) {
+	
 		usuario=miuser;
-		miVehDAO = new ClientesDAO ();
+		miVehDAO = new VehiculosDAO();
 		initialize();
 		// carga usuario
 		LBUsuario.setText(usuario.getNick());
@@ -69,8 +75,7 @@ public class FichaVehiculoView {
 		cargaVehiculo(miVehDAO.primero());
 		// refresca LBRegistros
 		refrescaReg();
-
-	}*/
+	}
 	
 	/**
 	 * Constructor con usuario e id de cliente
@@ -79,13 +84,13 @@ public class FichaVehiculoView {
 	 */
 	public FichaVehiculoView(Usuarios miuser, int idVeh) {
 		usuario=miuser;
-		miVehDAO = new ClientesDAO ();
+		miVehDAO = new VehiculosDAO();
 		initialize();
 		// carga usuario
 		LBUsuario.setText(usuario.getNick());
 		LBNomUsu.setText(usuario.getNick());
 		// carga registro
-		cargaVehiculo(miVehDAO.goToIdCli(idVeh));
+		cargaVehiculo(miVehDAO.goToIdVeh(idVeh));
 		// refresca LBRegistros
 		refrescaReg();
 	}
@@ -94,7 +99,8 @@ public class FichaVehiculoView {
 	 * Refresca el label de control de registros
 	 */
 	private void refrescaReg() {
-		String p="Registro " + String.valueOf(miVehDAO.buscaDNI(TFDni.getText()) + " de "+ String.valueOf(miVehDAO.count())+".");
+		String p="Registro " + String.valueOf(miVehDAO.buscaMatricula(TFMatricula.getText()) + " de "+ 
+				String.valueOf(miVehDAO.count())+".");
 		LBRegistros.setText(p);	
 	}
 
@@ -103,7 +109,7 @@ public class FichaVehiculoView {
 	 */
 	private void initialize() {
 		// Frame principal
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		frame.setBounds(100, 100, 500, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[434px]", "[35px][226px]"));
@@ -156,16 +162,16 @@ public class FichaVehiculoView {
 			JLabel LBMatricula = new JLabel("Matrícula");
 			PNLinea1.add(LBMatricula);
 			
-				TFDni = new JTextField();
-				PNLinea1.add(TFDni);
-				TFDni.setColumns(10);
+				TFMatricula = new JTextField();
+				PNLinea1.add(TFMatricula);
+				TFMatricula.setColumns(10);
 				
 				JLabel LBBastidor = new JLabel("Bastidor");
 				PNLinea1.add(LBBastidor);
 				
-					TFNombre = new JTextField();
-					PNLinea1.add(TFNombre);
-					TFNombre.setColumns(10);
+					TFBastidor = new JTextField();
+					PNLinea1.add(TFBastidor);
+					TFBastidor.setColumns(10);
 			
 			// panel linea 2
 			JPanel PNLinea2 = new JPanel();
@@ -236,7 +242,7 @@ public class FichaVehiculoView {
 				public void actionPerformed(ActionEvent e) {
 					// llamada a buscar cliente
 					frame.dispose();
-					BusCliView miBusqueda = new BusCliView(usuario);
+					ConsVeh miBusqueda = new ConsVeh(usuario);
 					miBusqueda.getFrame().setAlwaysOnTop(true);
 					miBusqueda.getFrame().setVisible(true);
 
@@ -254,10 +260,10 @@ public class FichaVehiculoView {
 							"Borrar registro", 
 							JOptionPane.YES_NO_OPTION,
 							JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_NO_OPTION) {
-						miVehDAO.borraCliente(TFDni.getText());	
-						Clientes miCliente = miVehDAO.primero();
+						miVehDAO.borraVehiculo(TFMatricula.getText());	
+						Vehiculos miVeh = miVehDAO.primero();
 						// cargar cliente en form
-						cargaVehiculo(miCliente);
+						cargaVehiculo(miVeh);
 						refrescaReg();
 					}
 
@@ -269,16 +275,23 @@ public class FichaVehiculoView {
 			BTGuardar.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// crea el nuevo cliente
-					Clientes cliente=new Clientes(TFDni.getText(),TFNombre.getText(),TFMarca.getText(),TFModelo.getText(),
-							TFPrecio.getText(),TFIdCli.getText(),Date.valueOf(LocalDate.now()));
+					// crea el nuevo vehículo SIN ID y SIN Tipo aen espera de aclarar 
+					Vehiculos miVeh=new Vehiculos(TFMatricula.getText(),TFBastidor.getText(),
+							TFMarca.getText(),TFModelo.getText(),
+							Float.parseFloat(TFPrecio.getText()),
+							Date.valueOf(LocalDate.now()),
+							Integer.parseInt(TFIdCli.getText()),
+							usuario.getId(),
+							Integer.parseInt(TFConce.getText()));
+					
+			
 					// comprobar si ya existe el registro
-					if (miVehDAO.ComprobarCliente(TFDni.getText())) {
+					if (miVehDAO.Comprobarvehiculo(TFMatricula.getText())) {
 						// guardar el registro
-						miVehDAO.updateCliente(cliente);	
+						miVehDAO.updateVehiculo(miVeh);	
 					} else {
 						// insertar el registro
-						miVehDAO.addCliente(cliente);
+						miVehDAO.addVehiculo(miVeh);
 					}
 					daBotones(true);
 					refrescaReg();
@@ -290,13 +303,14 @@ public class FichaVehiculoView {
 			BTNuevo.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					TFDni.setText("");
-					TFDni.requestFocus();
-					TFNombre.setText("");
+					TFMatricula.setText("");
+					TFMatricula.requestFocus();
+					TFBastidor.setText("");
 					TFMarca.setText("");
 					TFModelo.setText("");
 					TFPrecio.setText("");
 					TFIdCli.setText("");
+					TFConce.setText("");
 					daBotones(false);
 				}
 			});
@@ -326,9 +340,9 @@ public class FichaVehiculoView {
 			BTPrimero.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Clientes miCliente = miVehDAO.primero();
-					// cargar cliente en form
-					cargaVehiculo(miCliente);
+					Vehiculos miveh = miVehDAO.primero();
+					// cargar vehiculo en form
+					cargaVehiculo(miveh);
 					refrescaReg();
 				}
 			});
@@ -341,9 +355,9 @@ public class FichaVehiculoView {
 			BTAnterior.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Clientes miCliente = miVehDAO.anterior(TFDni.getText());
-					// cargar cliente en form
-					cargaVehiculo(miCliente);
+					Vehiculos miVeh = miVehDAO.anterior(TFMatricula.getText());
+					// cargar vehiculo en form
+					cargaVehiculo(miVeh);
 					refrescaReg();
 				}
 			});
@@ -362,9 +376,9 @@ public class FichaVehiculoView {
 			BTSiguiente.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Clientes miCliente = miVehDAO.siguiente(TFDni.getText());
+					Vehiculos miVeh = miVehDAO.siguiente(TFMatricula.getText());
 					// cargar cliente en form
-					cargaVehiculo(miCliente);
+					cargaVehiculo(miVeh);
 					refrescaReg();
 				}
 			});
@@ -377,9 +391,9 @@ public class FichaVehiculoView {
 			BTultimo.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Clientes miCliente = miVehDAO.ultimo();
+					Vehiculos miVeh = miVehDAO.ultimo();
 					// cargar cliente en form
-					cargaVehiculo(miCliente);
+					cargaVehiculo(miVeh);
 					refrescaReg();
 				}
 			});
@@ -408,19 +422,24 @@ public class FichaVehiculoView {
 	 * Carga el formulario con los datos de un cliente 
 	 * @param miCliente
 	 */
-	protected void cargaVehiculo(Clientes miCliente) {
-		TFDni.setText(miCliente.getDNI());
-		TFNombre.setText(miCliente.getNombre());
-		TFMarca.setText(miCliente.getApellido());
-		TFModelo.setText(miCliente.getDireccion());
-		TFPrecio.setText(miCliente.getProvincia());
-		TFIdCli.setText(miCliente.getProvincia());
+	protected void cargaVehiculo(Vehiculos miVeh) {
+		TFMatricula.setText(miVeh.getMatricula());
+		TFBastidor.setText(miVeh.getBastidor());
+		TFMarca.setText(miVeh.getMarca());
+		TFModelo.setText(miVeh.getModelo());
+		TFPrecio.setText(String.valueOf(miVeh.getPrecio()));
+		TFIdCli.setText(String.valueOf(miVeh.getId_cli()));
+		TFConce.setText(String.valueOf(miVeh.getId_conce()));
+		
+		// aqui habría que rellenar el nombre de cliente
+		
+		
 	}
 
 	/*
 	 * Get Frame
 	 */
-	public Window getFrame() {
+	public JFrame getFrame() {
 		return frame;
 	}
 

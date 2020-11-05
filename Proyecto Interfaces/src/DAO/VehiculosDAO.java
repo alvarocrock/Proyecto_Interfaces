@@ -67,7 +67,7 @@ public class VehiculosDAO extends AbstractDAO{
 	}
 		
 	/**
-	 * comporatmientop para obtener el iif de cliente en base a un dni dado
+	 * comporatmientop para obtener el id de cliente en base a un dni dado
 	 */
 	
 	public int getidcli(String DNI) {
@@ -184,10 +184,13 @@ public class VehiculosDAO extends AbstractDAO{
 		
 	}
 
-
+	/**
+	 * Carga un array con los datos de la tabla vehículos
+	 * @return
+	 */
 	public ArrayList<String> cargaListaDAO() {
 		ArrayList<String> miArray = new ArrayList<String>();
-		String 	strSql="select id_vehiculo,matricula,marca,modelo,precio from vehiculo order by id_vehiculo";
+		String 	strSql="select id_vehiculo,matricula,marca,modelo,precio from vehiculos order by id_vehiculo";
 		
 		// ejecuta la consulta
 		ResultSet rst=super.consultaSQL(strSql);
@@ -197,9 +200,9 @@ public class VehiculosDAO extends AbstractDAO{
 				String str = " ";
 				str=String.valueOf(rst.getInt(1))+" | ";
 				str=str + rst.getString(2)+" | ";
+				str=str + rst.getString(3)+" | ";
 				str=str + rst.getString(4)+" | ";
-				str=str + rst.getString(5)+" | ";
-				str=str + rst.getFloat(6)+" | ";
+				str=str + rst.getFloat(5)+" | ";
 				miArray.add(str);
 			}
 		} catch (SQLException e) {
@@ -225,8 +228,8 @@ public class VehiculosDAO extends AbstractDAO{
 
 		try {
 			rst.first();
-			veh = new Vehiculos(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
-					rst.getString(7),rst.getInt(8),rst.getInt(9),rst.getInt(10),rst.getString(11));
+			veh = new Vehiculos(rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
+					rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -258,82 +261,90 @@ public class VehiculosDAO extends AbstractDAO{
 	
 	/**
 	 * modifica un vehiculo que ya existe
-	 * @param cliente objeto cliente a modificar
+	 * @param cliente objeto vehiculo a modificar
 	 */
 	public void updateVehiculo(Vehiculos mivehiculo) {
 		
 		//UPDATE `proyecto`.`vehiculos` SET `matricula` = '2', `bastidor` = '4', `marca` = '6', `modelo` = '7', `precio` = '0', `fecha_alta` = '2020-10-03', `id_usuario` = '2', `id_conce` = '5', `tipo` = 'nulo' WHERE (`id_vehiculo` = '24');
-		String 	strSql="UPDATE `vehiculos` SET `matricula` = '"+mivehiculo.getMatricula()+"', "
-				+ "`bastidor` = '"+mivehiculo.getBastidor()+"', `marca` = '"+mivehiculo.getMarca()+"', `modelo` = '"+mivehiculo.getModelo()+"', "
+		String 	strSql="UPDATE `vehiculos` "
+				+"SET `matricula` = '"+mivehiculo.getMatricula()+"', "
+				+ "`bastidor` = '" + mivehiculo.getBastidor()
+				+"', `marca` = '"+mivehiculo.getMarca()
+				+"', `modelo` = '"+mivehiculo.getModelo()+"', "
 				+ "`precio` = '"+mivehiculo.getPrecio()+"',"
-				+ " `fecha_alta` = '"+mivehiculo.getFecha_alta()+"', `id_usuario` = '"+mivehiculo.getId_user()+"',"
-				+ " `id_conce` = '"+mivehiculo.getId_conce()+"', `tipo` = '"+mivehiculo.getTipo()+"' WHERE (`id_vehiculo` = '"+mivehiculo.getId()+"');";
+				+ " `fecha_alta` = '"+mivehiculo.getFecha_alta()
+				+"', `id_usuario` = '"+mivehiculo.getId_user()+"',"
+				+ " `id_conce` = '"+mivehiculo.getId_conce()+"', "
+				+"' WHERE (`matricula` = '"+mivehiculo.getMatricula()+"');";
 		if (super.ejecutaSQL(strSql))
-			JOptionPane.showMessageDialog(null, "Registro modificado correctamente", "Modificar cliente", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Registro modificado correctamente", 
+					"Modificar vehículo", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	/**
 	 * se posiciona en el primer vehiculo
-	 * @return objeto que representa al primer cliente del rst
+	 * @return objeto que representa al primer vehiculo del rst
 	 */
 	public Vehiculos primero() {
 		String 	strSql="select * from vehiculos order by id_vehiculo";
-		Vehiculos mivehiculo=null;
+		Vehiculos miVehiculo=null;
 		
 		// ejecuta la consulta
 		ResultSet rst=super.consultaSQL(strSql);
 		try {
 			// se posiciona en el primer registro
 			rst.first();
-			// crea el cliente
-			mivehiculo = new Vehiculos(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
-					rst.getString(7),rst.getInt(8),rst.getInt(9),rst.getInt(10),rst.getString(11));
+			// crea el vehiculo
+			miVehiculo = new Vehiculos(rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
+					rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10));
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// devuelve el cliente 
-		return mivehiculo;
+		return miVehiculo;
 	}
 	
 	/**
 	 * busca el registro anterior
-	 * @return Objeto cliente que representa el registro anterior
+	 * @return Objeto vehiculo que representa el registro anterior
 	 */
 	public Vehiculos anterior(String matricula) {
 		String 	strSql="select * from vehiculos order by id_vehiculo";
-		Vehiculos mivehiculo=null;
+		Vehiculos miVehiculo=null;
 		int miFila;
+		
+		// extrae al fila actual
+		miFila=buscaMatricula(matricula);
 		// ejecuta la consulta
 		ResultSet rst=super.consultaSQL(strSql);
-		miFila=buscaMatricula(matricula);
 		try {
-			// se posiciona en el primer registro
+			// se posiciona en el registro actual
 			rst.absolute(miFila);
-			
+			// se posiciona en el registro anterior
 			rst.previous();
-			// crea el cliente
-			mivehiculo = new Vehiculos(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
-					rst.getString(7),rst.getInt(8),rst.getInt(9),rst.getInt(10),rst.getString(11));
+			// crea el vehiculo
+			miVehiculo = new Vehiculos(rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
+					rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10));
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// devuelve el cliente 
-		return mivehiculo;
+		return miVehiculo;
 	}
 	
 	/**
-	 * Busca un DNI y devuelve la fila en la que está
-	 * @param dNI
+	 * Busca una matricula y devuelve la fila en la que está
+	 * @param matricula
 	 * @return
 	 */
 	public int buscaMatricula(String matricula) {
 		int resultado=1;
 		boolean encontrado=false;
-		String 	strSql="select matricula from vehiculos order by matricula";
+		String 	strSql="select matricula from vehiculos order by id_vehiculo";
 		
 		// ejecuta la consultaa
 		ResultSet rst=super.consultaSQL(strSql);
@@ -341,7 +352,7 @@ public class VehiculosDAO extends AbstractDAO{
 			rst.last();
 			rst.first();
 			while (!encontrado) {
-				if (matricula.equals(rst.getString(2))) {
+				if (matricula.equals(rst.getString(1))) {
 					encontrado=true;
 				} else {
 					rst.next();
@@ -356,6 +367,116 @@ public class VehiculosDAO extends AbstractDAO{
 		return resultado;
 	}
 
+	/**
+	 * cuenta los registros en la tabla de vehiculos
+	 * @return número de registros en la tabla de vehiculos
+	 */
+	public int count() {
+		String 	strSql="select matricula from vehiculos order by id_vehiculo";
+		int count=0;
+		
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+			try {
+				// si hay registros
+				if (rst.next()) {
+					// se posiciona en el primer registro
+					rst.first();
+					count=1;
+					// mientras haya registros suma 1 al contador
+					while (rst.next()) {
+						count++;
+					}
+				} else count=0;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		// devuelve el número de registros 
+		return count;
+	}
 	
-
+	/**
+	 * Borra un vehiculo con una matrícula determinada
+	 * @param matricula
+	 */
+	public void borraVehiculo(String matricula) {
+		String 	strSql="delete from vehiculos where matricula='"+matricula+"'";
+		super.ejecutaSQL(strSql);
+	}
+	
+	/**
+	 * Añade un vehiculo
+	 * @param vehiculo objeto cliente a añadir
+	 */
+	public void addVehiculo(Vehiculos miVeh) {
+		String 	strSql="insert into vehiculos "
+				+ " (matricula, bastidor, marca, modelo, precio, fecha_alta,"
+				+"id_cliente,id_usuario,id_conce) "
+				+ "values ('" + miVeh.getMatricula() +"', '"
+				+ miVeh.getBastidor() +"', '"
+				+ miVeh.getMarca() +"', '"
+				+ miVeh.getModelo() +"', '"
+				+ String.valueOf(miVeh.getPrecio()) +"', '"
+				+ miVeh.getFecha_alta() + "', '"
+				+ miVeh.getId_cli()+"', '"
+				+ miVeh.getId_user() + "', '"
+				+ miVeh.getId_conce() + "');";
+		
+		// Se ejecuta correctamente el SQL
+		if (super.ejecutaSQL(strSql))
+			JOptionPane.showMessageDialog(null, "Registro insertado correctamente", "Añadir cliente", JOptionPane.INFORMATION_MESSAGE);
+		
+	}
+	
+	/**
+	 * busca el registro siguiente
+	 * @return Objeto vehiculo que representa el registro siguiente
+	 */
+	public Vehiculos siguiente(String matricula) {
+		String 	strSql="select * from vehiculos order by id_vehiculo";
+		Vehiculos miVeh=null;
+				
+		//Obtengo la fila
+		int miFila=buscaMatricula(matricula);
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		try {
+			// se posiciona en la fila dado la matricula
+			rst.absolute(miFila);
+			// se posiciona en el primer registro
+			rst.next();
+			// crea el vehiculo
+			miVeh = new Vehiculos(rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
+					rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// devuelve el cliente 
+		return miVeh;
+	}
+	
+	/**
+	 * devuelve un objeto vehiculo representando el último registro de la tabla
+	 * @return
+	 */
+	public Vehiculos ultimo() {
+		String 	strSql="select * from vehiculos order by id_vehiculo";
+		Vehiculos miVeh=null;
+		
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		try {
+			// se posiciona en el último registro
+			rst.last();
+			// crea el vehiculo
+			miVeh = new Vehiculos(rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
+					rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// devuelve el cliente 
+		return miVeh;
+	}
+// **************************** fin
 }

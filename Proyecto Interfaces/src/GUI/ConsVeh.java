@@ -242,7 +242,7 @@ public class ConsVeh {
 		int idVeh=Integer.parseInt(campos[0]);
 		// llamada a ficha vehículos con el id_vehiculo
 		frame.dispose();
-		RegistroVehiculosView miRegVeh = new RegistroVehiculosView(usuario,idVeh);
+		FichaVehiculoView miRegVeh = new FichaVehiculoView(usuario,idVeh);
 		miRegVeh.getFrame().setAlwaysOnTop(true);
 		miRegVeh.getFrame().setVisible(true);
 	}

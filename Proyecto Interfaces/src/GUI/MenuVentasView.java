@@ -134,12 +134,12 @@ public class MenuVentasView {
 			}
 		});
 		
-		JButton BTFicVeh = new JButton("Registrar vehículos");
+		JButton BTFicVeh = new JButton("Ficha de vehículos");
 		PNCentral.add(BTFicVeh, "cell 3 5");
 		BTFicVeh.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				RegistroVehiculosView miFicVeh = new RegistroVehiculosView(usuario);
+				FichaVehiculoView miFicVeh = new FichaVehiculoView (usuario);
 				miFicVeh.getFrame().setVisible(true);
 				miFicVeh.getFrame().setAlwaysOnTop(true);
 				frame.dispose();
