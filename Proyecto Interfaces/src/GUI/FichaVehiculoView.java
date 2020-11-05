@@ -2,20 +2,12 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.TextField;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.function.Consumer;
-
-import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,9 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import DAO.ClientesDAO;
 import DAO.VehiculosDAO;
-import Models.Clientes;
 import Models.Usuarios;
 import Models.Vehiculos;
 import net.miginfocom.swing.MigLayout;
@@ -75,15 +65,9 @@ public class FichaVehiculoView {
 		cargaVehiculo(miVehDAO.primero());
 		// refresca LBRegistros
 		refrescaReg();
-<<<<<<< HEAD
 	}
-=======
 
-	}
-	*/
->>>>>>> branch 'master' of https://github.com/alvarocrock/Proyecto_Interfaces
-	
-	/**
+/**
 	 * Constructor con usuario e id de cliente
 	 * @param miuser
 	 * @param idVeh
@@ -122,7 +106,7 @@ public class FichaVehiculoView {
 		
 		// panel título
 		JPanel PNTitulo = new JPanel();
-		PNTitulo.setForeground(Color.BLUE);
+		PNTitulo.setForeground(Color.ORANGE);
 		PNTitulo.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		PNTitulo.setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(PNTitulo, "cell 0 0,growx,aligny top");
@@ -422,6 +406,7 @@ public class FichaVehiculoView {
 		BTPrimero.setEnabled(estado);
 		BTSiguiente.setEnabled(estado);
 		BTultimo.setEnabled(estado);
+		BTBuscar.setEnabled(estado);
 	}
 
 	/**

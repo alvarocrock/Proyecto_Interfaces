@@ -77,7 +77,7 @@ public class ConsVeh {
 			
 			// panel título
 			JPanel PNTitulo = new JPanel();
-			PNTitulo.setForeground(Color.BLUE);
+			PNTitulo.setForeground(Color.ORANGE);
 			PNTitulo.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			PNTitulo.setBackground(Color.LIGHT_GRAY);
 			frame.getContentPane().add(PNTitulo, "cell 0 0,growx,aligny top");
@@ -122,13 +122,13 @@ public class ConsVeh {
 				LSVehi.setVisibleRowCount(5);
 				LSVehi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				LSVehi.setSelectedIndex(0);
-				LSVehi.addMouseListener(new MouseAdapter() {
+				/*LSVehi.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent me) {
 			            if (me.getClickCount() == 2) {
 	
 			            }
 			         }
-				});
+				});*/
 				
 				// label de la lista
 				LBTitLista = new JLabel("ID        Matrícula       Marca              Modelo              Precio");

@@ -49,22 +49,6 @@ public class RegistroVehiculosView {
 	private final JLabel JLB_tipo = new JLabel("tipo vehiculo");
 	private JTextField JTF_marca;
 
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegistroVehiculosView window = new RegistroVehiculosView(null);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	*/
 
 	/**
 	 * Create the application.
@@ -90,6 +74,7 @@ public class RegistroVehiculosView {
 		panel.setBackground(Color.decode("#264653"));
 		
 		JLabel lblNewLabel = new JLabel("Registro vehiculos");
+		lblNewLabel.setForeground(Color.ORANGE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panel.add(lblNewLabel);
 		

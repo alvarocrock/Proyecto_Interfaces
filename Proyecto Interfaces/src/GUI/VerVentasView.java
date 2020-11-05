@@ -39,7 +39,7 @@ public class VerVentasView {
 	private JTextField JTF_fecha_alta;
 	private JTextField JTF_fecha_validez;
 	private JTextField JTF_matriculavehiculo;
-	private JList list;
+	private JList<Object> list;
 	private VentasDAO contro;
 	private JTextField JTF_precio;
 	private JTextField JTF_ape_cli;
@@ -65,7 +65,8 @@ public class VerVentasView {
 		frame.getContentPane().add(panel, BorderLayout.NORTH);
 		panel.setBackground(Color.decode("#264653"));
 		
-		JLabel JLB_titulo = new JLabel("Ver ventas");
+		JLabel JLB_titulo = new JLabel("Consulta de ventas");
+		JLB_titulo.setForeground(Color.ORANGE);
 		panel.add(JLB_titulo);
 		
 		JSplitPane splitPane = new JSplitPane();
@@ -100,7 +101,7 @@ public class VerVentasView {
 		JLabel JLB_lista = new JLabel("Lista ventas");
 		panel_4.add(JLB_lista);
 		
-		list = new JList();
+		list = new JList<Object>();
 		list.setVisibleRowCount(30);
 		list.addMouseListener(new MouseAdapter() {
 			@Override
@@ -219,8 +220,8 @@ public class VerVentasView {
 		
 	}
 	
-	public DefaultListModel addelement() {
-		DefaultListModel model= new DefaultListModel<>();
+	public DefaultListModel<Object> addelement() {
+		DefaultListModel<Object> model= new DefaultListModel<>();
 		//Ventas venta= new Ventas(1,1,1,"ini","fin",(float) 3.0);
 		//model.addElement("primer elemento");
 		//model.addElement("segundo elemento");

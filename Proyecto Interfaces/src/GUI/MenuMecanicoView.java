@@ -47,7 +47,7 @@ public class MenuMecanicoView {
 		
 		// panel título
 		JPanel PNTitulo = new JPanel();
-		PNTitulo.setForeground(Color.BLUE);
+		PNTitulo.setForeground(Color.ORANGE);
 		PNTitulo.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		PNTitulo.setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(PNTitulo, "cell 0 0,growx,aligny top");
