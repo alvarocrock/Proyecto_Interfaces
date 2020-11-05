@@ -70,7 +70,8 @@ public class FichaVehiculoView {
 		// refresca LBRegistros
 		refrescaReg();
 
-	}*/
+	}
+	*/
 	
 	/**
 	 * Constructor con usuario e id de cliente
