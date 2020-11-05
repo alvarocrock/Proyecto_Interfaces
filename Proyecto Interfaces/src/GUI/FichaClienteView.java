@@ -122,6 +122,7 @@ public class FichaClienteView {
 		LBTitulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LBTitulo.setForeground(Color.BLUE);
 		PNTitulo.add(LBTitulo);
+		PNTitulo.setBackground(Color.decode("#264653"));
 		
 		// Split Panel
 		JSplitPane splitPane = new JSplitPane();
@@ -131,6 +132,7 @@ public class FichaClienteView {
 		JPanel PNUsuario = new JPanel();
 		splitPane.setLeftComponent(PNUsuario);
 		PNUsuario.setLayout(new MigLayout("", "[91px]", "[14px][14px]"));
+		PNUsuario.setBackground(Color.decode("#2A9D8F"));
 		
 		
 		LBUsuario = new JLabel("Usuario Actual");
@@ -145,11 +147,13 @@ public class FichaClienteView {
 		JPanel PNCentral = new JPanel();
 		splitPane.setRightComponent(PNCentral);
 		PNCentral.setLayout(new MigLayout("", "[grow,center]", "[grow][][][][][][]"));
+		PNCentral.setBackground(Color.decode("#2A9D8F"));
 		
 			// panel linea 1
 			JPanel PNLinea1 = new JPanel();
 			PNCentral.add(PNLinea1, "cell 0 0,grow");
 			PNLinea1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+			PNLinea1.setBackground(Color.decode("#2A9D8F"));
 			
 			JLabel LBDni = new JLabel("DNI/NIE");
 			PNLinea1.add(LBDni);
@@ -169,6 +173,7 @@ public class FichaClienteView {
 			JPanel PNLinea2 = new JPanel();
 			PNCentral.add(PNLinea2, "cell 0 1,grow");
 			PNLinea2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+			PNLinea2.setBackground(Color.decode("#2A9D8F"));
 				
 				JLabel LBApellidos = new JLabel("Apellidos");
 				PNLinea2.add(LBApellidos);
@@ -188,6 +193,7 @@ public class FichaClienteView {
 			JPanel PNLinea3 = new JPanel();
 			PNCentral.add(PNLinea3, "cell 0 2,grow");
 			PNLinea3.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+			PNLinea3.setBackground(Color.decode("#2A9D8F"));
 				
 			JLabel LBProv = new JLabel("Provincia");
 			PNLinea3.add(LBProv);
@@ -200,6 +206,7 @@ public class FichaClienteView {
 			JPanel PNLinea4 = new JPanel();
 			PNCentral.add(PNLinea4, "cell 0 3,grow");
 			PNLinea4.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+			PNLinea4.setBackground(Color.decode("#2A9D8F"));
 			
 			JLabel LBPob = new JLabel("Población");
 			PNLinea4.add(LBPob);
@@ -212,6 +219,7 @@ public class FichaClienteView {
 			// panel para los botones de la botonera
 			JPanel panelBotonera = new JPanel();
 			PNCentral.add(panelBotonera, "cell 0 5");
+			panelBotonera.setBackground(Color.decode("#2A9D8F"));
 			
 			BTBuscar = new JButton("Buscar");
 			panelBotonera.add(BTBuscar);

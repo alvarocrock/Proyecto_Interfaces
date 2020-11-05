@@ -52,6 +52,7 @@ public class MenuMecanicoView {
 		PNTitulo.setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(PNTitulo, "cell 0 0,growx,aligny top");
 		PNTitulo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		PNTitulo.setBackground(Color.decode("#264653"));
 		
 		JLabel LBTitulo = new JLabel("Menú de taller");
 		LBTitulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -66,6 +67,8 @@ public class MenuMecanicoView {
 		JPanel PNUsuario = new JPanel();
 		splitPane.setLeftComponent(PNUsuario);
 		PNUsuario.setLayout(new MigLayout("", "[91px]", "[14px][14px][][][][]"));
+		PNUsuario.setBackground(Color.decode("#2A9D8F"));
+		PNUsuario.setBackground(Color.decode("#2A9D8F"));
 		
 		
 		JLabel LBUsuario = new JLabel("Usuario Actual");
@@ -80,6 +83,8 @@ public class MenuMecanicoView {
 		JPanel PNCentral = new JPanel();
 		splitPane.setRightComponent(PNCentral);
 		PNCentral.setLayout(new MigLayout("", "[][][center][center][center]", "[][][]"));
+		PNCentral.setBackground(Color.decode("#2A9D8F"));
+		PNCentral.setBackground(Color.decode("#2A9D8F"));
 		
 		JButton BTProVen = new JButton("Ficha clientes");
 		BTProVen.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Clientes.png")));
