@@ -7,9 +7,12 @@ import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -19,8 +22,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+
+import com.sun.glass.events.MouseEvent;
 
 import DAO.ClientesDAO;
 import Models.Clientes;
@@ -43,6 +49,8 @@ public class BusCliView {
 	private JButton BTSiguiente;
 	private JButton BTultimo;
 	private JList<String> LSCliente;
+	private ClientesDAO miClienteDAO;
+	private DefaultListModel<String> listModel;
 	
 	/**
 	 * Create the application.
@@ -55,6 +63,7 @@ public class BusCliView {
 		// carga usuario
 		LBUsuario.setText(usuario.getNick());
 		LBNomUsu.setText(usuario.getNick());
+		refrescaReg();
 
 
 	}
@@ -64,7 +73,7 @@ public class BusCliView {
 	private void initialize() {
 	// Frame principal
 			frame = new JFrame();
-			frame.setBounds(100, 100, 470, 300);
+			frame.setBounds(100, 100, 470, 500);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.getContentPane().setLayout(new MigLayout("", "[434px]", "[35px][226px]"));
 			
@@ -104,14 +113,24 @@ public class BusCliView {
 			splitPane.setRightComponent(PNCentral);
 			PNCentral.setLayout(new MigLayout("", "[grow,center]", "[grow][grow][][][][][][]"));
 
-			DefaultListModel<String> listModel = new DefaultListModel <String>();
-			// llamar a clienteDAO cargar devolver rst
-			// recorrer rst y añadir a la lista (Id, DNI Nombre Apellidos)
-			listModel.addElement("Jane Doe");
-			listModel.addElement("John Smith");
-			listModel.addElement("Kathy Green");
-			LSCliente = new JList <String>(listModel);
-
+				// Crea el modelo de lista
+				listModel = new DefaultListModel <String>();
+				// llama a clienteDAO devuelve rst con los datos y llama a cargar la lista
+				miClienteDAO = new ClientesDAO();
+				cargaLista(miClienteDAO.cargaListaDAO());
+				// crea y configura la Jlista
+				LSCliente = new JList <String>(listModel);
+				LSCliente.setBorder(BorderFactory.createEmptyBorder(5, 5	, 5, 5));
+				LSCliente.setVisibleRowCount(5);
+				LSCliente.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				LSCliente.setSelectedIndex(0);
+				LSCliente.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent me) {
+			            if (me.getClickCount() == 2) {
+	
+			            }
+			         }
+				});
 				
 				PNCentral.add(LSCliente, "cell 0 0 1 6,grow");
 				
@@ -124,8 +143,8 @@ public class BusCliView {
 				BTSeleccionar.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-		
-
+						frame.dispose();
+						seleccionar();
 					}
 				});
 				
@@ -135,6 +154,9 @@ public class BusCliView {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						frame.dispose();
+						MenuVentasView miMenuVentas = new MenuVentasView(usuario);
+						miMenuVentas.getFrame().setAlwaysOnTop(true);
+						miMenuVentas.getFrame().setVisible(true);
 					}
 				});
 				
@@ -151,8 +173,8 @@ public class BusCliView {
 				BTPrimero.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						Clientes miCliente = miCliDAO.primero();
-
+						LSCliente.setSelectedIndex(0);
+						refrescaReg();
 					}
 				});
 				
@@ -164,8 +186,8 @@ public class BusCliView {
 				BTAnterior.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						Clientes miCliente = miCliDAO.anterior(TFDni.getText());
-
+						if (LSCliente.getSelectedIndex()>0) LSCliente.setSelectedIndex(LSCliente.getSelectedIndex()-1);
+						refrescaReg();
 					}
 				});
 				
@@ -183,8 +205,9 @@ public class BusCliView {
 				BTSiguiente.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						Clientes miCliente = miCliDAO.siguiente(TFDni.getText());
-
+						if (LSCliente.getSelectedIndex() < LSCliente.getModel().getSize()-1) 
+							LSCliente.setSelectedIndex(LSCliente.getSelectedIndex()+1);
+						refrescaReg();
 					}
 				});
 				
@@ -196,8 +219,8 @@ public class BusCliView {
 				BTultimo.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						Clientes miCliente = miCliDAO.ultimo();
-
+						LSCliente.setSelectedIndex(LSCliente.getModel().getSize()-1);
+						refrescaReg();
 					}
 				});
 				
@@ -206,9 +229,45 @@ public class BusCliView {
 				panelBotoneras.setMaximumSize(new Dimension(1000, 60));
 				panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
 				PNCentral.add(panelBotoneras, "cell 0 5");
-				//Border bordeRegistros = BorderFactory.createLineBorder(Color.BLUE,1);
 		}
 
+	/**
+	 * llama a ficha de clientes con el  cliente seleccionado
+	 */
+	protected void seleccionar() {
+		// coger id_cli de la lista
+		String linea = LSCliente.getSelectedValue();
+		String campos [] = linea.split(" | ");
+		int idCli=Integer.parseInt(campos[0]);
+		// llamada a menu ventas con el idcli
+		FichaClienteView miMenuVentas = new FichaClienteView(usuario,idCli);
+		miMenuVentas.getFrame().setAlwaysOnTop(true);
+		miMenuVentas.getFrame().setVisible(true);
+	}
+	
+	/**
+	 * recorre array y añade a la lista (Id, DNI Nombre Apellidos)
+	 * @param cargaListaDAO
+	 */
+	private void cargaLista(ArrayList<String> miArray) {
+		// recorre array y añade a la lista (Id, DNI Nombre Apellidos)
+		for (int i=0;i<miArray.size();i++) {
+			listModel.addElement(miArray.get(i));
+		}
+		
+	}
+	
+	/**
+	 * Refresca el label de control de registros
+	 */
+	private void refrescaReg() {
+		// coger id_cli de la lista
+		String linea = LSCliente.getSelectedValue();
+		String campos [] = linea.split(" | ");
+		int idCli=Integer.parseInt(campos[0]);
+		String p="Registro " + idCli + " de "+ LSCliente.getModel().getSize()+".";
+		LBRegistros.setText(p);	
+	}
 	/*
 	 * Get Frame
 	 */

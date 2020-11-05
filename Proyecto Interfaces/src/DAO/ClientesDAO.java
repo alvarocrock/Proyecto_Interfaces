@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -244,6 +245,58 @@ public class ClientesDAO extends AbstractDAO {
 			}
 		// devuelve el número de registros 
 		return count;
+	}
+
+	/**
+	 * devuelve un Array con los clientes de la tabla a meter en la lista
+	 * @return
+	 */
+	public ArrayList<String> cargaListaDAO() {
+		ArrayList<String> miArray = new ArrayList<String>();
+		String 	strSql="select id_cli,DNI,nombre,apellidos from clientes order by id_cli";
+		
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		// recorre el rst y guarda en el array
+		try {
+			while (rst.next()) {
+				String str = " ";
+				str=String.valueOf(rst.getInt(1))+" | ";
+				str=str + rst.getString(2)+" | ";
+				str=str + rst.getString(3)+" | ";
+				str=str + rst.getString(4)+" | ";
+				miArray.add(str);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		return miArray;
+	}
+
+	/**
+	 * devuelve un cliente dado un id de cliente
+	 * @param idCli
+	 * @return
+	 */
+	public Clientes goToIdCli(int idCli) {
+		String 	strSql="select * from clientes where id_cli = " + idCli + ";";
+		
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		// crea el cliente
+		Clientes cliente=null;
+
+		try {
+			rst.first();
+			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), 
+					rst.getString(5),rst.getString(6), rst.getDate(7));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cliente;
 	}
 
 }

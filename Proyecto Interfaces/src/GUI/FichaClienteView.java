@@ -57,7 +57,7 @@ public class FichaClienteView {
 	private JTextField TFDir;
 	
 	/**
-	 * Create the application.
+	 * Constructor con usuario
 	 */
 
 	public FichaClienteView(Usuarios miuser) {
@@ -74,9 +74,27 @@ public class FichaClienteView {
 
 	}
 
-		/**
-		 * Refresca el label de control de registros
-		 */
+	/**
+	 * Constructor con usuario e id de cliente
+	 * @param miuser
+	 * @param idCli
+	 */
+	public FichaClienteView(Usuarios miuser, int idCli) {
+		usuario=miuser;
+		miCliDAO = new ClientesDAO ();
+		initialize();
+		// carga usuario
+		LBUsuario.setText(usuario.getNick());
+		LBNomUsu.setText(usuario.getNick());
+		// carga registro
+		cargaCliente(miCliDAO.goToIdCli(idCli));
+		// refresca LBRegistros
+		refrescaReg();
+	}
+
+	/**
+	 * Refresca el label de control de registros
+	 */
 	private void refrescaReg() {
 		String p="Registro " + String.valueOf(miCliDAO.buscaDNI(TFDni.getText()) + " de "+ String.valueOf(miCliDAO.count())+".");
 		LBRegistros.setText(p);	
@@ -256,6 +274,9 @@ public class FichaClienteView {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					frame.dispose();
+					MenuVentasView miMenuVentas = new MenuVentasView(usuario);
+					miMenuVentas.getFrame().setAlwaysOnTop(true);
+					miMenuVentas.getFrame().setVisible(true);;
 				}
 			});
 			
