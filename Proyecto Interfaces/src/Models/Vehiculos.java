@@ -15,7 +15,8 @@ public class Vehiculos {
 	int id_conce;
 	String tipo;
 	
-	public Vehiculos(String mimatricula, String mibastidor,String mimarca, String mimodelo, float miprecio,String mifecha_alta , int miid_cli,int mi_id_user,int miid_conce,String mitipo) {
+	public Vehiculos(int miid,String mimatricula, String mibastidor,String mimarca, String mimodelo, float miprecio,String mifecha_alta , int miid_cli,int mi_id_user,int miid_conce,String mitipo) {
+		id=miid;
 		matricula=mimatricula;
 		bastidor=mibastidor;
 		marca=mimarca;
