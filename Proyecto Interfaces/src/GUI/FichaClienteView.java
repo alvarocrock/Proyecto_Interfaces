@@ -60,7 +60,7 @@ public class FichaClienteView {
 	/**
 	 * Constructor con usuario
 	 */
-	public FichaClienteView(Usuarios miuser) {
+	/*public FichaClienteView(Usuarios miuser) {
 		usuario=miuser;
 		miCliDAO = new ClientesDAO ();
 		initialize();
@@ -72,7 +72,7 @@ public class FichaClienteView {
 		// refresca LBRegistros
 		refrescaReg();
 
-	}
+	}*/
 
 	/**
 	 * Constructor con usuario e id de cliente
@@ -86,8 +86,14 @@ public class FichaClienteView {
 		// carga usuario
 		LBUsuario.setText(usuario.getNick());
 		LBNomUsu.setText(usuario.getNick());
-		// carga registro
-		cargaCliente(miCliDAO.goToIdCli(idCli));
+		if (idCli==0) {
+			// carga primer registro
+			cargaCliente(miCliDAO.primero());
+		} else {
+			// carga registro
+			cargaCliente(miCliDAO.goToIdCli(idCli));
+		}
+
 		// refresca LBRegistros
 		refrescaReg();
 	}

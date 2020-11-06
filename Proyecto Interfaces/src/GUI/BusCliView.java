@@ -22,14 +22,15 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-
-
+import javax.swing.table.DefaultTableModel;
 
 import DAO.ClientesDAO;
 import Models.Usuarios;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JList;
 import java.awt.event.MouseEvent;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 public class BusCliView {
 	
@@ -44,12 +45,15 @@ public class BusCliView {
 	private JButton BTAnterior;
 	private JButton BTSiguiente;
 	private JButton BTultimo;
-	private JList<String> LSCliente;
 	private ClientesDAO miClienteDAO;
 	private DefaultListModel<String> listModel;
 	private JLabel LBL_idbusc;
 	private JTextField JTF_ID_busqueda;
 	private JButton BTBuscar;
+	private JPanel PNBusquedas;
+	private JScrollPane scrollPane;
+	private JTable TBCli;
+	private DefaultTableModel modeloTBCli;
 	
 	/**
 	 * Create the application.
@@ -72,7 +76,7 @@ public class BusCliView {
 	private void initialize() {
 	// Frame principal
 			frame = new JFrame();
-			frame.setBounds(100, 100, 470, 500);
+			frame.setBounds(100, 100, 470, 307);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.getContentPane().setLayout(new MigLayout("", "[434px]", "[35px][226px]"));
 			
@@ -87,7 +91,7 @@ public class BusCliView {
 			
 			JLabel LBTitulo = new JLabel("Consulta de clientes");
 			LBTitulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			LBTitulo.setForeground(Color.BLUE);
+			LBTitulo.setForeground(Color.ORANGE);
 			PNTitulo.add(LBTitulo);
 			
 			// Split Panel
@@ -112,7 +116,6 @@ public class BusCliView {
 			// panel central
 			JPanel PNCentral = new JPanel();
 			splitPane.setRightComponent(PNCentral);
-			PNCentral.setLayout(new MigLayout("", "[grow,center]", "[][grow][grow][][][][][][]"));
 			PNCentral.setBackground(Color.decode("#2A9D8F"));
 
 				// Crea el modelo de lista
@@ -120,20 +123,49 @@ public class BusCliView {
 				// llama a clienteDAO devuelve rst con los datos y llama a cargar la lista
 				miClienteDAO = new ClientesDAO();
 				cargaLista(miClienteDAO.cargaListaDAO());
+				PNCentral.setLayout(new BoxLayout(PNCentral, BoxLayout.Y_AXIS));
+				
+				PNBusquedas = new JPanel();
+				PNCentral.add(PNBusquedas);
+				PNBusquedas.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 				
 				LBL_idbusc = new JLabel("Introduce un id a buscar");
-				PNCentral.add(LBL_idbusc, "flowx,cell 0 0");
-				// crea y configura la Jlista
-				LSCliente = new JList <String>(listModel);
-				LSCliente.setBorder(BorderFactory.createEmptyBorder(5, 5	, 5, 5));
-				LSCliente.setVisibleRowCount(5);
-				LSCliente.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				PNBusquedas.add(LBL_idbusc);
 				
-				PNCentral.add(LSCliente, "cell 0 1 1 6,grow");
+				// celda busqueda
+				JTF_ID_busqueda = new JTextField();
+				PNBusquedas.add(JTF_ID_busqueda);
+				JTF_ID_busqueda.setColumns(10);
+				
+				BTBuscar = new JButton("Buscar");
+				PNBusquedas.add(BTBuscar);
+				BTBuscar.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						buscar(JTF_ID_busqueda.getText());
+					}
+				});
+
+				// panel para la tabla
+				scrollPane = new JScrollPane();
+				PNCentral.add(scrollPane);
+				
+				TBCli = new JTable();
+				TBCli.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				scrollPane.setViewportView(TBCli);
+				modeloTBCli = new DefaultTableModel();
+				TBCli.setModel(modeloTBCli);
+				modeloTBCli.addColumn("ID");
+				modeloTBCli.addColumn("DNI");
+				modeloTBCli.addColumn("Nombre");
+				modeloTBCli.addColumn("Apellidos");
+				modeloTBCli.addColumn("Dirección");
+				CargaCli();
+
 				
 				// panel para los botones de la botonera
 				JPanel panelBotonera = new JPanel();
-				PNCentral.add(panelBotonera, "cell 0 7");
+				PNCentral.add(panelBotonera);
 				
 				BTSeleccionar = new JButton("Seleccionar");
 				panelBotonera.add(BTSeleccionar);
@@ -160,7 +192,7 @@ public class BusCliView {
 				// panel registros
 				JPanel panelRegistros = new JPanel();
 				panelRegistros.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
-				PNCentral.add(panelRegistros, "cell 0 8");
+				PNCentral.add(panelRegistros);
 				
 				BTPrimero = new JButton("<<");
 				BTPrimero.setToolTipText("Primer registro.");
@@ -170,7 +202,7 @@ public class BusCliView {
 				BTPrimero.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						LSCliente.setSelectedIndex(0);
+						TBCli.setRowSelectionInterval(0, 0);
 						refrescaReg();
 					}
 				});
@@ -183,7 +215,8 @@ public class BusCliView {
 				BTAnterior.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (LSCliente.getSelectedIndex()>0) LSCliente.setSelectedIndex(LSCliente.getSelectedIndex()-1);
+						if (TBCli.getSelectedRow()>0) 
+							TBCli.setRowSelectionInterval(TBCli.getSelectedRow()-1,TBCli.getSelectedRow()-1);
 						refrescaReg();
 					}
 				});
@@ -202,8 +235,8 @@ public class BusCliView {
 				BTSiguiente.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (LSCliente.getSelectedIndex() < LSCliente.getModel().getSize()-1) 
-							LSCliente.setSelectedIndex(LSCliente.getSelectedIndex()+1);
+						if (TBCli.getSelectedRow()<TBCli.getRowCount()) 
+							TBCli.setRowSelectionInterval(TBCli.getSelectedRow()+1,TBCli.getSelectedRow()+1);
 						refrescaReg();
 					}
 				});
@@ -216,7 +249,7 @@ public class BusCliView {
 				BTultimo.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						LSCliente.setSelectedIndex(LSCliente.getModel().getSize()-1);
+						TBCli.setRowSelectionInterval(TBCli.getRowCount(),TBCli.getRowCount());
 						refrescaReg();
 					}
 				});
@@ -225,34 +258,30 @@ public class BusCliView {
 				JPanel panelBotoneras = new JPanel();
 				panelBotoneras.setMaximumSize(new Dimension(1000, 60));
 				panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
-				PNCentral.add(panelBotoneras, "cell 0 6");
+				PNCentral.add(panelBotoneras);
 				panelBotonera.setBackground(Color.decode("#2A9D8F"));
 				panelBotoneras.setBackground(Color.decode("#2A9D8F"));
-				
-				// celda busqueda
-				JTF_ID_busqueda = new JTextField();
-				PNCentral.add(JTF_ID_busqueda, "cell 0 0");
-				JTF_ID_busqueda.setColumns(10);
-				
-				BTBuscar = new JButton("Buscar");
-				
-				BTBuscar.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						buscar(JTF_ID_busqueda.getText());
-					}
-				});
-				PNCentral.add(BTBuscar, "cell 0 0");
 		}
 
+	/**
+	 * Carga la tabla conlos clientes de la base de datos
+	 */
+	private void CargaCli() {
+		Object [] fila = new Object[5];
+		fila[0]="id1";
+		fila[1]="DNI1";
+		fila[2]="Nombre1";
+		fila[3]="Apellidos1";
+		fila[3]="Dirección1";
+		modeloTBCli.addRow(fila);		
+	}
 	/**
 	 * llama a ficha de clientes con el  cliente seleccionado
 	 */
 	protected void seleccionar() {
-		// coger id_cli de la lista
-		String linea = LSCliente.getSelectedValue();
-		String campos [] = linea.split(" | ");
-		int idCli=Integer.parseInt(campos[0]);
+		// coger id_cli de la tabla
+
+		int idCli=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
 		// llamada a menu ventas con el idcli
 		FichaClienteView miMenuVentas = new FichaClienteView(usuario,idCli);
 		miMenuVentas.getFrame().setAlwaysOnTop(true);
@@ -286,11 +315,8 @@ public class BusCliView {
 	 * Refresca el label de control de registros
 	 */
 	private void refrescaReg() {
-		// coger id_cli de la lista
-		String linea = LSCliente.getSelectedValue();
-		String campos [] = linea.split(" | ");
-		int idCli=Integer.parseInt(campos[0]);
-		String p="Registro " + idCli + " de "+ LSCliente.getModel().getSize()+".";
+		
+		String p="Registro " + TBCli.getSelectedRow()+1 + " de "+ TBCli.getRowCount()+".";
 		LBRegistros.setText(p);	
 	}
 	/*

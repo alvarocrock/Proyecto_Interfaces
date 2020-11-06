@@ -180,8 +180,7 @@ public class VehiculosDAO extends AbstractDAO{
 		        e.printStackTrace();
 		      }
 		    }
-		
-		
+
 	}
 
 	/**
@@ -206,7 +205,6 @@ public class VehiculosDAO extends AbstractDAO{
 				miArray.add(str);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 			
@@ -338,11 +336,7 @@ public class VehiculosDAO extends AbstractDAO{
 	
 	/**
 	 * Busca una matricula y devuelve la fila en la que está
-<<<<<<< HEAD
 	 * @param matricula
-=======
-	 * @param dNI
->>>>>>> branch 'master' of https://github.com/alvarocrock/Proyecto_Interfaces
 	 * @return
 	 */
 	public int buscaMatricula(String matricula) {

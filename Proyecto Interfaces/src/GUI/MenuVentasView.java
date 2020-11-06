@@ -111,7 +111,7 @@ public class MenuVentasView {
 		BTFicCli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FichaClienteView miFichaClientes = new FichaClienteView(usuario);
+				FichaClienteView miFichaClientes = new FichaClienteView(usuario,0);
 				miFichaClientes.getFrame().setAlwaysOnTop(true);
 				miFichaClientes.getFrame().setVisible(true);
 				frame.dispose();
