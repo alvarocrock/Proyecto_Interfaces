@@ -125,12 +125,12 @@ public class LoginView {
 				break;
 			case "jefe":
 				//llamar a la GUI de menú inicial Jefe
-				MenuJTallerView miMenuJT = new MenuJTallerView(miuserdao.getuser());
-				miMenuJT.getFrame().setVisible(true);
+
 				break;
 			case "jefeTaller":
 				//llamar a la GUI de menú inicial jefe de taller
-				
+				MenuJTallerView miMenuJT = new MenuJTallerView(miuserdao.getuser());
+				miMenuJT.getFrame().setVisible(true);
 				
 				break;
 			default:

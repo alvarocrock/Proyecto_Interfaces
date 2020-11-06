@@ -152,6 +152,9 @@ public class MenuVentasView {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.dispose();
+				LoginView miLogin = new LoginView();
+				miLogin.getFrame().setAlwaysOnTop(true);
+				miLogin.getFrame().setVisible(true);
 			}
 		});
 		

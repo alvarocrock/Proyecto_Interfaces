@@ -2,15 +2,13 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -22,14 +20,13 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 
-import DAO.ClientesDAO;
 import DAO.VehiculosDAO;
-import Models.Clientes;
 import Models.Usuarios;
 import net.miginfocom.swing.MigLayout;
 
@@ -49,6 +46,10 @@ public class ConsVeh {
 	private JButton BTAnterior;
 	private JButton BTSiguiente;
 	private JButton BTultimo;
+	private JButton btnNewButton;
+	private JTextField JTF_ID_busqueda;
+	private JLabel LBL_idbusc;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Create the application.
@@ -134,12 +135,12 @@ public class ConsVeh {
 				
 				// label de la lista
 				LBTitLista = new JLabel("ID        Matrícula       Marca              Modelo              Precio");
-				PNCentral.add(LBTitLista, "cell 0 0");
-				PNCentral.add(LSVehi, "cell 0 1 1 6,grow");
+				PNCentral.add(LBTitLista, "cell 0 1");
+				PNCentral.add(LSVehi, "cell 0 2 1 6,grow");
 				
 				// panel para los botones de la botonera
 				JPanel panelBotonera = new JPanel();
-				PNCentral.add(panelBotonera, "cell 0 7");
+				PNCentral.add(panelBotonera, "cell 0 8");
 				
 				BTSeleccionar = new JButton("Seleccionar");
 				panelBotonera.add(BTSeleccionar);
@@ -166,7 +167,7 @@ public class ConsVeh {
 				// panel registros
 				JPanel panelRegistros = new JPanel();
 				panelRegistros.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
-				PNCentral.add(panelRegistros, "cell 0 8");
+				PNCentral.add(panelRegistros, "cell 0 9");
 				
 				JButton BTPrimero = new JButton("<<");
 				BTPrimero.setToolTipText("Primer registro.");
@@ -232,7 +233,35 @@ public class ConsVeh {
 				panelBotoneras.setMaximumSize(new Dimension(1000, 60));
 				panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
 				PNCentral.add(panelBotoneras, "cell 0 6");
+				
+				// celda busqueda
+				PNCentral.add(LBL_idbusc);
+				
+				lblNewLabel = new JLabel("Introduce ID");
+				PNCentral.add(lblNewLabel, "flowx,cell 0 0,aligny top");
+				JTF_ID_busqueda = new JTextField();
+				PNCentral.add(JTF_ID_busqueda, "cell 0 0");
+				JTF_ID_busqueda.setColumns(10);
+				btnNewButton = new JButton("Buscar");
+				btnNewButton.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						buscar(JTF_ID_busqueda.getText());
+					}
+				});
+				PNCentral.add(btnNewButton, "cell 0 0");
 		}
+
+	protected void buscar(String id) {
+		listModel.clear();
+		ArrayList<String> miArray=miVehDAO.cargaListaDAO();
+		for (int i=0;i<miArray.size();i++) {
+			String campos [] = miArray.get(i).toString().split(" | ");
+			if (campos[0].matches(id)) {
+			listModel.addElement(miArray.get(i));
+			}
+		}
+	}
 
 	/**
 	 * llama a ficha de vehículos con el  cliente seleccionado

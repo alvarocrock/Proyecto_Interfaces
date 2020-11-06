@@ -126,10 +126,13 @@ public class MenuJTallerView {
 		PNCentral.add(BTSalir, "cell 2 2");
 		BTSalir.setSelectedIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Salida.png")));
 		BTSalir.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Salida.png")));
-		BTBusCli.addMouseListener(new MouseAdapter() {
+		BTSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.dispose();
+				LoginView miLogin = new LoginView();
+				miLogin.getFrame().setAlwaysOnTop(true);
+				miLogin.getFrame().setVisible(true);
 			}
 		});
 	}

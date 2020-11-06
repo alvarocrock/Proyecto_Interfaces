@@ -35,7 +35,6 @@ public class BusCliView {
 	
 	private JFrame frame;
 	private Usuarios usuario;
-	private ClientesDAO miCliDAO;
 	private JLabel LBUsuario;
 	private JLabel LBNomUsu;
 	private JLabel LBRegistros;
@@ -50,7 +49,7 @@ public class BusCliView {
 	private DefaultListModel<String> listModel;
 	private JLabel LBL_idbusc;
 	private JTextField JTF_ID_busqueda;
-	private JButton btnNewButton;
+	private JButton BTBuscar;
 	
 	/**
 	 * Create the application.
@@ -58,7 +57,7 @@ public class BusCliView {
 
 	public BusCliView(Usuarios miuser) {
 		usuario=miuser;
-		miCliDAO = new ClientesDAO ();
+		new ClientesDAO ();
 		initialize();
 		// carga usuario
 		LBUsuario.setText(usuario.getNick());
@@ -122,7 +121,7 @@ public class BusCliView {
 				miClienteDAO = new ClientesDAO();
 				cargaLista(miClienteDAO.cargaListaDAO());
 				
-				LBL_idbusc = new JLabel("Indice un id a buscar");
+				LBL_idbusc = new JLabel("Introduce un id a buscar");
 				PNCentral.add(LBL_idbusc, "flowx,cell 0 0");
 				// crea y configura la Jlista
 				LSCliente = new JList <String>(listModel);
@@ -230,19 +229,20 @@ public class BusCliView {
 				panelBotonera.setBackground(Color.decode("#2A9D8F"));
 				panelBotoneras.setBackground(Color.decode("#2A9D8F"));
 				
+				// celda busqueda
 				JTF_ID_busqueda = new JTextField();
 				PNCentral.add(JTF_ID_busqueda, "cell 0 0");
 				JTF_ID_busqueda.setColumns(10);
 				
-				btnNewButton = new JButton("Buscar");
+				BTBuscar = new JButton("Buscar");
 				
-				btnNewButton.addMouseListener(new MouseAdapter() {
+				BTBuscar.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						buscar(JTF_ID_busqueda.getText());
 					}
 				});
-				PNCentral.add(btnNewButton, "cell 0 0");
+				PNCentral.add(BTBuscar, "cell 0 0");
 		}
 
 	/**
