@@ -235,7 +235,7 @@ public class ConsVeh {
 				PNCentral.add(panelBotoneras, "cell 0 6");
 				
 				// celda busqueda
-				PNCentral.add(LBL_idbusc);
+				//PNCentral.add(LBL_idbusc);
 				
 				lblNewLabel = new JLabel("Introduce ID");
 				PNCentral.add(lblNewLabel, "flowx,cell 0 0,aligny top");
