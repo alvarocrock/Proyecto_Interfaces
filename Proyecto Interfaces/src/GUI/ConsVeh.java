@@ -26,7 +26,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import com.sun.glass.events.MouseEvent;
 
 import DAO.ClientesDAO;
 import DAO.VehiculosDAO;
@@ -82,6 +81,7 @@ public class ConsVeh {
 			PNTitulo.setBackground(Color.LIGHT_GRAY);
 			frame.getContentPane().add(PNTitulo, "cell 0 0,growx,aligny top");
 			PNTitulo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			PNTitulo.setBackground(Color.decode("#264653"));
 			
 			JLabel LBTitulo = new JLabel("Consulta de vehículos");
 			LBTitulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -96,6 +96,7 @@ public class ConsVeh {
 			JPanel PNUsuario = new JPanel();
 			splitPane.setLeftComponent(PNUsuario);
 			PNUsuario.setLayout(new MigLayout("", "[91px]", "[14px][14px]"));
+			PNUsuario.setBackground(Color.decode("#2A9D8F"));
 			
 			
 			LBUsuario = new JLabel("Usuario Actual");
@@ -110,6 +111,7 @@ public class ConsVeh {
 			JPanel PNCentral = new JPanel();
 			splitPane.setRightComponent(PNCentral);
 			PNCentral.setLayout(new MigLayout("", "[grow,left]", "[][grow][grow][][][][][][]"));
+			PNCentral.setBackground(Color.decode("#2A9D8F"));
 
 				// Crea el modelo de lista
 				listModel = new DefaultListModel <String>();
