@@ -7,7 +7,6 @@ apellidos varchar(50),
 direccion varchar(50),
 provincia varchar (50),
 poblacion varchar(50),
-foto varchar(255),
 fecha_alta date,
 id_cli int AUTO_INCREMENT unique NOT NULL primary key
 );
@@ -18,6 +17,7 @@ Nick varchar (20) not null,
 passwd varchar(20) not null,
 rango varchar(20),
 fecha_alta date,
+foto varchar(255),
 id_user int AUTO_INCREMENT unique NOT NULL primary key
 );
 

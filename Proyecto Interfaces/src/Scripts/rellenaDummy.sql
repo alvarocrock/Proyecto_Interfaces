@@ -30,17 +30,17 @@ values ("1010110G", "Pepe", "Flores Córdoba", "direccion cliente 10", "Málaga"
 
 
 
-insert into usuarios (DNI, nick, passwd,rango, fecha_alta)
-values ("1111111U", "ventas", "1234", "vendedor","2020-10-28");
+insert into usuarios (DNI, nick, passwd,rango, fecha_alta,foto)
+values ("1111111U", "ventas", "1234", "vendedor","2020-10-28","src/png/Dolar.png");
 
-insert into usuarios (DNI, nick, passwd,rango, fecha_alta)
-values ("2222222U", "mecanico", "1234", "mecanico","2020-10-28");
+insert into usuarios (DNI, nick, passwd,rango, fecha_alta,foto)
+values ("2222222U", "mecanico", "1234", "mecanico","2020-10-28","src/png/llave.png");
 
-insert into usuarios (DNI, nick, passwd,rango, fecha_alta)
-values ("3333333U", "jefe", "1234", "jefe","2020-10-28");
+insert into usuarios (DNI, nick, passwd,rango, fecha_alta,foto)
+values ("3333333U", "jefe", "1234", "jefe","2020-10-28","src/png/jefeF.png");
 
-insert into usuarios (DNI, nick, passwd,rango, fecha_alta)
-values ("4444444U", "jefeTaller", "1234", "jefeTaller","2020-10-28");
+insert into usuarios (DNI, nick, passwd,rango, fecha_alta, foto)
+values ("4444444U", "jefeTaller", "1234", "jefeTaller","2020-10-28", "src/png/jefeT.png");
 
 
 

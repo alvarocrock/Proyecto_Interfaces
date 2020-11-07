@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 
@@ -20,9 +21,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
+import com.sun.glass.events.KeyEvent;
 
 import DAO.ClientesDAO;
 import Models.Clientes;
@@ -36,13 +42,13 @@ import java.io.IOException;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.Component;
 
 public class BusCliView {
 	
 	private JFrame frame;
 	private Usuarios usuario;
 	private JLabel LBUsuario;
-	private JLabel LBNomUsu;
 	private JLabel LBRegistros;
 	private JButton BTSeleccionar;
 	private JButton BTSalir;
@@ -64,9 +70,12 @@ public class BusCliView {
 	private JLabel LBDNI;
 	private JTextField TFDNI;
 	private JPanel PNMedio;
-	private JPanel PNNomUsu;
+	private JPanel PNMenu;
 	private JPanel PNImg;
 	private JPanel PNTitUsu;
+	private JLabel LBImg;
+	private TableRowSorter<TableModel> ordenante;
+	private JLabel LBNomUsu;
 	
 	/**
 	 * Create the application.
@@ -74,11 +83,8 @@ public class BusCliView {
 
 	public BusCliView(Usuarios miuser) {
 		usuario=miuser;
-		new ClientesDAO ();
+		miClienteDAO = new ClientesDAO ();
 		initialize();
-		// carga usuario
-		LBNomUsu.setText(usuario.getNick());
-		
 
 	}
 	/**
@@ -88,7 +94,7 @@ public class BusCliView {
 	// Frame principal
 			frame = new JFrame();
 			frame.setAlwaysOnTop(true);
-			frame.setBounds(100, 100, 600, 500);
+			frame.setBounds(100, 100, 700, 350);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(),BoxLayout.Y_AXIS));
 			
@@ -106,6 +112,7 @@ public class BusCliView {
 			LBTitulo.setForeground(Color.ORANGE);
 			PNTitulo.add(LBTitulo);
 			
+			// Panel medio
 			PNMedio = new JPanel();
 			frame.getContentPane().add(PNMedio);
 			PNMedio.setLayout(new BoxLayout(PNMedio, BoxLayout.X_AXIS));
@@ -118,32 +125,48 @@ public class BusCliView {
 			
 			// panel titulo usuario
 			PNTitUsu = new JPanel();
+			PNTitUsu.setBackground(Color.decode("#2A9D8F"));
 			PNUsuario.add(PNTitUsu);
 			PNTitUsu.setLayout(new BoxLayout(PNTitUsu, BoxLayout.X_AXIS));
 			
-			
 			LBUsuario = new JLabel("Usuario Actual");
+			LBUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			PNTitUsu.add(LBUsuario);
-			LBUsuario.setForeground(Color.BLUE);
+			LBUsuario.setForeground(Color.ORANGE);
 			
 			// panel imagen
 			PNImg = new JPanel();
+			PNImg.setBackground(Color.decode("#2A9D8F"));
 			PNUsuario.add(PNImg);
-			CargaImg();
+			 PNImg.setLayout(new BoxLayout(PNImg, BoxLayout.Y_AXIS));
+			// carga imagen
+	         try {
+				 BufferedImage img = ImageIO.read(new File(usuario.getFoto()));
+				 ImageIcon icon = new ImageIcon(img);
+				 LBImg = new JLabel(icon);
+				 PNUsuario.add(LBImg);
+	          } catch (IOException e) {
+	             e.printStackTrace();
+	          }
+			
+			LBNomUsu = new JLabel("Nombre Usuario");
+			PNUsuario.add(LBNomUsu);
+            LBNomUsu.setAlignmentX(0.5f);            
+            LBNomUsu.setText(usuario.getNick());
+		
+
 			
 			// panel nombre de usuario
-			PNNomUsu = new JPanel();
-			PNUsuario.add(PNNomUsu);
+			PNMenu = new JPanel();
+			PNUsuario.add(PNMenu);
 			
-			LBNomUsu = new JLabel("Nombre de Usuario");
-			PNNomUsu.add(LBNomUsu);
-			LBNomUsu.setText("Nombre usuario");
 			// panel central
 			JPanel PNCentral = new JPanel();
 			PNMedio.add(PNCentral);
 			PNCentral.setBackground(Color.decode("#2A9D8F"));
 			PNCentral.setLayout(new BoxLayout(PNCentral, BoxLayout.Y_AXIS));
 			
+			// panel busquedas
 			PNBusquedas = new JPanel();
 			PNCentral.add(PNBusquedas);
 			PNBusquedas.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -151,10 +174,30 @@ public class BusCliView {
 			LBL_idbusc = new JLabel("Id");
 			PNBusquedas.add(LBL_idbusc);
 			
-			// celda busqueda
 			JTF_ID_busqueda = new JTextField();
 			PNBusquedas.add(JTF_ID_busqueda);
 			JTF_ID_busqueda.setColumns(10);
+			JTF_ID_busqueda.addKeyListener(new KeyListener() {
+				@Override
+				public void keyPressed(java.awt.event.KeyEvent arg0) {
+					// TODO Auto-generated method stub
+					ordenante.setRowFilter(RowFilter.regexFilter(TFDNI.getText(),0));
+				}
+
+				@Override
+				public void keyReleased(java.awt.event.KeyEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void keyTyped(java.awt.event.KeyEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			// filtros
+
 			
 			LBDNI = new JLabel("DNI");
 			PNBusquedas.add(LBDNI);
@@ -186,8 +229,26 @@ public class BusCliView {
 			TBCli = new JTable();
 			TBCli.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			scrollPane.setViewportView(TBCli);
+			
+			// crea modelo de la tabla
+			miClienteDAO = new ClientesDAO();
+			modeloTBCli = new DefaultTableModel();
+			
+			// carga columnas de la tabla
+			modeloTBCli.addColumn("ID");
+			modeloTBCli.addColumn("DNI");
+			modeloTBCli.addColumn("Nombre");
+			modeloTBCli.addColumn("Apellidos");
+			modeloTBCli.addColumn("Dirección");
+			//añade el modelo a la tabla
 			TBCli.setModel(modeloTBCli);
-							
+			
+			// hace ordenable la tabla
+			ordenante = new TableRowSorter<TableModel>(modeloTBCli);
+			TBCli.setRowSorter(ordenante);
+			
+			// carga datos de clientes en la tabla
+			CargaCli(miClienteDAO.cargaListaDAO());				
 											
 			// panel para los botones de la botonera
 			JPanel panelBotonera = new JPanel();
@@ -275,7 +336,7 @@ public class BusCliView {
 			BTultimo.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					TBCli.setRowSelectionInterval(TBCli.getRowCount(),TBCli.getRowCount());
+					TBCli.setRowSelectionInterval(TBCli.getRowCount()-1,TBCli.getRowCount()-1);
 					refrescaReg();
 				}
 			});
@@ -288,42 +349,18 @@ public class BusCliView {
 			panelBotonera.setBackground(Color.decode("#2A9D8F"));
 			panelBotoneras.setBackground(Color.decode("#2A9D8F"));
 
-				// crea modelo de la tabla
-				miClienteDAO = new ClientesDAO();
-				modeloTBCli = new DefaultTableModel();
-				// carga columnas de la tabla
-				modeloTBCli.addColumn("ID");
-				modeloTBCli.addColumn("DNI");
-				modeloTBCli.addColumn("Nombre");
-				modeloTBCli.addColumn("Apellidos");
-				modeloTBCli.addColumn("Dirección");
-				// carga datos de clientes en la tabla
-				CargaCli(miClienteDAO.cargaListaDAO());
 		}
 
-	private void CargaImg() {
-
-	      final String IMG_PATH = "src/png/Dolar.png";
-
-         try {
-            BufferedImage img = ImageIO.read(new File(IMG_PATH));
-            ImageIcon icon = new ImageIcon(img);
-            JLabel label = new JLabel(icon);
-            JOptionPane.showMessageDialog(null, label);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-
-		
-	}
 	/**
 	 * Carga la tabla conlos clientes de la base de datos
 	 * @param miArray 
 	 */
-	Object [] fila = new Object[5];
+
 	private void CargaCli(ArrayList<Clientes> miArray) {
+		Object [] fila = new Object[5];
+
 		for (int i=0;i<miArray.size();i++) {
-			fila[0]=miArray.get(i).getId();
+			fila[0]=(int) miArray.get(i).getId();
 			fila[1]=miArray.get(i).getDNI();
 			fila[2]=miArray.get(i).getNombre();
 			fila[3]=miArray.get(i).getApellido();
@@ -333,6 +370,7 @@ public class BusCliView {
 
 		
 	}
+	
 	/**
 	 * llama a ficha de clientes con el  cliente seleccionado
 	 */

@@ -32,7 +32,8 @@ public class UsuarioDAO extends  AbstractDAO{
 		        if (rs.getString(2).equals(user) && rs.getString(3).equals(contra) && mibool==false) {
 		        	mibool=true;
 		        	//aqui luego se crearia un usuario
-		        	miusuario= new Usuarios(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(6));
+		        	miusuario= new Usuarios(rs.getString(1),rs.getString(2),
+		        			rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(7), rs.getString(6));
 		        }
 		        
 		      

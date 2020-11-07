@@ -41,6 +41,7 @@ public abstract class AbstractDAO {
      */
 	
     public void iniciar () {
+          
 		// crea la conexión
         conectar();
         // crea el statement
@@ -50,17 +51,33 @@ public abstract class AbstractDAO {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        // crea la BD si es necesario
-        if (ejecutaSQL("USE "+Constantes.BD)) {
-        	System.out.println("Base de datos "+ Constantes.BD+" abierta correctamente.");
-        } else {
-        	ejecutaSentencias(Constantes.SQLCREATE);
-            // carga los datos Dummies
-        	ejecutaSentencias(Constantes.SQLCARGA);
-        }
-             
+        creaBD(); 
     }
     
+	protected void creaBD() {
+		// crea la BD si es necesario
+        try {
+        	ejecutaSQL("use information_schema");
+        	// comprueba que existe la tabla usuarios
+            ResultSet rs= consultaSQL(" SELECT * "
+            		+ " FROM information_schema.tables"
+            		+ " WHERE table_name = 'usuarios'"
+            		+ " and table_schema='proyecto'");
+			if (rs.next()) {
+				ejecutaSQL("use proyecto");
+				System.out.println("Base de datos "+ Constantes.BD+" abierta correctamente.");
+			} else {
+				ejecutaSQL("use proyecto");
+				ejecutaSentencias(Constantes.SQLCREATE);
+			    // carga los datos Dummies
+				ejecutaSentencias(Constantes.SQLCARGA);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Define el objeto connection para conectar con una BD MySQL
 	 */
@@ -76,6 +93,7 @@ public abstract class AbstractDAO {
 
         } catch (SQLException e) {
             System.out.println("Error en la conexión");
+            
             e.printStackTrace();
         }		
 	}

@@ -10,6 +10,7 @@ public class Usuarios {
 	private String Passwd;
 	private String rango;
 	private String fecha;
+	private String foto;
 	private int id;
 	
 	/**
@@ -21,13 +22,14 @@ public class Usuarios {
 	 * @param mifecha
 	 * @param miid
 	 */
-	public Usuarios(String midni,String minick,String mipasswd,String mirango,String mifecha,int miid) {
+	public Usuarios(String midni,String minick,String mipasswd,String mirango,String mifecha,int miid, String foto) {
 		dni=midni;
 		nick=minick;
 		Passwd=mipasswd;
 		rango=mirango;
 		fecha=mifecha;
 		id=miid;
+		this.foto=foto;
 	}
 
 	
@@ -79,7 +81,9 @@ public class Usuarios {
 		this.id = id;
 	}
 	
-	
+	public String getFoto() {
+		return foto;
+	}
 	
 	
 }
