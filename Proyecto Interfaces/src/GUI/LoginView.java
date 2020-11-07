@@ -108,6 +108,7 @@ public class LoginView {
 	public JFrame getFrame() {
 		return frame;
 	}
+	
 	/**
 	 * navegación al menú inicial
 	 */

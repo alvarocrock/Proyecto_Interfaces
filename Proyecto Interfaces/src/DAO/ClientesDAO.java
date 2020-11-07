@@ -64,7 +64,8 @@ public class ClientesDAO extends AbstractDAO {
 				+ cliente.getDNI()+"');";
 		// Se ejecuta correctamente el SQL
 		if (super.ejecutaSQL(strSql))
-			JOptionPane.showMessageDialog(null, "Registro insertado correctamente", "Añadir cliente", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Registro insertado correctamente", "Añadir cliente", 
+					JOptionPane.INFORMATION_MESSAGE);
 		
 	}
 
@@ -83,7 +84,8 @@ public class ClientesDAO extends AbstractDAO {
 				+ " fecha_alta = '" + Date.valueOf(LocalDate.now()) + "' "
 				+ "where DNI='"+cliente.getDNI()+"';";
 		if (super.ejecutaSQL(strSql))
-			JOptionPane.showMessageDialog(null, "Registro modificado correctamente", "Modificar cliente", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Registro modificado correctamente", 
+					"Modificar cliente", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	/**
@@ -91,7 +93,8 @@ public class ClientesDAO extends AbstractDAO {
 	 * @return objeto que representa al primer cliente del rst
 	 */
 	public Clientes primero() {
-		String 	strSql="select * from clientes order by id_cli";
+		String 	strSql="select id_cli,DNI,nombre,apellidos,direccion,provincia,poblacion,fecha_alta"
+						+" from clientes order by id_cli";
 		Clientes cliente=null;
 		
 		// ejecuta la consulta
@@ -100,8 +103,9 @@ public class ClientesDAO extends AbstractDAO {
 			// se posiciona en el primer registro
 			rst.first();
 			// crea el cliente
-			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5),rst.getString(6), rst.getDate(7));
-		} catch (SQLException e) {
+			cliente = new Clientes(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), 
+					rst.getString(6),rst.getString(7), rst.getDate(8));	
+			} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -114,7 +118,8 @@ public class ClientesDAO extends AbstractDAO {
 	 * @return Objeto cliente que representa el registro anterior
 	 */
 	public Clientes anterior(String DNI) {
-		String 	strSql="select * from clientes order by id_cli";
+		String 	strSql="select id_cli,DNI,nombre,apellidos,direccion,provincia,poblacion,fecha_alta"
+				+" from clientes order by id_cli";
 		Clientes cliente=null;
 		int miFila;
 		
@@ -127,8 +132,8 @@ public class ClientesDAO extends AbstractDAO {
 			// se posiciona en el primer registro
 			rst.previous();
 			// crea el cliente
-			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), 
-					rst.getString(5),rst.getString(6), rst.getDate(7));
+			cliente = new Clientes(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), 
+					rst.getString(6),rst.getString(7), rst.getDate(8));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -173,7 +178,8 @@ public class ClientesDAO extends AbstractDAO {
 	 * @return Objeto cliente que representa el registro siguiente
 	 */
 	public Clientes siguiente(String DNI) {
-		String 	strSql="select * from clientes order by id_cli";
+		String 	strSql="select id_cli,DNI,nombre,apellidos,direccion,provincia,poblacion,fecha_alta"
+				+" from clientes order by id_cli";
 		Clientes cliente=null;
 				
 		//Obtengo la fila
@@ -186,8 +192,8 @@ public class ClientesDAO extends AbstractDAO {
 			// se posiciona en el primer registro
 			rst.next();
 			// crea el cliente
-			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), 
-					rst.getString(5),rst.getString(6), rst.getDate(7));
+			cliente = new Clientes(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), 
+					rst.getString(6),rst.getString(7), rst.getDate(8));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -200,7 +206,8 @@ public class ClientesDAO extends AbstractDAO {
 	 * @return
 	 */
 	public Clientes ultimo() {
-		String 	strSql="select * from clientes order by id_cli";
+		String 	strSql="select id_cli,DNI,nombre,apellidos,direccion,provincia,poblacion,fecha_alta"+
+						" from clientes order by id_cli";
 		Clientes cliente=null;
 		
 		// ejecuta la consulta
@@ -209,8 +216,8 @@ public class ClientesDAO extends AbstractDAO {
 			// se posiciona en el último registro
 			rst.last();
 			// crea el cliente
-			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), 
-					rst.getString(5),rst.getString(6), rst.getDate(7));
+			cliente = new Clientes(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), 
+					rst.getString(6),rst.getString(7), rst.getDate(8));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -247,27 +254,25 @@ public class ClientesDAO extends AbstractDAO {
 		return count;
 	}
 
-	public ArrayList<String> cargaListaDAO() {
-		ArrayList<String> miArray = new ArrayList<String>();
-		String 	strSql="select id_cli,DNI,nombre,apellidos from clientes order by id_cli";
+	public ArrayList<Clientes> cargaListaDAO() {
+		ArrayList<Clientes> miArray = new ArrayList<Clientes>();
+		String 	strSql="select id_cli,DNI,nombre,apellidos,direccion,provincia,poblacion,"
+				+"fecha_alta from clientes order by id_cli";
 		
 		// ejecuta la consulta
 		ResultSet rst=super.consultaSQL(strSql);
 		// recorre el rst y guarda en el array
 		try {
+			Clientes cliente;
 			while (rst.next()) {
-				String str = " ";
-				str=String.valueOf(rst.getInt(1))+" | ";
-				str=str + rst.getString(2)+" | ";
-				str=str + rst.getString(3)+" | ";
-				str=str + rst.getString(4)+" | ";
-				miArray.add(str);
+				cliente = new Clientes(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), 
+						rst.getString(6),rst.getString(7), rst.getDate(8));
+				miArray.add(cliente);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-			
 		return miArray;
 	}
 	
@@ -277,7 +282,8 @@ public class ClientesDAO extends AbstractDAO {
 	 * @return
 	 */
 	public Clientes goToIdCli(int idCli) {
-		String 	strSql="select * from clientes where id_cli = " + idCli + ";";
+		String 	strSql="select id_cli,DNI,nombre,apellidos,direccion,provincia,poblacion,fecha_alta"
+				+"from clientes where id_cli = " + idCli + ";";
 		
 		// ejecuta la consulta
 		ResultSet rst=super.consultaSQL(strSql);
@@ -286,8 +292,8 @@ public class ClientesDAO extends AbstractDAO {
 
 		try {
 			rst.first();
-			cliente = new Clientes(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), 
-					rst.getString(5),rst.getString(6), rst.getDate(7));
+			cliente = new Clientes(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), 
+					rst.getString(6),rst.getString(7), rst.getDate(8));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class Clientes {
 	// estados
+	private int idCli;
 	private String DNI;
 	private String nombre;
 	private String apellido;
@@ -25,10 +26,11 @@ public class Clientes {
 	 * @param fecha_alta
 	 * @param dNI
 	 */
-	public Clientes(String dNI, String nombre, String apellido, String direccion, String provincia, String poblacion,
+	public Clientes(int idCli, String dNI, String nombre, String apellido, String direccion, String provincia, String poblacion,
 			Date fecha_alta) {
 		
 		super();
+		this.idCli=idCli;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.direccion = direccion;
@@ -60,6 +62,10 @@ public class Clientes {
 	}
 	public Date getFecha_alta() {
 		return fecha_alta;
+	}
+
+	public Object getId() {
+		return idCli;
 	}
 
 

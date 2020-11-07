@@ -7,6 +7,7 @@ apellidos varchar(50),
 direccion varchar(50),
 provincia varchar (50),
 poblacion varchar(50),
+foto varchar(255),
 fecha_alta date,
 id_cli int AUTO_INCREMENT unique NOT NULL primary key
 );
