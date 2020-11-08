@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.RowFilter.ComparisonType;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -57,10 +58,8 @@ public class BusCliView {
 	private JButton BTSiguiente;
 	private JButton BTultimo;
 	private ClientesDAO miClienteDAO;
-	private DefaultListModel<String> listModel;
 	private JLabel LBL_idbusc;
-	private JTextField JTF_ID_busqueda;
-	private JButton BTBuscar;
+	private JTextField TFId;
 	private JPanel PNBusquedas;
 	private JScrollPane scrollPane;
 	private JTable TBCli;
@@ -74,8 +73,10 @@ public class BusCliView {
 	private JPanel PNImg;
 	private JPanel PNTitUsu;
 	private JLabel LBImg;
-	private TableRowSorter<TableModel> ordenante;
+	private TableRowSorter<TableModel> modeloOrdenado;
 	private JLabel LBNomUsu;
+	private JLabel LBApellidos;
+	private JTextField TFApellidos;
 	
 	/**
 	 * Create the application.
@@ -94,7 +95,7 @@ public class BusCliView {
 	// Frame principal
 			frame = new JFrame();
 			frame.setAlwaysOnTop(true);
-			frame.setBounds(100, 100, 700, 350);
+			frame.setBounds(100, 100, 900, 400);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(),BoxLayout.Y_AXIS));
 			
@@ -174,30 +175,44 @@ public class BusCliView {
 			LBL_idbusc = new JLabel("Id");
 			PNBusquedas.add(LBL_idbusc);
 			
-			JTF_ID_busqueda = new JTextField();
-			PNBusquedas.add(JTF_ID_busqueda);
-			JTF_ID_busqueda.setColumns(10);
-			JTF_ID_busqueda.addKeyListener(new KeyListener() {
+			TFId = new JTextField();
+			PNBusquedas.add(TFId);
+			TFId.setColumns(10);
+			TFId.addKeyListener(new KeyListener() {
 				@Override
 				public void keyPressed(java.awt.event.KeyEvent arg0) {
-					// TODO Auto-generated method stub
-					ordenante.setRowFilter(RowFilter.regexFilter(TFDNI.getText(),0));
 				}
-
 				@Override
 				public void keyReleased(java.awt.event.KeyEvent arg0) {
-					// TODO Auto-generated method stub
-					
 				}
-
 				@Override
 				public void keyTyped(java.awt.event.KeyEvent arg0) {
-					// TODO Auto-generated method stub
-					
+					// no hay texto en el TField
+					if (TFId.getText().length()==0 ) {
+						// la tecla pulsada es imprimible
+						int asc = (int) arg0.getKeyChar();
+						if(asc>=20) {
+							modeloOrdenado.setRowFilter(RowFilter.numberFilter(
+									ComparisonType.EQUAL,
+									Integer.parseInt(String.valueOf(arg0.getKeyChar()))
+									,0));	
+						} else {
+							// la tecla pulsada NOes imprimible
+							modeloOrdenado.setRowFilter(RowFilter.numberFilter(
+									ComparisonType.NOT_EQUAL,
+									0,0));
+
+						}
+					// hay texto en el TField
+					} else {
+						modeloOrdenado.setRowFilter(RowFilter.numberFilter(
+								ComparisonType.EQUAL,
+								Integer.parseInt(TFId.getText() + String.valueOf(arg0.getKeyChar()))
+								,0));	
+					}
+				
 				}
 			});
-			// filtros
-
 			
 			LBDNI = new JLabel("DNI");
 			PNBusquedas.add(LBDNI);
@@ -205,6 +220,30 @@ public class BusCliView {
 			TFDNI = new JTextField();
 			TFDNI.setColumns(10);
 			PNBusquedas.add(TFDNI);
+			TFDNI.addKeyListener(new KeyListener() {
+				@Override
+				public void keyPressed(java.awt.event.KeyEvent arg0) {
+				}
+				@Override
+				public void keyReleased(java.awt.event.KeyEvent arg0) {
+				}
+				@Override
+				public void keyTyped(java.awt.event.KeyEvent arg0) {
+					// no hay texto en el TField
+					if (TFDNI.getText().length()==0 ) {
+						// la tecla pulsada es imprimible
+						int asc = (int) arg0.getKeyChar();
+						if(asc>=20) {
+							modeloOrdenado.setRowFilter(RowFilter.regexFilter(String.valueOf(arg0.getKeyChar()),1));	
+						} else {
+							modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
+						}
+					// hay texto en el TField
+					} else {
+						modeloOrdenado.setRowFilter(RowFilter.regexFilter(TFDNI.getText()+arg0.getKeyChar(),1));	
+					}
+				}
+			});
 			
 			LBNombre = new JLabel("Nombre");
 			PNBusquedas.add(LBNombre);
@@ -212,27 +251,90 @@ public class BusCliView {
 			TFNombre = new JTextField();
 			TFNombre.setColumns(10);
 			PNBusquedas.add(TFNombre);
-			
-			BTBuscar = new JButton("Buscar");
-			PNBusquedas.add(BTBuscar);
-			BTBuscar.addMouseListener(new MouseAdapter() {
+			TFNombre.addKeyListener(new KeyListener() {
 				@Override
-				public void mouseClicked(MouseEvent e) {
-					//buscar(JTF_ID_busqueda.getText());
+				public void keyPressed(java.awt.event.KeyEvent arg0) {
+				}
+				@Override
+				public void keyReleased(java.awt.event.KeyEvent arg0) {
+				}
+				@Override
+				public void keyTyped(java.awt.event.KeyEvent arg0) {
+					// no hay texto en el TField
+					if (TFNombre.getText().length()==0 ) {
+						// la tecla pulsada es imprimible
+						int asc = (int) arg0.getKeyChar();
+						if(asc>=20) {
+							modeloOrdenado.setRowFilter(RowFilter.regexFilter(String.valueOf(arg0.getKeyChar()),2));	
+						} else {
+							modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",2));
+						}
+					// hay texto en el TField
+					} else {
+						modeloOrdenado.setRowFilter(RowFilter.regexFilter(TFNombre.getText()+arg0.getKeyChar(),2));	
+					}
 				}
 			});
+			
+			LBApellidos = new JLabel("Apellidos");
+			PNBusquedas.add(LBApellidos);
+			
+			TFApellidos = new JTextField();
+			TFApellidos.setColumns(10);
+			TFApellidos.addKeyListener(new KeyListener() {
+				@Override
+				public void keyPressed(java.awt.event.KeyEvent arg0) {
+				}
+				@Override
+				public void keyReleased(java.awt.event.KeyEvent arg0) {
+				}
+				@Override
+				public void keyTyped(java.awt.event.KeyEvent arg0) {
+					// no hay texto en el TField
+					if (TFApellidos.getText().length()==0 ) {
+						// la tecla pulsada es imprimible
+						int asc = (int) arg0.getKeyChar();
+						if(asc>=20) {
+							modeloOrdenado.setRowFilter(RowFilter.regexFilter(String.valueOf(arg0.getKeyChar()),3));	
+						} else {
+							modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",3));
+						}
+					// hay texto en el TField
+					} else {
+						modeloOrdenado.setRowFilter(RowFilter.regexFilter(TFApellidos.getText()+arg0.getKeyChar(),3));
+					}
+
+				}
+			});
+			
+			// panel busquedas
+			PNBusquedas.add(TFApellidos);
 			
 			// panel para la tabla
 			scrollPane = new JScrollPane();
 			PNCentral.add(scrollPane);
 			
+			// tabla
 			TBCli = new JTable();
 			TBCli.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			scrollPane.setViewportView(TBCli);
 			
 			// crea modelo de la tabla
 			miClienteDAO = new ClientesDAO();
-			modeloTBCli = new DefaultTableModel();
+			modeloTBCli = new DefaultTableModel(){
+				/**
+				 * definimos el modelo de la tabla con la 1ª columna integer
+				 */
+				private static final long serialVersionUID = 1L;
+				@Override
+				public Class getColumnClass(int columna) {
+					// primera columna integer
+					if (columna == 0)
+						return Integer.class;
+					return String.class;
+				}
+			};
+
 			
 			// carga columnas de la tabla
 			modeloTBCli.addColumn("ID");
@@ -244,11 +346,11 @@ public class BusCliView {
 			TBCli.setModel(modeloTBCli);
 			
 			// hace ordenable la tabla
-			ordenante = new TableRowSorter<TableModel>(modeloTBCli);
-			TBCli.setRowSorter(ordenante);
+			modeloOrdenado = new TableRowSorter<TableModel>(modeloTBCli);
+			TBCli.setRowSorter(modeloOrdenado);
 			
 			// carga datos de clientes en la tabla
-			CargaCli(miClienteDAO.cargaListaDAO());				
+			cargaCli(miClienteDAO.cargaListaDAO());				
 											
 			// panel para los botones de la botonera
 			JPanel panelBotonera = new JPanel();
@@ -351,12 +453,18 @@ public class BusCliView {
 
 		}
 
+	protected void borraTabla() {
+
+		while (modeloTBCli.getRowCount()>0) {
+			modeloTBCli.removeRow(modeloTBCli.getRowCount()-1);
+		}
+	}
 	/**
 	 * Carga la tabla conlos clientes de la base de datos
 	 * @param miArray 
 	 */
 
-	private void CargaCli(ArrayList<Clientes> miArray) {
+	protected void cargaCli(ArrayList<Clientes> miArray) {
 		Object [] fila = new Object[5];
 
 		for (int i=0;i<miArray.size();i++) {
@@ -364,7 +472,7 @@ public class BusCliView {
 			fila[1]=miArray.get(i).getDNI();
 			fila[2]=miArray.get(i).getNombre();
 			fila[3]=miArray.get(i).getApellido();
-			fila[3]=miArray.get(i).getDireccion();
+			fila[4]=miArray.get(i).getDireccion();
 			modeloTBCli.addRow(fila);
 		}
 

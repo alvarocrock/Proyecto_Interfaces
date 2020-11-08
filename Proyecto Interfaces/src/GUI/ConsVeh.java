@@ -48,7 +48,6 @@ public class ConsVeh {
 	private JButton BTultimo;
 	private JButton btnNewButton;
 	private JTextField JTF_ID_busqueda;
-	private JLabel LBL_idbusc;
 	private JLabel lblNewLabel;
 
 	/**
