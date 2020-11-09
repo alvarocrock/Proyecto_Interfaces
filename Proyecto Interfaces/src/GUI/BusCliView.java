@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -28,19 +27,14 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
-import com.sun.glass.events.KeyEvent;
-
 import DAO.ClientesDAO;
 import Models.Clientes;
 import Models.Usuarios;
 import javax.swing.JOptionPane;
-
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.Component;
