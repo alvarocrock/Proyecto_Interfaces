@@ -6,6 +6,7 @@ public class Vehiculos {
 	
 	//, matricula, bastidor, marca, modelo,precio, fecha alta, id cli, id_user, idconce
 
+	int idVeh;
 	String matricula;
 	String bastidor;
 	String marca;
@@ -17,10 +18,11 @@ public class Vehiculos {
 	int id_conce;
 
 	
-	public Vehiculos(String mimatricula, String mibastidor,String mimarca, String 
+	public Vehiculos(int idVeh,String mimatricula, String mibastidor,String mimarca, String 
 			mimodelo, float miprecio,Date mifecha_alta , int miid_cli,int mi_id_user,
 			int miid_conce) {
 
+		this.idVeh=idVeh;
 		matricula=mimatricula;
 		bastidor=mibastidor;
 		marca=mimarca;
@@ -35,6 +37,9 @@ public class Vehiculos {
 	}
 
 
+	public int getidVeh() {
+		return idVeh;
+	}
 	public String getMatricula() {
 		return matricula;
 	}

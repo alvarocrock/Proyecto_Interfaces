@@ -6,9 +6,16 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+
+import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,41 +38,23 @@ public class FichaVehiculoView {
 	private JLabel LBUsuario;
 	private JLabel LBNomUsu;
 	private JTextField TFMatricula;
-	private JLabel LBRegistros;
 	private JTextField TFBastidor;
 	private JTextField TFMarca;
 	private JTextField TFModelo;
 	private JTextField TFPrecio;
 	private JTextField TFIdCli;
-	private JButton BTBuscar;
-	private JButton BTBorra;
-	private JButton BTGuardar;
-	private JButton BTNuevo;
-	private JButton BTSalir;
-	private JButton BTPrimero;
-	private JButton BTAnterior;
-	private JButton BTSiguiente;
-	private JButton BTultimo;
 	private JFrame frame;
 	private JTextField TFConce;
-
-
-	/**
-	 * Constructor con usuario
-	*/
-	  public FichaVehiculoView(Usuarios miuser) {
-	
-		usuario=miuser;
-		miVehDAO = new VehiculosDAO();
-		initialize();
-		// carga usuario
-		LBUsuario.setText(usuario.getNick());
-		LBNomUsu.setText(usuario.getRango());
-		// carga registro
-		cargaVehiculo(miVehDAO.primero());
-		// refresca LBRegistros
-		refrescaReg();
-	}
+	private JLabel LBRegistros;
+	private JButton BTBorra;
+	private JButton BTAnterior;
+	private JButton BTNuevo;
+	private JButton BTPrimero;
+	private JButton BTSiguiente;
+	private JButton BTultimo;
+	private JButton BTBuscar;
+	private JButton BTGuardar;
+	private JButton BTSalir;
 
 /**
 	 * Constructor con usuario e id de cliente
@@ -79,9 +68,13 @@ public class FichaVehiculoView {
 		// carga usuario
 		LBUsuario.setText(usuario.getNick());
 		LBNomUsu.setText(usuario.getNick());
-		// carga registro
-		cargaVehiculo(miVehDAO.goToIdVeh(idVeh));
-		// refresca LBRegistros
+		if (idVeh==0) {
+			// carga primer registro
+			cargaVehiculo(miVehDAO.primero());
+		} else {
+			// carga registro del usuario solicitado
+			cargaVehiculo(miVehDAO.goToIdVeh(idVeh));
+		}
 		refrescaReg();
 	}
 
@@ -100,48 +93,79 @@ public class FichaVehiculoView {
 	private void initialize() {
 		// Frame principal
 		frame = new JFrame();
-		frame.setBounds(100, 100, 500, 300);
+		frame.setAlwaysOnTop(true);
+		frame.setBounds(100, 100, 900, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[434px]", "[35px][226px]"));
+		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(),BoxLayout.Y_AXIS));
 		
 		// panel título
 		JPanel PNTitulo = new JPanel();
-		PNTitulo.setForeground(Color.ORANGE);
+		PNTitulo.setForeground(Color.BLUE);
 		PNTitulo.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		PNTitulo.setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(PNTitulo, "cell 0 0,growx,aligny top");
 		PNTitulo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		PNTitulo.setBackground(Color.decode("#264653"));
 		
 		JLabel LBTitulo = new JLabel("Ficha de vehículos");
 		LBTitulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LBTitulo.setForeground(Color.ORANGE);
 		PNTitulo.add(LBTitulo);
-		PNTitulo.setBackground(Color.decode("#264653"));
 		
-		// Split Panel
-		JSplitPane splitPane = new JSplitPane();
-		frame.getContentPane().add(splitPane, "cell 0 1,grow");
+		// Panel medio
+		JPanel PNMedio = new JPanel();
+		frame.getContentPane().add(PNMedio);
+		PNMedio.setLayout(new BoxLayout(PNMedio, BoxLayout.X_AXIS));
 		
 		// Panel Usuario
 		JPanel PNUsuario = new JPanel();
-		splitPane.setLeftComponent(PNUsuario);
-		PNUsuario.setLayout(new MigLayout("", "[91px]", "[14px][14px]"));
+		PNMedio.add(PNUsuario);
+		PNUsuario.setLayout(new BoxLayout(PNUsuario,BoxLayout.Y_AXIS));
 		PNUsuario.setBackground(Color.decode("#2A9D8F"));
 		
+		// panel titulo usuario
+		JPanel PNTitUsu = new JPanel();
+		PNTitUsu.setBackground(Color.decode("#2A9D8F"));
+		PNUsuario.add(PNTitUsu);
+		PNTitUsu.setLayout(new BoxLayout(PNTitUsu, BoxLayout.X_AXIS));
 		
 		LBUsuario = new JLabel("Usuario Actual");
-		LBUsuario.setForeground(Color.BLUE);
-		PNUsuario.add(LBUsuario, "cell 0 0,alignx left,aligny center");
+		LBUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		PNTitUsu.add(LBUsuario);
+		LBUsuario.setForeground(Color.ORANGE);
+		
+		// panel imagen
+		JPanel PNImg = new JPanel();
+		PNImg.setBackground(Color.decode("#2A9D8F"));
+		PNUsuario.add(PNImg);
+		 PNImg.setLayout(new BoxLayout(PNImg, BoxLayout.Y_AXIS));
+		// carga imagen
+         try {
+			 BufferedImage img = ImageIO.read(new File(usuario.getFoto()));
+			 ImageIcon icon = new ImageIcon(img);
+			 JLabel LBImg = new JLabel(icon);
+			 PNUsuario.add(LBImg);
+          } catch (IOException e) {
+             e.printStackTrace();
+          }
 		
 		LBNomUsu = new JLabel("Nombre de Usuario");
-		PNUsuario.add(LBNomUsu, "cell 0 1,alignx left,aligny center");
-		LBNomUsu.setText("Nombre usuario");
+		PNUsuario.add(LBNomUsu);
+        LBNomUsu.setAlignmentX(0.5f);            
+        LBNomUsu.setText(usuario.getNick());
+	
+
+		
+		// panel nombre de usuario
+		JPanel PNMenu = new JPanel();
+		PNMenu.setBackground(new Color(42, 157, 143));
+		PNUsuario.add(PNMenu);
 		
 		// panel central
 		JPanel PNCentral = new JPanel();
-		splitPane.setRightComponent(PNCentral);
-		PNCentral.setLayout(new MigLayout("", "[grow,center]", "[grow][][][][][][]"));
+		PNMedio.add(PNCentral);
 		PNCentral.setBackground(Color.decode("#2A9D8F"));
+		PNCentral.setLayout(new BoxLayout(PNCentral, BoxLayout.Y_AXIS));
 		
 			// panel linea 1
 			JPanel PNLinea1 = new JPanel();
@@ -220,10 +244,15 @@ public class FichaVehiculoView {
 			JLabel LBNomCli = new JLabel("Nombre del cliente");
 			PNLinea4.add(LBNomCli);
 			
-			// panel para los botones de la botonera
+			// Panel para los botones del control de registros
+			JPanel panelBotoneras = new JPanel();
+			panelBotoneras.setMaximumSize(new Dimension(1000, 60));
+			panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
+			PNCentral.add(panelBotoneras, "cell 0 4");
+			
 			JPanel panelBotonera = new JPanel();
-			PNCentral.add(panelBotonera, "cell 0 5");
-			panelBotonera.setBackground(Color.decode("#2A9D8F"));
+			panelBotonera.setBackground(new Color(42, 157, 143));
+			panelBotoneras.add(panelBotonera);
 			
 			BTBuscar = new JButton("Buscar");
 			panelBotonera.add(BTBuscar);
@@ -265,16 +294,14 @@ public class FichaVehiculoView {
 			BTGuardar.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// crea el nuevo vehículo SIN ID y SIN Tipo aen espera de aclarar 
-					Vehiculos miVeh=new Vehiculos(TFMatricula.getText(),TFBastidor.getText(),
+					// crea el nuevo vehículo
+					Vehiculos miVeh=new Vehiculos(0,TFMatricula.getText(),TFBastidor.getText(),
 							TFMarca.getText(),TFModelo.getText(),
 							Float.parseFloat(TFPrecio.getText()),
 							Date.valueOf(LocalDate.now()),
 							Integer.parseInt(TFIdCli.getText()),
 							usuario.getId(),
 							Integer.parseInt(TFConce.getText()));
-					
-			
 					// comprobar si ya existe el registro
 					if (miVehDAO.Comprobarvehiculo(TFMatricula.getText())) {
 						// guardar el registro
@@ -317,10 +344,10 @@ public class FichaVehiculoView {
 				}
 			});
 			
-			// panel registros
 			JPanel panelRegistros = new JPanel();
+			panelBotoneras.add(panelRegistros);
+			panelRegistros.setBackground(new Color(42, 157, 143));
 			panelRegistros.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
-			PNCentral.add(panelRegistros, "cell 0 6");
 			
 			BTPrimero = new JButton("<<");
 			BTPrimero.setToolTipText("Primer registro.");
@@ -346,16 +373,16 @@ public class FichaVehiculoView {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					Vehiculos miVeh = miVehDAO.anterior(TFMatricula.getText());
-					// cargar vehiculo en form
-					cargaVehiculo(miVeh);
-					refrescaReg();
+					if (miVeh!=null) {
+						cargaVehiculo(miVeh);
+						refrescaReg();
+					}
 				}
 			});
 			
 			LBRegistros = new JLabel(" No se han encontrado registros.");
-			LBRegistros.setBackground(Color.WHITE);
 			LBRegistros.setBorder(new LineBorder(Color.BLUE, 1, true));
-			
+			LBRegistros.setBackground(Color.WHITE);
 			panelRegistros.add(LBRegistros);
 			
 			BTSiguiente = new JButton(">");
@@ -368,13 +395,15 @@ public class FichaVehiculoView {
 				public void actionPerformed(ActionEvent e) {
 					Vehiculos miVeh = miVehDAO.siguiente(TFMatricula.getText());
 					// cargar cliente en form
-					cargaVehiculo(miVeh);
-					refrescaReg();
+					if (miVeh!=null) {
+						cargaVehiculo(miVeh);
+						refrescaReg();
+					}
 				}
 			});
 			
 			BTultimo = new JButton(">>");
-			BTultimo.setToolTipText("\u00DAltimo registro.");
+			BTultimo.setToolTipText("Último registro.");
 			BTultimo.setForeground(Color.RED);
 			BTultimo.setFont(new Font("Tahoma", Font.BOLD, 8));
 			panelRegistros.add(BTultimo);
@@ -387,12 +416,6 @@ public class FichaVehiculoView {
 					refrescaReg();
 				}
 			});
-			
-			// Panel para los botones del control de registros
-			JPanel panelBotoneras = new JPanel();
-			panelBotoneras.setMaximumSize(new Dimension(1000, 60));
-			panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
-			PNCentral.add(panelBotoneras, "cell 0 4");
 	}
 	
 	/**

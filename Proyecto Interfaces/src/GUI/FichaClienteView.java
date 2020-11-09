@@ -7,29 +7,24 @@ import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.plaf.BorderUIResource.LineBorderUIResource;
-
-
-
 import DAO.ClientesDAO;
 import Models.Clientes;
 import Models.Usuarios;
-import jdk.nashorn.internal.objects.annotations.Setter;
-import net.miginfocom.swing.MigLayout;
 import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 
@@ -44,35 +39,20 @@ public class FichaClienteView {
 	private JTextField TFProv;
 	private JLabel LBUsuario;
 	private JLabel LBNomUsu;
-	private JLabel LBRegistros;
-	private JButton BTBorra;
-	private JButton BTGuardar;
-	private JButton BTNuevo;
-	private JButton BTSalir;
-	private JButton BTPrimero;
-	private JButton BTAnterior;
-	private JButton BTSiguiente;
-	private JButton BTultimo;
 	private JTextField TFPob;
 	private JTextField TFDir;
+	private JLabel LBImg;
+	private JButton BTBorra;
+	private JButton BTNuevo;
+	private JButton BTPrimero;
+	private JButton BTSiguiente;
+	private JButton BTultimo;
 	private JButton BTBuscar;
-	
-	/**
-	 * Constructor con usuario
-	 */
-	/*public FichaClienteView(Usuarios miuser) {
-		usuario=miuser;
-		miCliDAO = new ClientesDAO ();
-		initialize();
-		// carga usuario
-		LBUsuario.setText(usuario.getNick());
-		LBNomUsu.setText(usuario.getRango());
-		// carga registro
-		cargaCliente(miCliDAO.primero());
-		// refresca LBRegistros
-		refrescaReg();
+	private JButton BTAnterior;
+	private JLabel LBRegistros;
+	private JButton BTGuardar;
+	private JButton BTSalir;
 
-	}*/
 
 	/**
 	 * Constructor con usuario e id de cliente
@@ -84,7 +64,6 @@ public class FichaClienteView {
 		miCliDAO = new ClientesDAO ();
 		initialize();
 		// carga usuario
-		LBUsuario.setText(usuario.getNick());
 		LBNomUsu.setText(usuario.getNick());
 		if (idCli==0) {
 			// carga primer registro
@@ -103,7 +82,7 @@ public class FichaClienteView {
 	 */
 	private void refrescaReg() {
 		String p="Registro " + String.valueOf(miCliDAO.buscaDNI(TFDni.getText()) + " de "+ String.valueOf(miCliDAO.count())+".");
-		LBRegistros.setText(p);	
+		LBRegistros.setText(p);
 	}
 
 	/**
@@ -111,49 +90,78 @@ public class FichaClienteView {
 	 */
 	private void initialize() {
 		// Frame principal
-		frame = new JFrame();
-		frame.setBounds(100, 100, 500, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[434px]", "[35px][226px]"));
-		
-		// panel título
-		JPanel PNTitulo = new JPanel();
-		PNTitulo.setForeground(Color.ORANGE);
-		PNTitulo.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		PNTitulo.setBackground(Color.LIGHT_GRAY);
-		frame.getContentPane().add(PNTitulo, "cell 0 0,growx,aligny top");
-		PNTitulo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JLabel LBTitulo = new JLabel("Ficha de clientes");
-		LBTitulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		LBTitulo.setForeground(Color.BLUE);
-		PNTitulo.add(LBTitulo);
-		PNTitulo.setBackground(Color.decode("#264653"));
-		
-		// Split Panel
-		JSplitPane splitPane = new JSplitPane();
-		frame.getContentPane().add(splitPane, "cell 0 1,grow");
-		
-		// Panel Usuario
-		JPanel PNUsuario = new JPanel();
-		splitPane.setLeftComponent(PNUsuario);
-		PNUsuario.setLayout(new MigLayout("", "[91px]", "[14px][14px]"));
-		PNUsuario.setBackground(Color.decode("#2A9D8F"));
-		
-		
-		LBUsuario = new JLabel("Usuario Actual");
-		LBUsuario.setForeground(Color.BLUE);
-		PNUsuario.add(LBUsuario, "cell 0 0,alignx left,aligny center");
-		
-		LBNomUsu = new JLabel("Nombre de Usuario");
-		PNUsuario.add(LBNomUsu, "cell 0 1,alignx left,aligny center");
-		LBNomUsu.setText("Nombre usuario");
-		
-		// panel central
-		JPanel PNCentral = new JPanel();
-		splitPane.setRightComponent(PNCentral);
-		PNCentral.setLayout(new MigLayout("", "[grow,center]", "[grow][][][][][][]"));
-		PNCentral.setBackground(Color.decode("#2A9D8F"));
+					frame = new JFrame();
+					frame.setAlwaysOnTop(true);
+					frame.setBounds(100, 100, 900, 400);
+					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(),BoxLayout.Y_AXIS));
+					
+					// panel título
+					JPanel PNTitulo = new JPanel();
+					PNTitulo.setForeground(Color.BLUE);
+					PNTitulo.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+					PNTitulo.setBackground(Color.LIGHT_GRAY);
+					frame.getContentPane().add(PNTitulo, "cell 0 0,growx,aligny top");
+					PNTitulo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+					PNTitulo.setBackground(Color.decode("#264653"));
+					
+					JLabel LBTitulo = new JLabel("Ficha de clientes");
+					LBTitulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
+					LBTitulo.setForeground(Color.ORANGE);
+					PNTitulo.add(LBTitulo);
+					
+					// Panel medio
+					JPanel PNMedio = new JPanel();
+					frame.getContentPane().add(PNMedio);
+					PNMedio.setLayout(new BoxLayout(PNMedio, BoxLayout.X_AXIS));
+					
+					// Panel Usuario
+					JPanel PNUsuario = new JPanel();
+					PNMedio.add(PNUsuario);
+					PNUsuario.setLayout(new BoxLayout(PNUsuario,BoxLayout.Y_AXIS));
+					PNUsuario.setBackground(Color.decode("#2A9D8F"));
+					
+					// panel titulo usuario
+					JPanel PNTitUsu = new JPanel();
+					PNTitUsu.setBackground(Color.decode("#2A9D8F"));
+					PNUsuario.add(PNTitUsu);
+					PNTitUsu.setLayout(new BoxLayout(PNTitUsu, BoxLayout.X_AXIS));
+					
+					LBUsuario = new JLabel("Usuario Actual");
+					LBUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+					PNTitUsu.add(LBUsuario);
+					LBUsuario.setForeground(Color.ORANGE);
+					
+					// panel imagen
+					JPanel PNImg = new JPanel();
+					PNImg.setBackground(Color.decode("#2A9D8F"));
+					PNUsuario.add(PNImg);
+					 PNImg.setLayout(new BoxLayout(PNImg, BoxLayout.Y_AXIS));
+					// carga imagen
+			         try {
+						 BufferedImage img = ImageIO.read(new File(usuario.getFoto()));
+						 ImageIcon icon = new ImageIcon(img);
+						 LBImg = new JLabel(icon);
+						 PNUsuario.add(LBImg);
+			          } catch (IOException e) {
+			             e.printStackTrace();
+			          }
+					
+					LBNomUsu = new JLabel("Nombre de Usuario");
+					PNUsuario.add(LBNomUsu);
+		            LBNomUsu.setAlignmentX(0.5f);            
+		            LBNomUsu.setText(usuario.getNick());
+					
+					// panel nombre de usuario
+					JPanel PNMenu = new JPanel();
+					PNMenu.setBackground(Color.decode("#2A9D8F"));
+					PNUsuario.add(PNMenu);
+					
+					// panel central
+					JPanel PNCentral = new JPanel();
+					PNMedio.add(PNCentral);
+					PNCentral.setBackground(Color.decode("#2A9D8F"));
+					PNCentral.setLayout(new BoxLayout(PNCentral, BoxLayout.Y_AXIS));
 		
 			// panel linea 1
 			JPanel PNLinea1 = new JPanel();
@@ -222,22 +230,26 @@ public class FichaClienteView {
 			TFPob.setText("Málaga");
 			TFPob.setColumns(10);
 			
-			// panel para los botones de la botonera
+			// Panel para los botones del control de registros
+			JPanel panelBotoneras = new JPanel();
+			panelBotoneras.setMaximumSize(new Dimension(1000, 60));
+			panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
+			PNCentral.add(panelBotoneras, "cell 0 4");
+			
 			JPanel panelBotonera = new JPanel();
-			PNCentral.add(panelBotonera, "cell 0 5");
-			panelBotonera.setBackground(Color.decode("#2A9D8F"));
+			panelBotonera.setBackground(new Color(42, 157, 143));
+			panelBotoneras.add(panelBotonera);
 			
 			BTBuscar = new JButton("Buscar");
 			panelBotonera.add(BTBuscar);
 			BTBuscar.addActionListener(new ActionListener() {
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(ActionEvent arg0) {
 					// llamada a buscar cliente
 					frame.dispose();
 					BusCliView miBusqueda = new BusCliView(usuario);
 					miBusqueda.getFrame().setAlwaysOnTop(true);
-					miBusqueda.getFrame().setVisible(true);
-
+					miBusqueda.getFrame().setVisible(true);					
 				}
 			});
 			
@@ -268,7 +280,7 @@ public class FichaClienteView {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// crea el nuevo cliente
-					Clientes cliente=new Clientes(TFDni.getText(),TFNombre.getText(),TFApellidos.getText(),TFDir.getText(),
+					Clientes cliente=new Clientes(0,TFDni.getText(),TFNombre.getText(),TFApellidos.getText(),TFDir.getText(),
 							TFProv.getText(),TFPob.getText(),Date.valueOf(LocalDate.now()));
 					// comprobar si ya existe el registro
 					if (miCliDAO.ComprobarCliente(TFDni.getText())) {
@@ -311,10 +323,10 @@ public class FichaClienteView {
 				}
 			});
 			
-			// panel registros
 			JPanel panelRegistros = new JPanel();
+			panelRegistros.setBackground(Color.decode("#2A9D8F"));
+			panelBotoneras.add(panelRegistros);
 			panelRegistros.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
-			PNCentral.add(panelRegistros, "cell 0 6");
 			
 			BTPrimero = new JButton("<<");
 			BTPrimero.setToolTipText("Primer registro.");
@@ -341,15 +353,17 @@ public class FichaClienteView {
 				public void actionPerformed(ActionEvent e) {
 					Clientes miCliente = miCliDAO.anterior(TFDni.getText());
 					// cargar cliente en form
-					cargaCliente(miCliente);
-					refrescaReg();
+					if (miCliente!=null){
+						cargaCliente(miCliente);
+						refrescaReg();
+					}
+
 				}
 			});
 			
-			LBRegistros = new JLabel(" No se han encontrado registros.");
-			LBRegistros.setBackground(Color.WHITE);
+			LBRegistros = new JLabel("No se han encontrado registros.");
 			LBRegistros.setBorder(new LineBorder(Color.BLUE, 1, true));
-			
+			LBRegistros.setBackground(Color.WHITE);
 			panelRegistros.add(LBRegistros);
 			
 			BTSiguiente = new JButton(">");
@@ -361,14 +375,15 @@ public class FichaClienteView {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					Clientes miCliente = miCliDAO.siguiente(TFDni.getText());
-					// cargar cliente en form
-					cargaCliente(miCliente);
-					refrescaReg();
+					if (miCliente!=null){
+						cargaCliente(miCliente);
+						refrescaReg();
+					}
 				}
 			});
 			
 			BTultimo = new JButton(">>");
-			BTultimo.setToolTipText("\u00DAltimo registro.");
+			BTultimo.setToolTipText("Último registro.");
 			BTultimo.setForeground(Color.RED);
 			BTultimo.setFont(new Font("Tahoma", Font.BOLD, 8));
 			panelRegistros.add(BTultimo);
@@ -381,12 +396,6 @@ public class FichaClienteView {
 					refrescaReg();
 				}
 			});
-			
-			// Panel para los botones del control de registros
-			JPanel panelBotoneras = new JPanel();
-			panelBotoneras.setMaximumSize(new Dimension(1000, 60));
-			panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
-			PNCentral.add(panelBotoneras, "cell 0 4");
 	}
 	
 	/**

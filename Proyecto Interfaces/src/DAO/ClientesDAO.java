@@ -63,9 +63,7 @@ public class ClientesDAO extends AbstractDAO {
 				+ Date.valueOf(LocalDate.now()) + "', '"
 				+ cliente.getDNI()+"');";
 		// Se ejecuta correctamente el SQL
-		if (super.ejecutaSQL(strSql))
-			JOptionPane.showMessageDialog(null, "Registro insertado correctamente", "Añadir cliente", 
-					JOptionPane.INFORMATION_MESSAGE);
+		super.ejecutaSQL(strSql);
 		
 	}
 
@@ -83,9 +81,7 @@ public class ClientesDAO extends AbstractDAO {
 				+" poblacion = '" + cliente.getPoblacion() +"',"
 				+ " fecha_alta = '" + Date.valueOf(LocalDate.now()) + "' "
 				+ "where DNI='"+cliente.getDNI()+"';";
-		if (super.ejecutaSQL(strSql))
-			JOptionPane.showMessageDialog(null, "Registro modificado correctamente", 
-					"Modificar cliente", JOptionPane.INFORMATION_MESSAGE);
+		super.ejecutaSQL(strSql);
 	}
 	
 	/**
@@ -129,11 +125,12 @@ public class ClientesDAO extends AbstractDAO {
 		try {
 			// se posiciona en la fila dado el DNI
 			rst.absolute(miFila);
-			// se posiciona en el primer registro
-			rst.previous();
-			// crea el cliente
-			cliente = new Clientes(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), 
-					rst.getString(6),rst.getString(7), rst.getDate(8));
+			// se posiciona en el anterior registro
+			if (rst.previous()) {
+				// crea el cliente
+				cliente = new Clientes(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), 
+						rst.getString(6),rst.getString(7), rst.getDate(8));
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -190,10 +187,11 @@ public class ClientesDAO extends AbstractDAO {
 			// se posiciona en la fila dado el DNI
 			rst.absolute(miFila);
 			// se posiciona en el primer registro
-			rst.next();
-			// crea el cliente
-			cliente = new Clientes(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), 
-					rst.getString(6),rst.getString(7), rst.getDate(8));
+			if (rst.next()) {
+				// crea el cliente
+				cliente = new Clientes(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), 
+						rst.getString(6),rst.getString(7), rst.getDate(8));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
