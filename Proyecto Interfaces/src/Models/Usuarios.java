@@ -22,6 +22,7 @@ public class Usuarios {
 	 * @param mifecha
 	 * @param miid
 	 */
+		// String foto
 	public Usuarios(String midni,String minick,String mipasswd,String mirango,String mifecha,int miid, String foto) {
 		dni=midni;
 		nick=minick;
