@@ -156,7 +156,7 @@ public class MenuVentasView {
 		JLB_ficha_vehiculo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FichaVehiculoView miFicVeh = new FichaVehiculoView (usuario);
+				FichaVehiculoView miFicVeh = new FichaVehiculoView (usuario,0);
 				miFicVeh.getFrame().setVisible(true);
 				miFicVeh.getFrame().setAlwaysOnTop(true);
 				frame.dispose();
