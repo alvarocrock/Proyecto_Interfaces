@@ -282,7 +282,7 @@ public class ClientesDAO extends AbstractDAO {
 	 * @return
 	 */
 	public Clientes goToIdCli(int idCli) {
-		String 	strSql="select id_cli,DNI,nombre,apellidos,direccion,provincia,poblacion,fecha_alta"
+		String 	strSql="select id_cli,DNI,nombre,apellidos,direccion,provincia,poblacion,fecha_alta "
 				+"from clientes where id_cli = " + idCli + ";";
 		
 		// ejecuta la consulta

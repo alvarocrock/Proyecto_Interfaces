@@ -194,10 +194,10 @@ public class BusCliView {
 						if(asc>=20) {
 							modeloOrdenado.setRowFilter(RowFilter.numberFilter(
 									ComparisonType.EQUAL,
-									Integer.parseInt(String.valueOf(arg0.getKeyChar()))
+									Integer.parseInt(String.valueOf(arg0.getKeyChar()).trim())
 									,0));	
 						} else {
-							// la tecla pulsada NOes imprimible
+							// la tecla pulsada NO es imprimible
 							modeloOrdenado.setRowFilter(RowFilter.numberFilter(
 									ComparisonType.NOT_EQUAL,
 									0,0));
@@ -226,23 +226,12 @@ public class BusCliView {
 				}
 				@Override
 				public void keyReleased(java.awt.event.KeyEvent arg0) {
+					addFiltros();
 				}
 				@Override
 				public void keyTyped(java.awt.event.KeyEvent arg0) {
-					// no hay texto en el TField
-					if (TFDNI.getText().length()==0 ) {
-						// la tecla pulsada es imprimible
-						int asc = (int) arg0.getKeyChar();
-						if(asc>=20) {
-							modeloOrdenado.setRowFilter(RowFilter.regexFilter(String.valueOf(arg0.getKeyChar()),1));	
-						} else {
-							modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
-						}
-					// hay texto en el TField
-					} else {
-						modeloOrdenado.setRowFilter(RowFilter.regexFilter(TFDNI.getText()+arg0.getKeyChar(),1));	
-					}
 				}
+
 			});
 			
 			LBNombre = new JLabel("Nombre");
@@ -257,22 +246,10 @@ public class BusCliView {
 				}
 				@Override
 				public void keyReleased(java.awt.event.KeyEvent arg0) {
+					addFiltros();
 				}
 				@Override
 				public void keyTyped(java.awt.event.KeyEvent arg0) {
-					// no hay texto en el TField
-					if (TFNombre.getText().length()==0 ) {
-						// la tecla pulsada es imprimible
-						int asc = (int) arg0.getKeyChar();
-						if(asc>=20) {
-							modeloOrdenado.setRowFilter(RowFilter.regexFilter(String.valueOf(arg0.getKeyChar()),2));	
-						} else {
-							modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",2));
-						}
-					// hay texto en el TField
-					} else {
-						modeloOrdenado.setRowFilter(RowFilter.regexFilter(TFNombre.getText()+arg0.getKeyChar(),2));	
-					}
 				}
 			});
 			
@@ -287,23 +264,10 @@ public class BusCliView {
 				}
 				@Override
 				public void keyReleased(java.awt.event.KeyEvent arg0) {
+					addFiltros();
 				}
 				@Override
 				public void keyTyped(java.awt.event.KeyEvent arg0) {
-					// no hay texto en el TField
-					if (TFApellidos.getText().length()==0 ) {
-						// la tecla pulsada es imprimible
-						int asc = (int) arg0.getKeyChar();
-						if(asc>=20) {
-							modeloOrdenado.setRowFilter(RowFilter.regexFilter(String.valueOf(arg0.getKeyChar()),3));	
-						} else {
-							modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",3));
-						}
-					// hay texto en el TField
-					} else {
-						modeloOrdenado.setRowFilter(RowFilter.regexFilter(TFApellidos.getText()+arg0.getKeyChar(),3));
-					}
-
 				}
 			});
 			
@@ -333,6 +297,16 @@ public class BusCliView {
 						return Integer.class;
 					return String.class;
 				}
+				
+				@Override
+				public boolean isCellEditable (int row, int column)
+				   {
+				       // Aquí devolvemos true o false según queramos que una celda
+				       // identificada por fila,columna (row,column), sea o no editable
+				       if (column >=0)
+				          return false;
+				       return true;
+				   }
 			};
 
 			
@@ -350,7 +324,17 @@ public class BusCliView {
 			TBCli.setRowSorter(modeloOrdenado);
 			
 			// carga datos de clientes en la tabla
-			cargaCli(miClienteDAO.cargaListaDAO());				
+			cargaCli(miClienteDAO.cargaListaDAO());	
+			
+			// evento doble click de la tabla
+			TBCli.addMouseListener(new MouseAdapter(){
+				public void mouseReleased(MouseEvent e){
+				if(e.getClickCount()==2){
+					frame.dispose();
+					seleccionar();
+				}
+				}
+				});
 											
 			// panel para los botones de la botonera
 			JPanel panelBotonera = new JPanel();
@@ -361,8 +345,13 @@ public class BusCliView {
 			BTSeleccionar.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					frame.dispose();
-					seleccionar();
+					if (TBCli.getSelectedRow()>-1) {
+						frame.dispose();
+						seleccionar();
+					} else {
+						JOptionPane.showMessageDialog(frame, "No ha seleccionado ninguna fila");
+					}
+	
 				}
 			});
 			
@@ -453,6 +442,31 @@ public class BusCliView {
 
 		}
 
+	protected void addFiltros() {
+		ArrayList <RowFilter<TableModel,Integer>> filtros = new ArrayList <RowFilter<TableModel,Integer>>();
+		
+		if (TFDNI.getText().length()>0) {
+			filtros.add(RowFilter.regexFilter(TFDNI.getText(),1));
+		} else {
+			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
+		}
+		
+		if (TFNombre.getText().length()>0) {
+			filtros.add((RowFilter.regexFilter(TFNombre.getText(),2)));
+		} else {
+			modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",2));
+		}
+		
+		if (TFApellidos.getText().length()>0) {
+			filtros.add(RowFilter.regexFilter(TFApellidos.getText(),3));
+		} else {
+			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",3));
+		}
+		
+		RowFilter<TableModel, Integer> filtroAnd = RowFilter.andFilter(filtros);
+		modeloOrdenado.setRowFilter(filtroAnd);
+		
+	}
 	protected void borraTabla() {
 
 		while (modeloTBCli.getRowCount()>0) {
