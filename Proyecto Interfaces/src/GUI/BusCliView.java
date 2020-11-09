@@ -435,7 +435,10 @@ public class BusCliView {
 			panelBotoneras.setBackground(Color.decode("#2A9D8F"));
 
 		}
-
+	
+	/*
+	 * Add filtros a la tabla
+	 */
 	protected void addFiltros() {
 		ArrayList <RowFilter<TableModel,Integer>> filtros = new ArrayList <RowFilter<TableModel,Integer>>();
 		
@@ -461,12 +464,7 @@ public class BusCliView {
 		modeloOrdenado.setRowFilter(filtroAnd);
 		
 	}
-	protected void borraTabla() {
 
-		while (modeloTBCli.getRowCount()>0) {
-			modeloTBCli.removeRow(modeloTBCli.getRowCount()-1);
-		}
-	}
 	/**
 	 * Carga la tabla conlos clientes de la base de datos
 	 * @param miArray 

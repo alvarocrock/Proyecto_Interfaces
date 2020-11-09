@@ -406,40 +406,53 @@ public class ConsVeh {
 			panelBotoneras.setBackground(Color.decode("#2A9D8F"));
 
 		}
-
+	
+	/*
+	 * add los filtros a la tabla
+	 */
 	protected void addFiltros() {
 		ArrayList <RowFilter<TableModel,Integer>> filtros = new ArrayList <RowFilter<TableModel,Integer>>();
 		
-		if (TFMarca.getText().length()>0) {
-			filtros.add(RowFilter.regexFilter(TFMarca.getText(),1));
+
+		
+		
+		if (TFMatricula.getText().length()>0) {
+			filtros.add(RowFilter.regexFilter(TFMatricula.getText(),1));
 		} else {
 			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
 		}
 		
-		if (TFModelo.getText().length()>0) {
-			filtros.add((RowFilter.regexFilter(TFModelo.getText(),2)));
+		if (TFMarca.getText().length()>0) {
+			filtros.add(RowFilter.regexFilter(TFMarca.getText(),2));
 		} else {
-			modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",2));
+			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",2));
+		}
+		
+		if (TFModelo.getText().length()>0) {
+			filtros.add((RowFilter.regexFilter(TFModelo.getText(),3)));
+		} else {
+			modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",3));
+		}
+		
+		if (TFModelo.getText().length()>0) {
+			filtros.add((RowFilter.regexFilter(TFModelo.getText(),3)));
+		} else {
+			modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",3));
 		}
 		
 		if (TFCliente.getText().length()>0) {
-			filtros.add(RowFilter.regexFilter(TFCliente.getText(),3));
+			filtros.add((RowFilter.regexFilter(TFModelo.getText(),5)));
 		} else {
-			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",3));
+			modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",5));
 		}
 		
 		RowFilter<TableModel, Integer> filtroAnd = RowFilter.andFilter(filtros);
 		modeloOrdenado.setRowFilter(filtroAnd);
 		
 	}
-	protected void borraTabla() {
-
-		while (modeloTBVeh.getRowCount()>0) {
-			modeloTBVeh.removeRow(modeloTBVeh.getRowCount()-1);
-		}
-	}
+	
 	/**
-	 * Carga la tabla conlos clientes de la base de datos
+	 * Carga la tabla con los vehiculos de la base de datos
 	 * @param miArray 
 	 */
 
@@ -484,7 +497,6 @@ public class ConsVeh {
 	 * Refresca el label de control de registros
 	 */
 	private void refrescaReg() {
-		
 		String p="Registro " + TBVeh.getSelectedRow()+1 + " de "+ TBVeh.getRowCount()+".";
 		LBRegistros.setText(p);	
 	}
