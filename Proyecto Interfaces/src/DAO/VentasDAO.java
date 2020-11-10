@@ -20,18 +20,18 @@ public class VentasDAO extends AbstractDAO{
 	 * comportamiento que devuelve una array list de id de ventas
 	 * @return
 	 */
-	public ArrayList<String> getventas(){
-		ArrayList<String> lista= new ArrayList();
+	public ArrayList<Ventas> getventas(){
+		ArrayList<Ventas> lista= new ArrayList();
+		Ventas miventa;
 		ResultSet rs=null;
 		String contenido="";
 		try {
             super.conectar();
             stm = (Statement) cn.createStatement();
-            rs = stm.executeQuery("SELECT id_ventas,id_cli,id_emple FROM ventas;");
+            rs = stm.executeQuery("SELECT * FROM ventas;");
             while (rs.next()) {
-            	contenido=rs.getInt(1)+"-"+getnombrecli(rs.getInt(2))+"-"+getnick(rs.getInt(3));
-            	
-            	lista.add(contenido);
+            	miventa=new Ventas(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7));
+            	lista.add(miventa);
             }
             
       

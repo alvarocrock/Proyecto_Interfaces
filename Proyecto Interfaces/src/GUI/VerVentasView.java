@@ -5,44 +5,63 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 
 import Models.Usuarios;
 import Models.Ventas;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JList;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
+import com.sun.tools.javac.tree.JCTree.JCYield;
 
 import DAO.VentasDAO;
 
 import javax.swing.JButton;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.awt.Font;
+import javax.swing.JComboBox;
 
 public class VerVentasView {
 
 	private JFrame frame;
 	private Usuarios miuser;
-	private JTextField JTF_cli_nombre;
-	private JTextField JTF_id_venta;
-	private JTextField JTF_empleado;
-	private JTextField JTF_fecha_alta;
-	private JTextField JTF_fecha_validez;
-	private JTextField JTF_matriculavehiculo;
-	private JList<Object> list;
 	private VentasDAO contro;
-	private JTextField JTF_precio;
+	private JTable TBCli;
+	private JScrollPane scrollPane;
+	private DefaultTableModel modeloTBCli;
+	private TableRowSorter<TableModel> modeloOrdenado;
+	private JTextField textField_1;
+	private JTextField JTF_empleado;
+	private JTextField JTF_nom_cli;
 	private JTextField JTF_ape_cli;
+	private JTextField JTF_fecha_registro;
+	private JTextField JTF_Fecha_lim;
+	private JTextField JTF_matricula;
+	private JTextField JTF_precio;
 	/**
 	 * Create the application.
 	 */
@@ -57,179 +76,403 @@ public class VerVentasView {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 550, 400);
+		frame.setBounds(100, 100, 1200,1200 );
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frame.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.NORTH);
+		frame.getContentPane().add(panel);
 		panel.setBackground(Color.decode("#264653"));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
+		JPanel panel_titulo = new JPanel();
+		panel.add(panel_titulo);
 		
 		JLabel JLB_titulo = new JLabel("Consulta de ventas");
 		JLB_titulo.setForeground(Color.ORANGE);
-		panel.add(JLB_titulo);
+		JLB_titulo.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel_titulo.add(JLB_titulo);
 		
-		JSplitPane splitPane = new JSplitPane();
-		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
+		JPanel panel_principal = new JPanel();
+		panel.add(panel_principal);
+		panel_principal.setLayout(new BoxLayout(panel_principal, BoxLayout.X_AXIS));
 		
-		JPanel panel_1 = new JPanel();
-		splitPane.setLeftComponent(panel_1);
-		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
-		panel_1.setBackground(Color.decode("#2A9D8F"));
+		JPanel panel_izquierdo = new JPanel();
+		panel_principal.add(panel_izquierdo);
+		panel_izquierdo.setLayout(new BoxLayout(panel_izquierdo, BoxLayout.Y_AXIS));
 		
-		JLabel lblNewLabel = new JLabel("Usuario Actual");
-		panel_1.add(lblNewLabel);
-		
-		JLabel JLB_useractual = new JLabel("");
-		panel_1.add(JLB_useractual);
-		JLB_useractual.setText(miuser.getNick());
-		
-		JPanel panel_2 = new JPanel();
-		splitPane.setRightComponent(panel_2);
-		panel_2.setLayout(new BorderLayout(0, 0));
-		panel_2.setBackground(Color.decode("#2A9D8F"));
+		JLabel lblNewLabel = new JLabel("Usuario actual");
+		panel_izquierdo.add(lblNewLabel);
 		
 		
+		ImageIcon imagenuser = new ImageIcon(miuser.getFoto());
+		JLabel JLB_image_user = new JLabel(imagenuser);
+		panel_izquierdo.add(JLB_image_user);
+		
+		JLabel JLB_USER_actual = new JLabel("ACTUAL");
+		panel_izquierdo.add(JLB_USER_actual);
+		JLB_USER_actual.setText(miuser.getNick());
 		
 		
-		JPanel panel_4 = new JPanel();
-		//panel_4.setBounds(30,30,40,40);
-		panel_2.add(panel_4, BorderLayout.EAST);
-		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.Y_AXIS));
-		panel_4.setBackground(Color.decode("#2A9D8F"));
-		
-		JLabel JLB_lista = new JLabel("Lista ventas");
-		panel_4.add(JLB_lista);
-		
-		list = new JList<Object>();
-		list.setVisibleRowCount(30);
-		list.addMouseListener(new MouseAdapter() {
+		JLabel JLB_buscar_cli = new JLabel("Buscar Clientes");
+		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				actualizardatos();
-			}
-		});
-		
-		JLabel lblNewLabel_6 = new JLabel("ID_venta, cliente, usuario");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		panel_4.add(lblNewLabel_6);
-		panel_4.add(list);
-		list.setModel(addelement());
-		
-		
-		
-		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, BorderLayout.WEST);
-		panel_3.setLayout(new MigLayout("", "[][][grow][grow]", "[][][][][][][][][][][]"));
-		panel_3.setBackground(Color.decode("#2A9D8F"));
-		
-		JLabel lblNewLabel_1 = new JLabel("Datos venta");
-		panel_3.add(lblNewLabel_1, "cell 1 0");
-		
-		JLabel lblNewLabel_2 = new JLabel("ID Venta");
-		panel_3.add(lblNewLabel_2, "cell 1 2,alignx trailing");
-		
-		JTF_id_venta = new JTextField();
-		JTF_id_venta.setEditable(false);
-		panel_3.add(JTF_id_venta, "cell 2 2,alignx left");
-		JTF_id_venta.setColumns(10);
-		
-		JLabel JLB_nom_cliente = new JLabel("Nombre  Cliente");
-		panel_3.add(JLB_nom_cliente, "cell 1 3");
-		
-		JTF_cli_nombre = new JTextField();
-		JTF_cli_nombre.setEditable(false);
-		panel_3.add(JTF_cli_nombre, "cell 2 3,alignx left");
-		JTF_cli_nombre.setColumns(10);
-		
-		JButton JBT_volver = new JButton("Volver");
-		JBT_volver.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				MenuVentasView miMenuV = new MenuVentasView(miuser);
-				miMenuV.getFrame().setVisible(true);
+				BusCliView miBuscCli = new BusCliView(miuser);
+				miBuscCli.getFrame().setAlwaysOnTop(true);
+				miBuscCli.getFrame().setVisible(true);
 				frame.dispose();
 			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				JLB_buscar_cli.setForeground(Color.RED);
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				JLB_buscar_cli.setForeground(Color.ORANGE);
+			}
 		});
+		JLB_buscar_cli.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLB_buscar_cli.setForeground(Color.decode("#E9C46A"));
+		panel_izquierdo.add(JLB_buscar_cli);
 		
-		JLabel JLB_ape_cli = new JLabel("Apellido cliente");
-		panel_3.add(JLB_ape_cli, "cell 1 4,alignx trailing");
+		JLabel JLB_ficha_cliente = new JLabel("Ficha Cliente");
+		JLB_ficha_cliente.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FichaClienteView miFichaClientes = new FichaClienteView(miuser,0);
+				miFichaClientes.getFrame().setAlwaysOnTop(true);
+				miFichaClientes.getFrame().setVisible(true);
+				frame.dispose();
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				JLB_ficha_cliente.setForeground(Color.RED);
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				JLB_ficha_cliente.setForeground(Color.ORANGE);
+			}
+		});
+		JLB_ficha_cliente.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLB_ficha_cliente.setForeground(Color.decode("#E9C46A"));
+		panel_izquierdo.add(JLB_ficha_cliente);
 		
-		JTF_ape_cli = new JTextField();
-		JTF_ape_cli.setEditable(false);
-		panel_3.add(JTF_ape_cli, "cell 2 4,growx");
-		JTF_ape_cli.setColumns(10);
+		JLabel Busca_vehiculos = new JLabel("Busca Vehiculos");
+		Busca_vehiculos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ConsVeh busqueda= new ConsVeh(miuser);
+				busqueda.getFrame().setAlwaysOnTop(true);
+				busqueda.getFrame().setVisible(true);
+				frame.dispose();
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				Busca_vehiculos.setForeground(Color.RED);
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				Busca_vehiculos.setForeground(Color.ORANGE);
+			}
+		});
+		Busca_vehiculos.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		Busca_vehiculos.setForeground(Color.decode("#E9C46A"));
+		panel_izquierdo.add(Busca_vehiculos);
+		
+		JLabel JLB_ficha_vehiculo = new JLabel("Ficha Vehiculo");
+		JLB_ficha_vehiculo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FichaVehiculoView miFicVeh = new FichaVehiculoView (miuser,0);
+				miFicVeh.getFrame().setVisible(true);
+				miFicVeh.getFrame().setAlwaysOnTop(true);
+				frame.dispose();
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				JLB_ficha_vehiculo.setForeground(Color.RED);
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				JLB_ficha_vehiculo.setForeground(Color.ORANGE);
+			}
+		});
+		JLB_ficha_vehiculo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLB_ficha_vehiculo.setForeground(Color.decode("#E9C46A"));
+		panel_izquierdo.add(JLB_ficha_vehiculo);
+		
+		JLabel JLB_cerrar_sesion = new JLabel("Cerrar sesi\u00F3n");
+		JLB_cerrar_sesion.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+				LoginView miLogin = new LoginView();
+				miLogin.getFrame().setAlwaysOnTop(true);
+				miLogin.getFrame().setVisible(true);
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				JLB_cerrar_sesion.setForeground(Color.RED);
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				JLB_cerrar_sesion.setForeground(Color.ORANGE);
+			}
+		});
+		JLB_cerrar_sesion.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		JLB_cerrar_sesion.setForeground(Color.decode("#E76F51"));
+		panel_izquierdo.add(JLB_cerrar_sesion);
+		
+		
+		JPanel panel_derecho = new JPanel();
+		panel_principal.add(panel_derecho);
+		panel_derecho.setLayout(new BoxLayout(panel_derecho, BoxLayout.X_AXIS));
+		
+		JPanel panel_cont_p_d = new JPanel();
+		panel_derecho.add(panel_cont_p_d);
+		panel_cont_p_d.setLayout(new BoxLayout(panel_cont_p_d, BoxLayout.Y_AXIS));
+		
+		// panel de busqueda
+		
+		JPanel panel_busqueda = new JPanel();
+		panel_cont_p_d.add(panel_busqueda);
+		panel_busqueda.setLayout(new BoxLayout(panel_busqueda, BoxLayout.Y_AXIS));
+		
+		JPanel panel_lin_1 = new JPanel();
+		panel_busqueda.add(panel_lin_1);
 		
 		JLabel JLB_empleado = new JLabel("Empleado");
-		panel_3.add(JLB_empleado, "cell 1 5,alignx trailing");
+		panel_lin_1.add(JLB_empleado);
 		
 		JTF_empleado = new JTextField();
-		JTF_empleado.setEditable(false);
-		panel_3.add(JTF_empleado, "cell 2 5,alignx left");
 		JTF_empleado.setColumns(10);
+		panel_lin_1.add(JTF_empleado);
 		
-		JLabel lblNewLabel_3 = new JLabel("Fecha alta");
-		panel_3.add(lblNewLabel_3, "cell 1 6,alignx trailing");
+		JLabel JLB_nombre_cliente = new JLabel("Nombre Cliente");
+		panel_lin_1.add(JLB_nombre_cliente);
 		
-		JTF_fecha_alta = new JTextField();
-		JTF_fecha_alta.setEditable(false);
-		panel_3.add(JTF_fecha_alta, "cell 2 6,alignx left");
-		JTF_fecha_alta.setColumns(10);
+		JTF_nom_cli = new JTextField();
+		JTF_nom_cli.setColumns(10);
+		panel_lin_1.add(JTF_nom_cli);
 		
-		JLabel lblNewLabel_4 = new JLabel("Fecha Validez");
-		panel_3.add(lblNewLabel_4, "cell 1 7,alignx trailing");
+		JLabel JLB_apellido_cli = new JLabel("Apellido cliente");
+		panel_lin_1.add(JLB_apellido_cli);
 		
-		JTF_fecha_validez = new JTextField();
-		JTF_fecha_validez.setEditable(false);
-		panel_3.add(JTF_fecha_validez, "cell 2 7,alignx left");
-		JTF_fecha_validez.setColumns(10);
+		JTF_ape_cli = new JTextField();
+		JTF_ape_cli.setColumns(10);
+		panel_lin_1.add(JTF_ape_cli);
 		
-		JLabel lblNewLabel_5 = new JLabel("Matricula vehiculo");
-		panel_3.add(lblNewLabel_5, "cell 1 8,alignx trailing");
+		JPanel panel_lin_2 = new JPanel();
+		panel_busqueda.add(panel_lin_2);
 		
-		JTF_matriculavehiculo = new JTextField();
-		JTF_matriculavehiculo.setEditable(false);
-		panel_3.add(JTF_matriculavehiculo, "cell 2 8,alignx left");
-		JTF_matriculavehiculo.setColumns(10);
+		JLabel JLB_fecha_ini = new JLabel("Fecha registro");
+		panel_lin_2.add(JLB_fecha_ini);
 		
-		JLabel JLB_precio = new JLabel("                    Precio");
-		panel_3.add(JLB_precio, "cell 1 9,alignx trailing");
+		JTF_fecha_registro = new JTextField();
+		JTF_fecha_registro.setColumns(10);
+		panel_lin_2.add(JTF_fecha_registro);
+		
+		JLabel JLB_fecha_lim = new JLabel("Fecha limite");
+		panel_lin_2.add(JLB_fecha_lim);
+		
+		JTF_Fecha_lim = new JTextField();
+		JTF_Fecha_lim.setColumns(10);
+		panel_lin_2.add(JTF_Fecha_lim);
+		
+		JLabel JLB_mat_veh = new JLabel("Matricula");
+		panel_lin_2.add(JLB_mat_veh);
+		
+		JTF_matricula = new JTextField();
+		JTF_matricula.setColumns(10);
+		panel_lin_2.add(JTF_matricula);
+		
+		JLabel JLB_precio = new JLabel("precio");
+		panel_lin_2.add(JLB_precio);
 		
 		JTF_precio = new JTextField();
-		JTF_precio.setEditable(false);
-		panel_3.add(JTF_precio, "cell 2 9,alignx left");
 		JTF_precio.setColumns(10);
-		panel_3.add(JBT_volver, "cell 3 10");
+		panel_lin_2.add(JTF_precio);
+		
+		JComboBox Mi_combo = new JComboBox();
+		Mi_combo.addItem("=");
+		Mi_combo.addItem("<");
+		Mi_combo.addItem(">");
+		panel_lin_2.add(Mi_combo);
+		
+		//panel de tabla
+		JPanel panel_tabla = new JPanel();
+		panel_cont_p_d.add(panel_tabla);
+		panel_tabla.setLayout(new BoxLayout(panel_tabla, BoxLayout.X_AXIS));
+		scrollPane = new JScrollPane();
+		panel_tabla.add(scrollPane);
+		
+		// tabla
+		
+		TBCli = new JTable();
+		TBCli.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane.setViewportView(TBCli);
 		
 		
-	}
-	
-	public void actualizardatos() {
-		String [] Lista=list.getSelectedValue().toString().split("-");
-		int id=Integer.parseInt(Lista[0]);
-		Ventas miventa=contro.getuserbyid(id);
-		JTF_cli_nombre.setText(contro.getnombrecli(miventa.getId_cli()));
-		JTF_ape_cli.setText(contro.getapellidocli(miventa.getId_cli()));
-		JTF_empleado.setText(contro.getnick(miventa.getId_emple()));
-		JTF_id_venta.setText(String.valueOf(miventa.getId_ventas()));
-		JTF_matriculavehiculo.setText(contro.getmatricula(miventa.getId_vehiculo()));
-		JTF_fecha_alta.setText(miventa.getFechappto());
-		JTF_fecha_validez.setText(miventa.getFechavalidez());
-		JTF_precio.setText(String.valueOf(miventa.getPrecio()));
+		//crear modelo de la tabla
+		modeloTBCli = new DefaultTableModel(){
+			/**
+			 * definimos el modelo de la tabla con la 1ª columna integer
+			 */
+			private static final long serialVersionUID = 1L;
+			@Override
+			public Class getColumnClass(int columna) {
+				// primera columna integer
+				if (columna == 0)
+					return Integer.class;
+				return String.class;
+			}
+			@Override
+			public boolean isCellEditable (int row, int column)
+			   {
+			       // Aquí devolvemos true o false según queramos que una celda
+			       // identificada por fila,columna (row,column), sea o no editable
+			       if (column >=0)
+			          return false;
+			       return true;
+			   }
+		};
+		
+		// carga columnas de la tabla
+		modeloTBCli.addColumn("Id");
+		modeloTBCli.addColumn("Cliente");
+		modeloTBCli.addColumn("Nombre");
+		modeloTBCli.addColumn("Apellidos");
+		modeloTBCli.addColumn("Fecha Alta");
+		modeloTBCli.addColumn("Fecha limite");
+		modeloTBCli.addColumn("Matricula");
+		modeloTBCli.addColumn("precio");
+		//añade el modelo a la tabla
+		TBCli.setModel(modeloTBCli);
+					
+		// hace ordenable la tabla
+		modeloOrdenado = new TableRowSorter<TableModel>(modeloTBCli);
+		TBCli.setRowSorter(modeloOrdenado);
+		
+		textField_1 = new JTextField();
+		scrollPane.setColumnHeaderView(textField_1);
+		textField_1.setColumns(10);
+		
+		cargarVentas(contro.getventas());
+		
+		
+		//evento
+		TBCli.addMouseListener(new MouseAdapter(){
+			public void mouseReleased(MouseEvent e){
+			if(e.getClickCount()==2){
+				frame.dispose();
+				seleccionar();
+			}
+			}
+			});
+		
+		//panel de botonera
+		JPanel panel_botonera = new JPanel();
+		panel_cont_p_d.add(panel_botonera);
+		
+		JButton JBT_seleccionar = new JButton("Seleccionar");
+		panel_botonera.add(JBT_seleccionar);
+		
+		JButton JBT_salir = new JButton("Salir");
+		panel_botonera.add(JBT_salir);
+		
+		
+		//panel de registros
+		
+		JPanel panel_registros = new JPanel();
+		panel_cont_p_d.add(panel_registros);
+		
+		JButton BTPrimero = new JButton("<<");
+		BTPrimero.setToolTipText("Primer registro.");
+		BTPrimero.setForeground(Color.RED);
+		BTPrimero.setFont(new Font("Tahoma", Font.BOLD, 8));
+		panel_registros.add(BTPrimero);
+		BTPrimero.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				TBCli.setRowSelectionInterval(0, 0);
+				refrescaReg();
+			}
+		});
+		
+		JButton BTAnterior = new JButton("<");
+		BTAnterior.setToolTipText("Registro anterior.");
+		BTAnterior.setForeground(Color.RED);
+		BTAnterior.setFont(new Font("Tahoma", Font.BOLD, 8));
+		panel_registros.add(BTAnterior);
+		BTAnterior.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (TBCli.getSelectedRow()>0) 
+					TBCli.setRowSelectionInterval(TBCli.getSelectedRow()-1,TBCli.getSelectedRow()-1);
+				refrescaReg();
+			}
+		});
+		
+		JLabel LBRegistros = new JLabel(" No se han encontrado registros.");
+		LBRegistros.setBackground(Color.WHITE);
+		LBRegistros.setBorder(new LineBorder(Color.BLUE, 1, true));
+		
+		panel_registros.add(LBRegistros);
+		
+		JButton BTSiguiente = new JButton(">");
+		BTSiguiente.setToolTipText("Registro siguiente.");
+		BTSiguiente.setForeground(Color.RED);
+		BTSiguiente.setFont(new Font("Tahoma", Font.BOLD, 8));
+		panel_registros.add(BTSiguiente);
+		BTSiguiente.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (TBCli.getSelectedRow()<TBCli.getRowCount()) 
+					TBCli.setRowSelectionInterval(TBCli.getSelectedRow()+1,TBCli.getSelectedRow()+1);
+				refrescaReg();
+			}
+		});
+		
+		JButton BTultimo = new JButton(">>");
+		BTultimo.setToolTipText("\u00DAltimo registro.");
+		BTultimo.setForeground(Color.RED);
+		BTultimo.setFont(new Font("Tahoma", Font.BOLD, 8));
+		panel_registros.add(BTultimo);
+		BTultimo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				TBCli.setRowSelectionInterval(TBCli.getRowCount()-1,TBCli.getRowCount()-1);
+				refrescaReg();
+			}
+		});
+		
+		// Panel para los botones del control de registros
+		JPanel panelBotoneras = new JPanel();
+		panelBotoneras.setMaximumSize(new Dimension(1000, 60));
+		panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
+		panelBotoneras.setBackground(Color.decode("#2A9D8F"));
+		
+		frame.pack();
 
-		
 	}
-	
-	public DefaultListModel<Object> addelement() {
-		DefaultListModel<Object> model= new DefaultListModel<>();
-		//Ventas venta= new Ventas(1,1,1,"ini","fin",(float) 3.0);
-		//model.addElement("primer elemento");
-		//model.addElement("segundo elemento");
-		ArrayList<String> lista=(ArrayList<String>) contro.getventas();
-		for (int cont=0;cont<lista.size();cont++) {
-			model.addElement(lista.get(cont));
+		
+		
+	public void cargarVentas(ArrayList<Ventas> lista) {
+		Object [] fila = new Object[8];
+
+		for (int i=0;i<lista.size();i++) {
+			fila[0]=(int) lista.get(i).getId_ventas();
+			fila[1]=contro.getnick(lista.get(i).getId_emple());
+			fila[2]=contro.getnombrecli(lista.get(i).getId_cli());
+			fila[3]=contro.getapellidocli(lista.get(i).getId_cli());
+			fila[4]=lista.get(i).getFechappto();
+			fila[5]=lista.get(i).getFechavalidez();
+			fila[6]=contro.getmatricula(lista.get(i).getId_vehiculo());
+			fila[7]=lista.get(i).getPrecio();
+			modeloTBCli.addRow(fila);
 		}
-		return model;
+		
 	}
 	
 	public JFrame getFrame() {
