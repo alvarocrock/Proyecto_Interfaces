@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPasswordField;
@@ -59,13 +60,14 @@ public class LoginView {
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
-		
+
 		
 		JPanel Panel_login = new JPanel();
 		panel.add(Panel_login, BorderLayout.NORTH);
 		Panel_login.setBackground(Color.decode("#264653"));
 		
 		JLabel JLB_login = new JLabel("Login");
+		JLB_login.setForeground(Color.ORANGE);
 		JLB_login.setFont(new Font("Sitka Text", Font.PLAIN, 15));
 		Panel_login.add(JLB_login);
 		
@@ -109,8 +111,14 @@ public class LoginView {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER){
-                	login();
-                }
+	                   login();
+	                }
+	                if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
+	                	if(JOptionPane.showConfirmDialog(frame, "¿Seguro que quiere salir de la aplicación?", 
+	                			"Salir", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+	                		System.exit(0);;
+	                	}
+					}
 			}
 		});
 		Panel_usuario.add(JTF_usuario);
@@ -131,8 +139,14 @@ public class LoginView {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER){
-                	login();
-                }
+	                   login();
+	                }
+	                if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
+	                	if(JOptionPane.showConfirmDialog(frame, "¿Seguro que quiere salir de la aplicación?", 
+	                			"Salir", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+	                		System.exit(0);;
+	                	}
+					}
 			}
 		});
 		
@@ -148,6 +162,28 @@ public class LoginView {
 				login();
 			}
 		});
+		JBT_buscar.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+	                   login();
+	                }
+	                if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
+	                	if(JOptionPane.showConfirmDialog(frame, "¿Seguro que quiere salir de la aplicación?", 
+	                			"Salir", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+	                		System.exit(0);;
+	                	}
+					}				
+			}			
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
+		
 		panel_boton.add(JBT_buscar);
 		
 		frame.pack();

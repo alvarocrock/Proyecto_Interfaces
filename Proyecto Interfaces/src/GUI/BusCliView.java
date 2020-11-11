@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
@@ -39,8 +40,12 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.Component;
 
-public class BusCliView {
+public class BusCliView extends JFrame implements KeyListener{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private Usuarios usuario;
 	private JLabel LBUsuario;
@@ -178,33 +183,10 @@ public class BusCliView {
 				}
 				@Override
 				public void keyReleased(java.awt.event.KeyEvent arg0) {
+					addFiltros();
 				}
 				@Override
 				public void keyTyped(java.awt.event.KeyEvent arg0) {
-					// no hay texto en el TField
-					if (TFId.getText().length()==0 ) {
-						// la tecla pulsada es imprimible
-						int asc = (int) arg0.getKeyChar();
-						if(asc>=20) {
-							modeloOrdenado.setRowFilter(RowFilter.numberFilter(
-									ComparisonType.EQUAL,
-									Integer.parseInt(String.valueOf(arg0.getKeyChar()).trim())
-									,0));	
-						} else {
-							// la tecla pulsada NO es imprimible
-							modeloOrdenado.setRowFilter(RowFilter.numberFilter(
-									ComparisonType.NOT_EQUAL,
-									0,0));
-
-						}
-					// hay texto en el TField
-					} else {
-						modeloOrdenado.setRowFilter(RowFilter.numberFilter(
-								ComparisonType.EQUAL,
-								Integer.parseInt(TFId.getText() + String.valueOf(arg0.getKeyChar()))
-								,0));	
-					}
-				
 				}
 			});
 			
@@ -396,7 +378,6 @@ public class BusCliView {
 			LBRegistros = new JLabel(" No se han encontrado registros.");
 			LBRegistros.setBackground(Color.WHITE);
 			LBRegistros.setBorder(new LineBorder(Color.BLUE, 1, true));
-			
 			panelRegistros.add(LBRegistros);
 			
 			BTSiguiente = new JButton(">");
@@ -421,7 +402,8 @@ public class BusCliView {
 			BTultimo.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					TBCli.setRowSelectionInterval(TBCli.getRowCount()-1,TBCli.getRowCount()-1);
+					if (TBCli.getSelectedRow()<TBCli.getRowCount()-1)
+						TBCli.setRowSelectionInterval(TBCli.getRowCount()-1,TBCli.getRowCount()-1);
 					refrescaReg();
 				}
 			});
@@ -441,6 +423,15 @@ public class BusCliView {
 	 */
 	protected void addFiltros() {
 		ArrayList <RowFilter<TableModel,Integer>> filtros = new ArrayList <RowFilter<TableModel,Integer>>();
+		
+		if (TFId.getText().length()>0) {
+			modeloOrdenado.setRowFilter(RowFilter.numberFilter(
+					ComparisonType.EQUAL,
+					Integer.parseInt(String.valueOf(TFId))
+					,0));	
+			} else {
+				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
+			}
 		
 		if (TFDNI.getText().length()>0) {
 			filtros.add(RowFilter.regexFilter(TFDNI.getText(),1));
@@ -511,6 +502,21 @@ public class BusCliView {
 	 */
 	public Window getFrame() {
 		return frame;
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

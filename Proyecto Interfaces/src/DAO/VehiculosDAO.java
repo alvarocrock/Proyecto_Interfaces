@@ -187,8 +187,8 @@ public class VehiculosDAO extends AbstractDAO{
 	 */
 	public ArrayList<Vehiculos> cargaListaDAO() {
 		ArrayList<Vehiculos> miArray = new ArrayList<Vehiculos>();
-		String 	strSql="select id_vehiculo,matricula,marca, bastidor,"
-				+"modelo,precio,fecha_alta,id_cliente,id_usuario,id_conce from vehiculos order by id_vehiculo";
+		String 	strSql="select id_vehiculo,matricula, bastidor,"
+				+"marca, modelo,precio,fecha_alta,id_cliente,id_usuario,id_conce from vehiculos order by id_vehiculo";
 		
 		// ejecuta la consulta
 		ResultSet rst=super.consultaSQL(strSql);
@@ -199,6 +199,7 @@ public class VehiculosDAO extends AbstractDAO{
 						rst.getString(4), rst.getString(5), rst.getFloat(6), rst.getDate(7), rst.getInt(8), 
 						rst.getInt(9), rst.getInt(10));
 					miArray.add(miVeh);
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -166,6 +166,7 @@ public class ConsVeh {
 			PNCentral.setLayout(new BoxLayout(PNCentral, BoxLayout.Y_AXIS));
 			
 			// panel busquedas
+			/************************************/
 			PNBusquedas = new JPanel();
 			PNCentral.add(PNBusquedas);
 			PNBusquedas.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -182,10 +183,10 @@ public class ConsVeh {
 				}
 				@Override
 				public void keyReleased(java.awt.event.KeyEvent arg0) {
+					addFiltros();
 				}
 				@Override
-				public void keyTyped(java.awt.event.KeyEvent arg0) {
-					addFiltros();			
+				public void keyTyped(java.awt.event.KeyEvent arg0) {			
 				}
 			});
 			
@@ -369,16 +370,17 @@ public class ConsVeh {
 			LBRegistros = new JLabel(" No se han encontrado registros.");
 			LBRegistros.setBackground(Color.WHITE);
 			LBRegistros.setBorder(new LineBorder(Color.BLUE, 1, true));
+			panelRegistros.add(LBRegistros);
+
 			
 			panelRegistros.add(BTSiguiente = new JButton(">"));
 			BTSiguiente.setToolTipText("Registro siguiente.");
 			BTSiguiente.setForeground(Color.RED);
 			BTSiguiente.setFont(new Font("Tahoma", Font.BOLD, 8));
-			panelRegistros.add(BTSiguiente);
 			BTSiguiente.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (TBVeh.getSelectedRow()<TBVeh.getRowCount()) 
+					if (TBVeh.getSelectedRow()<TBVeh.getRowCount()-1) 
 						TBVeh.setRowSelectionInterval(TBVeh.getSelectedRow()+1,TBVeh.getSelectedRow()+1);
 					refrescaReg();
 				}
@@ -413,9 +415,6 @@ public class ConsVeh {
 	protected void addFiltros() {
 		ArrayList <RowFilter<TableModel,Integer>> filtros = new ArrayList <RowFilter<TableModel,Integer>>();
 		
-
-		
-		
 		if (TFMatricula.getText().length()>0) {
 			filtros.add(RowFilter.regexFilter(TFMatricula.getText(),1));
 		} else {
@@ -434,17 +433,12 @@ public class ConsVeh {
 			modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",3));
 		}
 		
-		if (TFModelo.getText().length()>0) {
-			filtros.add((RowFilter.regexFilter(TFModelo.getText(),3)));
-		} else {
-			modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",3));
-		}
-		
 		if (TFCliente.getText().length()>0) {
-			filtros.add((RowFilter.regexFilter(TFModelo.getText(),5)));
+			filtros.add((RowFilter.regexFilter(TFCliente.getText(),5)));
 		} else {
 			modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",5));
 		}
+		
 		
 		RowFilter<TableModel, Integer> filtroAnd = RowFilter.andFilter(filtros);
 		modeloOrdenado.setRowFilter(filtroAnd);
@@ -497,7 +491,8 @@ public class ConsVeh {
 	 * Refresca el label de control de registros
 	 */
 	private void refrescaReg() {
-		String p="Registro " + TBVeh.getSelectedRow()+1 + " de "+ TBVeh.getRowCount()+".";
+		String p=null;
+		p="Registro " + String.valueOf(TBVeh.getSelectedRow()+1) + " de "+ String.valueOf(TBVeh.getRowCount())+".";
 		LBRegistros.setText(p);	
 	}
 	/*
