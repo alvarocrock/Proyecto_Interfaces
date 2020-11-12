@@ -92,6 +92,7 @@ public class VerVentasView {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		JPanel panel_titulo = new JPanel();
+		panel_titulo.setBackground(Color.decode("#264653"));
 		panel.add(panel_titulo);
 		
 		JLabel JLB_titulo = new JLabel("Consulta de ventas");
@@ -100,10 +101,13 @@ public class VerVentasView {
 		panel_titulo.add(JLB_titulo);
 		
 		JPanel panel_principal = new JPanel();
+		panel_principal.setBackground(Color.decode("#2A9D8F"));
 		panel.add(panel_principal);
-		panel_principal.setLayout(new BoxLayout(panel_principal, BoxLayout.X_AXIS));
+		
+		
 		
 		JPanel panel_izquierdo = new JPanel();
+		panel_izquierdo.setBackground(Color.decode("#2A9D8F"));
 		panel_principal.add(panel_izquierdo);
 		panel_izquierdo.setLayout(new BoxLayout(panel_izquierdo, BoxLayout.Y_AXIS));
 		
@@ -233,19 +237,23 @@ public class VerVentasView {
 		
 		JPanel panel_derecho = new JPanel();
 		panel_principal.add(panel_derecho);
+		panel_derecho.setBackground(Color.decode("#2A9D8F"));
 		panel_derecho.setLayout(new BoxLayout(panel_derecho, BoxLayout.X_AXIS));
 		
 		JPanel panel_cont_p_d = new JPanel();
 		panel_derecho.add(panel_cont_p_d);
+		panel_cont_p_d.setBackground(Color.decode("#2A9D8F"));
 		panel_cont_p_d.setLayout(new BoxLayout(panel_cont_p_d, BoxLayout.Y_AXIS));
 		
 		// panel de busqueda
 		
 		JPanel panel_busqueda = new JPanel();
 		panel_cont_p_d.add(panel_busqueda);
+		panel_busqueda.setBackground(Color.decode("#2A9D8F"));
 		panel_busqueda.setLayout(new BoxLayout(panel_busqueda, BoxLayout.Y_AXIS));
 		
 		JPanel panel_lin_1 = new JPanel();
+		panel_lin_1.setBackground(Color.decode("#2A9D8F"));
 		panel_busqueda.add(panel_lin_1);
 		
 		JLabel ID_Venta = new JLabel("ID Ventas");
@@ -326,6 +334,7 @@ public class VerVentasView {
 		});
 		
 		JPanel panel_lin_2 = new JPanel();
+		panel_lin_2.setBackground(Color.decode("#2A9D8F"));
 		panel_busqueda.add(panel_lin_2);
 		
 		JLabel JLB_fecha_ini = new JLabel("Fecha registro");
@@ -349,6 +358,7 @@ public class VerVentasView {
 		
 		JLabel JLB_fecha_lim = new JLabel("Fecha limite");
 		panel_lin_2.add(JLB_fecha_lim);
+		
 		
 		JTF_Fecha_lim = new JTextField();
 		JTF_Fecha_lim.setColumns(10);
@@ -483,6 +493,7 @@ public class VerVentasView {
 		
 		//panel de botonera
 		JPanel panel_botonera = new JPanel();
+		panel_botonera.setBackground(Color.decode("#2A9D8F"));
 		panel_cont_p_d.add(panel_botonera);
 		
 		JButton JBT_seleccionar = new JButton("Seleccionar");
@@ -495,6 +506,7 @@ public class VerVentasView {
 		//panel de registros
 		
 		JPanel panel_registros = new JPanel();
+		panel_registros.setBackground(Color.decode("#2A9D8F"));
 		panel_cont_p_d.add(panel_registros);
 		
 		JButton BTPrimero = new JButton("<<");
