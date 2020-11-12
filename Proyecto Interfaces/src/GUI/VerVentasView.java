@@ -25,6 +25,8 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
+import javax.swing.RowFilter.ComparisonType;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -38,6 +40,7 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -62,6 +65,9 @@ public class VerVentasView {
 	private JTextField JTF_Fecha_lim;
 	private JTextField JTF_matricula;
 	private JTextField JTF_precio;
+	private JLabel LBRegistros;
+	private JTextField JTF_id;
+	private JComboBox Mi_combo;
 	/**
 	 * Create the application.
 	 */
@@ -242,12 +248,44 @@ public class VerVentasView {
 		JPanel panel_lin_1 = new JPanel();
 		panel_busqueda.add(panel_lin_1);
 		
+		JLabel ID_Venta = new JLabel("ID Ventas");
+		panel_lin_1.add(ID_Venta);
+		
+		JTF_id = new JTextField();
+		JTF_id.setText("");
+		panel_lin_1.add(JTF_id);
+		JTF_id.setColumns(10);
+		JTF_id.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(java.awt.event.KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
+			}
+			@Override
+			public void keyTyped(java.awt.event.KeyEvent arg0) {
+			}
+		});
+		
 		JLabel JLB_empleado = new JLabel("Empleado");
 		panel_lin_1.add(JLB_empleado);
 		
 		JTF_empleado = new JTextField();
 		JTF_empleado.setColumns(10);
 		panel_lin_1.add(JTF_empleado);
+		JTF_empleado.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(java.awt.event.KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
+			}
+			@Override
+			public void keyTyped(java.awt.event.KeyEvent arg0) {
+			}
+		});
 		
 		JLabel JLB_nombre_cliente = new JLabel("Nombre Cliente");
 		panel_lin_1.add(JLB_nombre_cliente);
@@ -255,6 +293,18 @@ public class VerVentasView {
 		JTF_nom_cli = new JTextField();
 		JTF_nom_cli.setColumns(10);
 		panel_lin_1.add(JTF_nom_cli);
+		JTF_nom_cli.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(java.awt.event.KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
+			}
+			@Override
+			public void keyTyped(java.awt.event.KeyEvent arg0) {
+			}
+		});
 		
 		JLabel JLB_apellido_cli = new JLabel("Apellido cliente");
 		panel_lin_1.add(JLB_apellido_cli);
@@ -262,6 +312,18 @@ public class VerVentasView {
 		JTF_ape_cli = new JTextField();
 		JTF_ape_cli.setColumns(10);
 		panel_lin_1.add(JTF_ape_cli);
+		JTF_ape_cli.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(java.awt.event.KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
+			}
+			@Override
+			public void keyTyped(java.awt.event.KeyEvent arg0) {
+			}
+		});
 		
 		JPanel panel_lin_2 = new JPanel();
 		panel_busqueda.add(panel_lin_2);
@@ -272,6 +334,18 @@ public class VerVentasView {
 		JTF_fecha_registro = new JTextField();
 		JTF_fecha_registro.setColumns(10);
 		panel_lin_2.add(JTF_fecha_registro);
+		JTF_fecha_registro.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(java.awt.event.KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
+			}
+			@Override
+			public void keyTyped(java.awt.event.KeyEvent arg0) {
+			}
+		});
 		
 		JLabel JLB_fecha_lim = new JLabel("Fecha limite");
 		panel_lin_2.add(JLB_fecha_lim);
@@ -279,6 +353,18 @@ public class VerVentasView {
 		JTF_Fecha_lim = new JTextField();
 		JTF_Fecha_lim.setColumns(10);
 		panel_lin_2.add(JTF_Fecha_lim);
+		JTF_Fecha_lim.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(java.awt.event.KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
+			}
+			@Override
+			public void keyTyped(java.awt.event.KeyEvent arg0) {
+			}
+		});
 		
 		JLabel JLB_mat_veh = new JLabel("Matricula");
 		panel_lin_2.add(JLB_mat_veh);
@@ -286,6 +372,18 @@ public class VerVentasView {
 		JTF_matricula = new JTextField();
 		JTF_matricula.setColumns(10);
 		panel_lin_2.add(JTF_matricula);
+		JTF_matricula.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(java.awt.event.KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
+			}
+			@Override
+			public void keyTyped(java.awt.event.KeyEvent arg0) {
+			}
+		});
 		
 		JLabel JLB_precio = new JLabel("precio");
 		panel_lin_2.add(JLB_precio);
@@ -293,8 +391,20 @@ public class VerVentasView {
 		JTF_precio = new JTextField();
 		JTF_precio.setColumns(10);
 		panel_lin_2.add(JTF_precio);
+		JTF_precio.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(java.awt.event.KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
+			}
+			@Override
+			public void keyTyped(java.awt.event.KeyEvent arg0) {
+			}
+		});
 		
-		JComboBox Mi_combo = new JComboBox();
+		Mi_combo = new JComboBox();
 		Mi_combo.addItem("=");
 		Mi_combo.addItem("<");
 		Mi_combo.addItem(">");
@@ -340,7 +450,7 @@ public class VerVentasView {
 		
 		// carga columnas de la tabla
 		modeloTBCli.addColumn("Id");
-		modeloTBCli.addColumn("Cliente");
+		modeloTBCli.addColumn("Empleado");
 		modeloTBCli.addColumn("Nombre");
 		modeloTBCli.addColumn("Apellidos");
 		modeloTBCli.addColumn("Fecha Alta");
@@ -410,11 +520,11 @@ public class VerVentasView {
 			public void actionPerformed(ActionEvent e) {
 				if (TBCli.getSelectedRow()>0) 
 					TBCli.setRowSelectionInterval(TBCli.getSelectedRow()-1,TBCli.getSelectedRow()-1);
-				refrescaReg();
+					refrescaReg();
 			}
 		});
 		
-		JLabel LBRegistros = new JLabel(" No se han encontrado registros.");
+		LBRegistros = new JLabel(" No se han encontrado registros.");
 		LBRegistros.setBackground(Color.WHITE);
 		LBRegistros.setBorder(new LineBorder(Color.BLUE, 1, true));
 		
@@ -477,6 +587,90 @@ public class VerVentasView {
 	
 	public JFrame getFrame() {
 		return frame;
+	}
+	
+	protected void addFiltros(KeyEvent e) {
+		ArrayList <RowFilter<TableModel,Integer>> filtros = new ArrayList <RowFilter<TableModel,Integer>>();
+		int ascii = e.getKeyChar();
+		if ((JTF_id.getText().length()>0) && (ascii>47) && (ascii<58)) {
+			   filtros.add(RowFilter.numberFilter(
+			     ComparisonType.EQUAL,
+			     Integer.parseInt(String.valueOf(JTF_id.getText()))
+			     ,0)); 
+			   } else {
+			    filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
+		
+			   }
+		if (JTF_empleado.getText().length()>0) {
+			filtros.add(RowFilter.regexFilter(JTF_empleado.getText(),1));
+		} else {
+			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
+		}
+		
+		if (JTF_nom_cli.getText().length()>0) {
+			filtros.add(RowFilter.regexFilter(JTF_nom_cli.getText(),2));
+		} else {
+			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",2));
+		}
+		
+		if (JTF_ape_cli.getText().length()>0) {
+			filtros.add(RowFilter.regexFilter(JTF_ape_cli.getText(),3));
+		} else {
+			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",3));
+		}
+		if (JTF_fecha_registro.getText().length()>0) {
+			filtros.add(RowFilter.regexFilter(JTF_fecha_registro.getText(),4));
+		} else {
+			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",4));
+		}
+		
+		if (JTF_Fecha_lim.getText().length()>0) {
+			filtros.add(RowFilter.regexFilter(JTF_Fecha_lim.getText(),5));
+		} else {
+			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",5));
+		}
+		
+		if (JTF_matricula.getText().length()>0) {
+			filtros.add(RowFilter.regexFilter(JTF_matricula.getText(),6));
+		} else {
+			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",6));
+		}
+		
+		if ((JTF_precio.getText().length()>0)) {
+			if (Mi_combo.getSelectedItem().toString()=="=") {
+			   filtros.add(RowFilter.numberFilter(
+			     ComparisonType.EQUAL,
+			     Float.parseFloat(String.valueOf(JTF_precio.getText()))
+			     ,7));
+			} else if (Mi_combo.getSelectedItem().toString()=="<") {
+				  	filtros.add(RowFilter.numberFilter(
+					ComparisonType.BEFORE,
+					Float.parseFloat(String.valueOf(JTF_precio.getText()))
+					,7));
+				}else if (Mi_combo.getSelectedItem().toString()==">") {
+				  	filtros.add(RowFilter.numberFilter(
+					ComparisonType.AFTER,
+					Float.parseFloat(String.valueOf(JTF_precio.getText()))
+					,7));
+				}
+			}   
+			else {
+			    filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",7));
+		
+			   }
+			
+		
+		RowFilter<TableModel, Integer> filtroAnd = RowFilter.andFilter(filtros);
+		modeloOrdenado.setRowFilter(filtroAnd);
+		
+	}
+	
+	/**
+	 * Refresca el label de control de registros
+	 */
+	private void refrescaReg() {
+		String p="Registro " + TBCli.getSelectedRow()+1 + " de "+ TBCli.getRowCount()+".";
+		LBRegistros.setText(p);	
 	}
 
 }
