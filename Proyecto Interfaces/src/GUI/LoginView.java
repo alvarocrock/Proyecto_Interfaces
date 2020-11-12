@@ -197,6 +197,9 @@ public class LoginView {
 		return frame;
 	}
 	
+	/*
+	 * Comprueba el login 
+	 */
 	public void login() {
 		if (miuserdao.compobarlogin(JTF_usuario.getText(),Jpass.getText())==true) {
 			frame.setVisible(false);
@@ -205,6 +208,7 @@ public class LoginView {
 			Jpass.setBackground(Color.decode("#FF0000"));
 		}
 	}
+	
 	/**
 	 * navegación al menú inicial
 	 */

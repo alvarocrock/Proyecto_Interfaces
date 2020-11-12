@@ -23,6 +23,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
@@ -34,8 +36,12 @@ import javax.swing.border.BevelBorder;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class MenuVentasView {
+public class MenuVentasView extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private Usuarios usuario;
 	private ImageIcon imagenbienvenida;
@@ -53,12 +59,19 @@ public class MenuVentasView {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+	
 		// Frame principal
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.decode("#2A9D8F"));
 		frame.setBounds(100, 100, 500, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+		
+		// implementar las teclas en el frame
+		KeyListener listener = new MyKeyListener();
+		frame.addKeyListener(listener);
+		frame.setFocusable(true);
+		frame.requestFocus();
 		
 		// panel título
 		JPanel PNTitulo = new JPanel();
@@ -252,10 +265,7 @@ public class MenuVentasView {
 		JLB_cerrar_sesion.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
-				LoginView miLogin = new LoginView();
-				miLogin.getFrame().setAlwaysOnTop(true);
-				miLogin.getFrame().setVisible(true);
+				salir();
 			}
 			@Override
 			public void mouseEntered (MouseEvent e) {
@@ -286,6 +296,20 @@ public class MenuVentasView {
 		
 	}
 
+	
+	/*
+	 * salir de la vista
+	 */
+	protected void salir() {
+		frame.dispose();
+		LoginView miLogin = new LoginView();
+		miLogin.getFrame().setAlwaysOnTop(true);
+		miLogin.getFrame().setVisible(true);		
+	}
+
+	/*
+	 * Getters
+	 */
 	/*
 	 * Get Frame
 	 */
@@ -293,4 +317,29 @@ public class MenuVentasView {
 		return frame;
 	}
 
+	/*
+	 * Implementa keyEvents
+	 */
+	public class MyKeyListener implements KeyListener {
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			int ascii = (int) arg0.getKeyChar();
+			System.out.println(ascii);
+			switch (arg0.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE:
+					salir();
+					break;	
+			}
+			
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+		}
+	
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+		}
+	}
+	
+//************************************************************* fin
 }

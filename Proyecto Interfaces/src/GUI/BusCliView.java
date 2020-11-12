@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import DAO.ClientesDAO;
+import GUI.MenuVentasView.MyKeyListener;
 import Models.Clientes;
 import Models.Usuarios;
 import javax.swing.JOptionPane;
@@ -40,7 +41,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.Component;
 
-public class BusCliView extends JFrame implements KeyListener{
+public class BusCliView extends JFrame{
 	
 	/**
 	 * 
@@ -97,6 +98,12 @@ public class BusCliView extends JFrame implements KeyListener{
 			frame.setBounds(100, 100, 900, 400);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(),BoxLayout.Y_AXIS));
+			
+			// implementar las teclas en el frame
+			KeyListener listener = new MyKeyListener();
+			frame.addKeyListener(listener);
+			frame.setFocusable(true);
+			frame.requestFocus();
 			
 			// panel título
 			JPanel PNTitulo = new JPanel();
@@ -183,7 +190,7 @@ public class BusCliView extends JFrame implements KeyListener{
 				}
 				@Override
 				public void keyReleased(java.awt.event.KeyEvent arg0) {
-					addFiltros();
+					addFiltros(arg0);
 				}
 				@Override
 				public void keyTyped(java.awt.event.KeyEvent arg0) {
@@ -202,7 +209,7 @@ public class BusCliView extends JFrame implements KeyListener{
 				}
 				@Override
 				public void keyReleased(java.awt.event.KeyEvent arg0) {
-					addFiltros();
+					addFiltros(arg0);
 				}
 				@Override
 				public void keyTyped(java.awt.event.KeyEvent arg0) {
@@ -222,7 +229,7 @@ public class BusCliView extends JFrame implements KeyListener{
 				}
 				@Override
 				public void keyReleased(java.awt.event.KeyEvent arg0) {
-					addFiltros();
+					addFiltros(arg0);
 				}
 				@Override
 				public void keyTyped(java.awt.event.KeyEvent arg0) {
@@ -240,7 +247,7 @@ public class BusCliView extends JFrame implements KeyListener{
 				}
 				@Override
 				public void keyReleased(java.awt.event.KeyEvent arg0) {
-					addFiltros();
+					addFiltros(arg0);
 				}
 				@Override
 				public void keyTyped(java.awt.event.KeyEvent arg0) {
@@ -336,10 +343,7 @@ public class BusCliView extends JFrame implements KeyListener{
 			BTSalir.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					frame.dispose();
-					MenuVentasView miMenuVentas = new MenuVentasView(usuario);
-					miMenuVentas.getFrame().setAlwaysOnTop(true);
-					miMenuVentas.getFrame().setVisible(true);
+					salir();
 				}
 			});
 			
@@ -388,7 +392,7 @@ public class BusCliView extends JFrame implements KeyListener{
 			BTSiguiente.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (TBCli.getSelectedRow()<TBCli.getRowCount()) 
+					if (TBCli.getSelectedRow()<TBCli.getRowCount()-1) 
 						TBCli.setRowSelectionInterval(TBCli.getSelectedRow()+1,TBCli.getSelectedRow()+1);
 					refrescaReg();
 				}
@@ -418,16 +422,22 @@ public class BusCliView extends JFrame implements KeyListener{
 
 		}
 	
+	protected void salir() {
+		frame.dispose();
+		MenuVentasView miMenuVentas = new MenuVentasView(usuario);
+		miMenuVentas.getFrame().setAlwaysOnTop(true);
+		miMenuVentas.getFrame().setVisible(true);		
+	}
 	/*
 	 * Add filtros a la tabla
 	 */
-	protected void addFiltros() {
+	protected void addFiltros(KeyEvent e) {
 		ArrayList <RowFilter<TableModel,Integer>> filtros = new ArrayList <RowFilter<TableModel,Integer>>();
-		
-		if (TFId.getText().length()>0) {
-			modeloOrdenado.setRowFilter(RowFilter.numberFilter(
+		int ascii = e.getKeyChar();
+		if ((TFId.getText().length()>0) && (ascii>47) && (ascii<58)) {
+			filtros.add(RowFilter.numberFilter(
 					ComparisonType.EQUAL,
-					Integer.parseInt(String.valueOf(TFId))
+					Integer.parseInt(String.valueOf(TFId.getText()))
 					,0));	
 			} else {
 				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
@@ -460,7 +470,6 @@ public class BusCliView extends JFrame implements KeyListener{
 	 * Carga la tabla conlos clientes de la base de datos
 	 * @param miArray 
 	 */
-
 	protected void cargaCli(ArrayList<Clientes> miArray) {
 		Object [] fila = new Object[5];
 
@@ -473,7 +482,6 @@ public class BusCliView extends JFrame implements KeyListener{
 			modeloTBCli.addRow(fila);
 		}
 
-		
 	}
 	
 	/**
@@ -494,7 +502,7 @@ public class BusCliView extends JFrame implements KeyListener{
 	 */
 	private void refrescaReg() {
 		
-		String p="Registro " + TBCli.getSelectedRow()+1 + " de "+ TBCli.getRowCount()+".";
+		String p="Registro " + (TBCli.getSelectedRow()+1) + " de "+ TBCli.getRowCount()+".";
 		LBRegistros.setText(p);	
 	}
 	/*
@@ -503,20 +511,28 @@ public class BusCliView extends JFrame implements KeyListener{
 	public Window getFrame() {
 		return frame;
 	}
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
+	/*
+	 * Implementa keyEvents
+	 */
+	public class MyKeyListener implements KeyListener {
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			int ascii = (int) arg0.getKeyChar();
+			System.out.println(ascii);
+			switch (arg0.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE:
+					salir();
+					break;	
+			}
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+		}
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+		}
+	}
+	
+//******************** fin
 }
