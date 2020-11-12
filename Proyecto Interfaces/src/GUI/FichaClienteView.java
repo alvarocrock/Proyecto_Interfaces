@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,12 +25,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import DAO.ClientesDAO;
+import GUI.MenuVentasView.MyKeyListener;
 import Models.Clientes;
 import Models.Usuarios;
 import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 
-public class FichaClienteView {
+public class FichaClienteView extends JFrame{
 
 	private JFrame frame;
 	private Usuarios usuario;
@@ -95,6 +98,12 @@ public class FichaClienteView {
 					frame.setBounds(100, 100, 900, 400);
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(),BoxLayout.Y_AXIS));
+					
+					// implementar las teclas en el frame
+					KeyListener listener = new MyKeyListener();
+					frame.addKeyListener(listener);
+					frame.setFocusable(true);
+					frame.requestFocus();
 					
 					// panel título
 					JPanel PNTitulo = new JPanel();
@@ -316,10 +325,7 @@ public class FichaClienteView {
 			BTSalir.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					frame.dispose();
-					MenuVentasView miMenuVentas = new MenuVentasView(usuario);
-					miMenuVentas.getFrame().setAlwaysOnTop(true);
-					miMenuVentas.getFrame().setVisible(true);;
+					salir();
 				}
 			});
 			
@@ -431,5 +437,38 @@ public class FichaClienteView {
 	public Window getFrame() {
 		return frame;
 	}
+	
+	/*
+	 * Implementa keyEvents
+	 */
+	public class MyKeyListener implements KeyListener {
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			int ascii = (int) arg0.getKeyChar();
+			System.out.println(ascii);
+			switch (arg0.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE:
+					salir();
+					break;	
+			}
+			
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+		}
+	
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+		}
+	}
 
+	public void salir() {
+		frame.dispose();
+		MenuVentasView miMenuVentas = new MenuVentasView(usuario);
+		miMenuVentas.getFrame().setAlwaysOnTop(true);
+		miMenuVentas.getFrame().setVisible(true);		
+	}
+	
+//************************************************************* fin
+	
 }

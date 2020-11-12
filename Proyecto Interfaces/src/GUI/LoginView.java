@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import DAO.UsuarioDAO;
+import GUI.FichaClienteView.MyKeyListener;
 
 import java.awt.Font;
 import javax.swing.JPanel;
@@ -27,8 +28,12 @@ import javax.swing.ImageIcon;
 import java.awt.FlowLayout;
 import java.awt.event.KeyAdapter;
 
-public class LoginView {
+public class LoginView extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private UsuarioDAO miuserdao;
 	private JTextField JTF_usuario;
@@ -51,11 +56,14 @@ public class LoginView {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 900, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		// el frame se hace visible desde el controlador
-		// frame.setVisible(true);
 		frame.pack();
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
+		
+		// implementar las teclas en el frame
+		KeyListener listener = new MyKeyListener();
+		frame.addKeyListener(listener);
+		frame.setFocusable(true);
+		frame.requestFocus();
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
@@ -107,20 +115,26 @@ public class LoginView {
 		Panel_usuario.add(JLB_usuario);
 		
 		JTF_usuario = new JTextField();
-		JTF_usuario.addKeyListener(new KeyAdapter() {
+		
+		JTF_usuario.addKeyListener(new KeyListener() {
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void keyTyped(KeyEvent e) {
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER){
 	                   login();
 	                }
 	                if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
-	                	if(JOptionPane.showConfirmDialog(frame, "¿Seguro que quiere salir de la aplicación?", 
-	                			"Salir", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
-	                		System.exit(0);;
-	                	}
-					}
+	                	salir();
+					}				
+			}			
+			@Override
+			public void keyPressed(KeyEvent e) {
 			}
 		});
+		
 		Panel_usuario.add(JTF_usuario);
 		JTF_usuario.setColumns(10);
 		
@@ -135,6 +149,7 @@ public class LoginView {
 		Jpass = new JPasswordField();
 		Jpass.setColumns(10);
 		panel_passwd.add(Jpass);
+		
 		Jpass.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -173,10 +188,7 @@ public class LoginView {
 	                   login();
 	                }
 	                if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
-	                	if(JOptionPane.showConfirmDialog(frame, "¿Seguro que quiere salir de la aplicación?", 
-	                			"Salir", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
-	                		System.exit(0);;
-	                	}
+	                	salir();
 					}				
 			}			
 			@Override
@@ -187,6 +199,16 @@ public class LoginView {
 		panel_boton.add(JBT_buscar);
 		
 		frame.pack();
+	}
+
+	/*
+	 * Sale de la aplicación
+	 */
+	protected void salir() {
+    	if(JOptionPane.showConfirmDialog(frame, "¿Seguro que quiere salir de la aplicación?", 
+    			"Salir", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+    		System.exit(0);;
+    	}		
 	}
 
 	/**
@@ -238,4 +260,33 @@ public class LoginView {
 				System.out.println("¿Comorrrrrrrr?");
 		}			
 	}
+	
+	/*
+	 * Implementa keyEvents
+	 */
+	public class MyKeyListener implements KeyListener {
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			int ascii = (int) arg0.getKeyChar();
+			System.out.println(ascii);
+			switch (arg0.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE:
+					salir();
+					break;	
+				case KeyEvent.VK_ENTER:
+					login();
+					frame.requestFocus();
+			}
+			
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+		}
+	
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+		}
+	}
+	
+	//******************* fin
 }

@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Window;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -16,14 +18,19 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.TitledBorder;
 
+import GUI.LoginView.MyKeyListener;
 import Models.Usuarios;
 import net.miginfocom.swing.MigLayout;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-public class MenuMecanicoView {
+public class MenuMecanicoView extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private Usuarios miUsuario;
 
@@ -44,6 +51,12 @@ public class MenuMecanicoView {
 		frame.setBounds(100, 100, 463, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[434px]", "[35px][226px]"));
+		
+		// implementar las teclas en el frame
+		KeyListener listener = new MyKeyListener();
+		frame.addKeyListener(listener);
+		frame.setFocusable(true);
+		frame.requestFocus();
 		
 		// panel título
 		JPanel PNTitulo = new JPanel();
@@ -119,20 +132,53 @@ public class MenuMecanicoView {
 		BTSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
-				LoginView miLogin = new LoginView();
-				miLogin.getFrame().setAlwaysOnTop(true);
-				miLogin.getFrame().setVisible(true);
+				salir();
 			}
 		});
 	}
 	
+	/*
+	 * salir de la view
+	 */
+	protected void salir() {
+		frame.dispose();
+		LoginView miLogin = new LoginView();
+		miLogin.getFrame().setAlwaysOnTop(true);
+		miLogin.getFrame().setVisible(true);		
+	}
+
 	/*
 	 * Get Frame
 	 */
 	public JFrame getFrame() {
 		return frame;
 	}
+	
+	/*
+	 * Implementa keyEvents
+	 */
+	public class MyKeyListener implements KeyListener {
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			int ascii = (int) arg0.getKeyChar();
+			System.out.println(ascii);
+			switch (arg0.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE:
+					salir();
+					break;	
+			}
+			
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+		}
+	
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+		}
+	}
+	
+	//******************* fin
 }
 
 

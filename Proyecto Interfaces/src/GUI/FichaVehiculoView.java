@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -27,12 +29,17 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import DAO.VehiculosDAO;
+import GUI.ConsVeh.MyKeyListener;
 import Models.Usuarios;
 import Models.Vehiculos;
 import net.miginfocom.swing.MigLayout;
 
-public class FichaVehiculoView {
+public class FichaVehiculoView extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Usuarios usuario;
 	private VehiculosDAO miVehDAO;
 	private JLabel LBUsuario;
@@ -56,7 +63,7 @@ public class FichaVehiculoView {
 	private JButton BTGuardar;
 	private JButton BTSalir;
 
-/**
+	/**
 	 * Constructor con usuario e id de cliente
 	 * @param miuser
 	 * @param idVeh
@@ -97,6 +104,12 @@ public class FichaVehiculoView {
 		frame.setBounds(100, 100, 900, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(),BoxLayout.Y_AXIS));
+		
+		// implementar las teclas en el frame
+		KeyListener listener = new MyKeyListener();
+		frame.addKeyListener(listener);
+		frame.setFocusable(true);
+		frame.requestFocus();
 		
 		// panel título
 		JPanel PNTitulo = new JPanel();
@@ -337,10 +350,7 @@ public class FichaVehiculoView {
 			BTSalir.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					frame.dispose();
-					MenuVentasView miMenuVentas = new MenuVentasView(usuario);
-					miMenuVentas.getFrame().setAlwaysOnTop(true);
-					miMenuVentas.getFrame().setVisible(true);;
+					salir();
 				}
 			});
 			
@@ -418,6 +428,13 @@ public class FichaVehiculoView {
 			});
 	}
 	
+	protected void salir() {
+		frame.dispose();
+		MenuVentasView miMenuVentas = new MenuVentasView(usuario);
+		miMenuVentas.getFrame().setAlwaysOnTop(true);
+		miMenuVentas.getFrame().setVisible(true);;		
+	}
+
 	/**
 	 * Activa/desactiva botones
 	 * @param estado
@@ -444,10 +461,7 @@ public class FichaVehiculoView {
 		TFPrecio.setText(String.valueOf(miVeh.getPrecio()));
 		TFIdCli.setText(String.valueOf(miVeh.getId_cli()));
 		TFConce.setText(String.valueOf(miVeh.getId_conce()));
-		
-		// aqui habría que rellenar el nombre de cliente
-		
-		
+		// caragr los datos de clientes
 	}
 
 	/*
@@ -456,5 +470,30 @@ public class FichaVehiculoView {
 	public JFrame getFrame() {
 		return frame;
 	}
-
+	
+	/*
+	 * Implementa keyEvents
+	 */
+	public class MyKeyListener implements KeyListener {
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			int ascii = (int) arg0.getKeyChar();
+			System.out.println(ascii);
+			switch (arg0.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE:
+					salir();
+					break;	
+			}
+			
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+		}
+	
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+		}
+	}
+	
+	//**************************** fin
 }

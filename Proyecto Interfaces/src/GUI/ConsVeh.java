@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -41,6 +42,7 @@ import javax.swing.table.TableRowSorter;
 
 import DAO.ClientesDAO;
 import DAO.VehiculosDAO;
+import GUI.MenuVentasView.MyKeyListener;
 import Models.Clientes;
 import Models.Usuarios;
 import Models.Vehiculos;
@@ -98,6 +100,12 @@ public class ConsVeh {
 			frame.setBounds(100, 100, 900, 400);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(),BoxLayout.Y_AXIS));
+			
+			// implementar las teclas en el frame
+			KeyListener listener = new MyKeyListener();
+			frame.addKeyListener(listener);
+			frame.setFocusable(true);
+			frame.requestFocus();
 			
 			// panel título
 			JPanel PNTitulo = new JPanel();
@@ -328,10 +336,7 @@ public class ConsVeh {
 			BTSalir.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					frame.dispose();
-					MenuVentasView miMenuVentas = new MenuVentasView(usuario);
-					miMenuVentas.getFrame().setAlwaysOnTop(true);
-					miMenuVentas.getFrame().setVisible(true);
+					salir();
 				}
 			});
 			
@@ -410,6 +415,16 @@ public class ConsVeh {
 		}
 	
 	/*
+	 * Salir de la vista
+	 */
+	protected void salir() {
+		frame.dispose();
+		MenuVentasView miMenuVentas = new MenuVentasView(usuario);
+		miMenuVentas.getFrame().setAlwaysOnTop(true);
+		miMenuVentas.getFrame().setVisible(true);		
+	}
+
+	/*
 	 * add los filtros a la tabla
 	 */
 	protected void addFiltros() {
@@ -470,8 +485,6 @@ public class ConsVeh {
 			fila[8]=miArray.get(i).getPrecio();
 			modeloTBVeh.addRow(fila);
 		}
-
-		
 	}
 	
 	/**
@@ -495,13 +508,39 @@ public class ConsVeh {
 		p="Registro " + String.valueOf(TBVeh.getSelectedRow()+1) + " de "+ String.valueOf(TBVeh.getRowCount())+".";
 		LBRegistros.setText(p);	
 	}
+	
 	/*
 	 * Get Frame
 	 */
 	public Window getFrame() {
 		return frame;
 	}
-
+	
+	/*
+	 * Implementa keyEvents
+	 */
+	public class MyKeyListener implements KeyListener {
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			int ascii = (int) arg0.getKeyChar();
+			System.out.println(ascii);
+			switch (arg0.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE:
+					salir();
+					break;	
+			}
+			
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+		}
+	
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+		}
+	}
+	
+//************************************************************* fin
 
 }
 

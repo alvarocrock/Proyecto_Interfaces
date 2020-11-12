@@ -59,7 +59,6 @@ public class MenuVentasView extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-	
 		// Frame principal
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.decode("#2A9D8F"));

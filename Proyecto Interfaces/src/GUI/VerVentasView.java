@@ -35,6 +35,7 @@ import javax.swing.table.TableRowSorter;
 import com.sun.tools.javac.tree.JCTree.JCYield;
 
 import DAO.VentasDAO;
+import GUI.FichaClienteView.MyKeyListener;
 
 import javax.swing.JButton;
 
@@ -48,8 +49,12 @@ import java.util.ArrayList;
 import java.awt.Font;
 import javax.swing.JComboBox;
 
-public class VerVentasView {
+public class VerVentasView extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private Usuarios miuser;
 	private VentasDAO contro;
@@ -67,7 +72,7 @@ public class VerVentasView {
 	private JTextField JTF_precio;
 	private JLabel LBRegistros;
 	private JTextField JTF_id;
-	private JComboBox Mi_combo;
+	private JComboBox <String> Mi_combo;
 	/**
 	 * Create the application.
 	 */
@@ -85,6 +90,12 @@ public class VerVentasView {
 		frame.setBounds(100, 100, 1200,1200 );
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		// implementar las teclas en el frame
+		KeyListener listener = new MyKeyListener();
+		frame.addKeyListener(listener);
+		frame.setFocusable(true);
+		frame.requestFocus();
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
@@ -501,7 +512,12 @@ public class VerVentasView {
 		
 		JButton JBT_salir = new JButton("Salir");
 		panel_botonera.add(JBT_salir);
-		
+		JBT_salir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				salir();
+			}
+		});
 		
 		//panel de registros
 		
@@ -579,7 +595,7 @@ public class VerVentasView {
 
 	}
 		
-		
+
 	public void cargarVentas(ArrayList<Ventas> lista) {
 		Object [] fila = new Object[8];
 
@@ -684,5 +700,41 @@ public class VerVentasView {
 		String p="Registro " + TBCli.getSelectedRow()+1 + " de "+ TBCli.getRowCount()+".";
 		LBRegistros.setText(p);	
 	}
+	
+	/*
+	 * Implementa keyEvents
+	 */
+	public class MyKeyListener implements KeyListener {
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			int ascii = (int) arg0.getKeyChar();
+			System.out.println(ascii);
+			switch (arg0.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE:
+					salir();
+					break;	
+			}
+			
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+		}
+	
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+		}
+	}
+
+	/*
+	 * salir de la vista
+	 */
+	public void salir() {
+		frame.dispose();
+		MenuVentasView miMenuVentas = new MenuVentasView(miuser);
+		miMenuVentas.getFrame().setAlwaysOnTop(true);
+		miMenuVentas.getFrame().setVisible(true);
+	}
+	
+//************************************************************* fin
 
 }

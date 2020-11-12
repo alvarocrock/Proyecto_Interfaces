@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Window;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -17,11 +19,16 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.TitledBorder;
 
+import GUI.LoginView.MyKeyListener;
 import Models.Usuarios;
 import net.miginfocom.swing.MigLayout;
 
-public class MenuJTallerView {
+public class MenuJTallerView extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	Usuarios miuser;
 
@@ -43,6 +50,12 @@ public class MenuJTallerView {
 		frame.setBounds(100, 100, 463, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[434px]", "[35px][226px]"));
+		
+		// implementar las teclas en el frame
+		KeyListener listener = new MyKeyListener();
+		frame.addKeyListener(listener);
+		frame.setFocusable(true);
+		frame.requestFocus();
 		
 		// panel título
 		JPanel PNTitulo = new JPanel();
@@ -89,7 +102,7 @@ public class MenuJTallerView {
 		BTProVen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FichaClienteView miFichaClientes = new FichaClienteView(miUsuario);
+				FichaClienteView miFichaClientes = new FichaClienteView(miuser,0);
 				miFichaClientes.getFrame().setAlwaysOnTop(true);
 				miFichaClientes.getFrame().setVisible(true);
 				frame.dispose();
@@ -102,7 +115,7 @@ public class MenuJTallerView {
 		BTBusCli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VerTrabajoView verTra = new VerTrabajoView(miUsuario);
+				VerTrabajoView verTra = new VerTrabajoView(miuser,0);
 				verTra.getFrame().setAlwaysOnTop(true);
 				verTra.getFrame().setVisible(true);
 				frame.dispose();
@@ -115,7 +128,7 @@ public class MenuJTallerView {
 		BTBusCli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				AsignarTrabajoView asiTra = new AsignarTrabajoView(miUsuario);
+				AsignarTrabajoView asiTra = new AsignarTrabajoView(miuser,0);
 				asiTra.getFrame().setAlwaysOnTop(true);
 				asiTra.getFrame().setVisible(true);
 				frame.dispose();
@@ -129,10 +142,7 @@ public class MenuJTallerView {
 		BTSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
-				LoginView miLogin = new LoginView();
-				miLogin.getFrame().setAlwaysOnTop(true);
-				miLogin.getFrame().setVisible(true);
+				salir();
 			}
 		});
 	}
@@ -143,5 +153,37 @@ public class MenuJTallerView {
 	public Window getFrame() {
 		return frame;
 	}
+	
+	/*
+	 * Implementa keyEvents
+	 */
+	public class MyKeyListener implements KeyListener {
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			int ascii = (int) arg0.getKeyChar();
+			System.out.println(ascii);
+			switch (arg0.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE:
+					salir();
+					break;	
+			}
+			
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+		}
+	
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+		}
+	}
 
+	public void salir() {
+		frame.dispose();
+		LoginView miLogin = new LoginView();
+		miLogin.getFrame().setAlwaysOnTop(true);
+		miLogin.getFrame().setVisible(true);		
+	}
+	
+	//******************* fin
 }

@@ -441,7 +441,7 @@ public class BusCliView extends JFrame{
 					,0));	
 			} else {
 				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
-			}
+		}
 		
 		if (TFDNI.getText().length()>0) {
 			filtros.add(RowFilter.regexFilter(TFDNI.getText(),1));
