@@ -253,6 +253,29 @@ public class MenuVentasView extends JFrame {
 				JLB_ficha_vehiculo.setFont(new Font("Tahoma",Font.PLAIN,14));
 			}
 		});
+		JLabel JLB_buc_conce = new JLabel("Buscar conce");
+		JLB_buc_conce.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				BuscarConcesionariosView miconceview = new BuscarConcesionariosView(usuario);
+				miconceview.getFrame().setVisible(true);
+				miconceview.getFrame().setAlwaysOnTop(true);
+				frame.dispose();
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				JLB_buc_conce.setForeground(Color.RED);
+				JLB_buc_conce.setFont(new Font("Tahoma",Font.BOLD,14));
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				JLB_buc_conce.setForeground(Color.ORANGE);
+				JLB_buc_conce.setFont(new Font("Tahoma",Font.BOLD,14));
+			}
+		});
+		JLB_buc_conce.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLB_buc_conce.setForeground(Color.decode("#E9C46A"));
+		panel_opciones.add(JLB_buc_conce);
 		
 		
 		JLabel JLB_cerrar_sesion = new JLabel("Cerrar sesi\u00F3n");
