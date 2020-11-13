@@ -456,14 +456,17 @@ public class FichaClienteView extends JFrame{
 							System.out.println("algo ha ido fatal");
 							resultado=false;
 					}
-		// calculamos la letra
+		// calculamos la letra del NIE
 					resultado=comprueba(dni);
 		// Es un DNI
 				} else {
+		// calculamos la letra del DNI
 					resultado=comprueba(dni);
 				}
 			} else {
-				System.out.println("El DNI debe tener 8 números y una letra, el NIE: una letra (X, Y o Z), 7 números y una letra ");
+				System.out.println("El DNI debe tener 8 números y una letra./n"
+						+ " el NIE debe tener una letra (X, Y o Z), 7 números y una letra final."
+						+ "O no ha introducido todos los datos requeridos.");
 				resultado = false;
 			}
 		}
@@ -471,17 +474,20 @@ public class FichaClienteView extends JFrame{
 		return resultado;
 	}
 
+	/**
+	 * Comprueba que la letra del DNI/NIE sea correcta
+	 * @param dni
+	 * @return
+	 */
 	private boolean comprueba(String dni) {
 		boolean resultado=true;
-		
 		// divide entre 23 y extrae el resto
-		int resto = Integer.parseInt(dni.substring(1,8))%23;
+		int resto = (Integer.parseInt(dni.substring(1,8))%23)+1;
 		// carga la lista de letras del dni
 		ArrayList<String> miArray = new ArrayList<String>();
-		int i=0;
+		// guarda el enum en un array
 		for (DigitoDni d: DigitoDni.values()) {
 			miArray.add(d.toString());
-			i++;
 		};
 		// comprueba la letra 
 		if (!miArray.get(resto).equals(dni.substring(8,9))) {

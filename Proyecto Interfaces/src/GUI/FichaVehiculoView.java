@@ -166,8 +166,6 @@ public class FichaVehiculoView extends JFrame{
 		PNUsuario.add(LBNomUsu);
         LBNomUsu.setAlignmentX(0.5f);            
         LBNomUsu.setText(usuario.getNick());
-	
-
 		
 		// panel nombre de usuario
 		JPanel PNMenu = new JPanel();
@@ -307,25 +305,28 @@ public class FichaVehiculoView extends JFrame{
 			BTGuardar.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// crea el nuevo vehículo
-					Vehiculos miVeh=new Vehiculos(0,TFMatricula.getText(),TFBastidor.getText(),
-							TFMarca.getText(),TFModelo.getText(),
-							Float.parseFloat(TFPrecio.getText()),
-							Date.valueOf(LocalDate.now()),
-							Integer.parseInt(TFIdCli.getText()),
-							usuario.getId(),
-							Integer.parseInt(TFConce.getText()));
-					// comprobar si ya existe el registro
-					if (miVehDAO.Comprobarvehiculo(TFMatricula.getText())) {
-						// guardar el registro
-						miVehDAO.updateVehiculo(miVeh);	
-					} else {
-						// insertar el registro
-						miVehDAO.addVehiculo(miVeh);
-					}
-					daBotones(true);
-					refrescaReg();
+					if (comprobardatos()) {
+						// crea el nuevo vehículo
+						Vehiculos miVeh=new Vehiculos(0,TFMatricula.getText(),TFBastidor.getText(),
+								TFMarca.getText(),TFModelo.getText(),
+								Float.parseFloat(TFPrecio.getText()),
+								Date.valueOf(LocalDate.now()),
+								Integer.parseInt(TFIdCli.getText()),
+								usuario.getId(),
+								Integer.parseInt(TFConce.getText()));
+						// comprobar si ya existe el registro
+						if (miVehDAO.Comprobarvehiculo(TFMatricula.getText())) {
+							// guardar el registro
+							miVehDAO.updateVehiculo(miVeh);	
+						} else {
+							// insertar el registro
+							miVehDAO.addVehiculo(miVeh);
+						}
+						daBotones(true);
+						refrescaReg();
+					} 
 				}
+
 			});
 			
 			BTNuevo = new JButton("Nuevo");
@@ -426,6 +427,30 @@ public class FichaVehiculoView extends JFrame{
 					refrescaReg();
 				}
 			});
+	}
+	
+	/**
+	 * Comprueba si los datos son correctos
+	 * @return
+	 */
+	private boolean comprobardatos() {
+		if (!comprobarFloat() || (TFBastidor.getText().length()==0) || (TFConce.getText().length()==0)  || 
+				(TFIdCli.getText().length()==0)	||  (TFMarca.getText().length()==0)
+				|| (TFMatricula.getText().length()==0)  || (TFModelo.getText().length()==0)
+				|| (TFPrecio.getText().length()==0)
+				) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	private boolean comprobarFloat() {
+		boolean resultado=true;
+		if (!(TFPrecio.getText().matches("[0-9]*/.[0-9]{0,2}"))) {
+			resultado=false;
+			JOptionPane.showMessageDialog(frame, "El precio no es un número válido. O no ha introducido todos los datos requeridos.");
+		};
+		return resultado;
 	}
 	
 	protected void salir() {
