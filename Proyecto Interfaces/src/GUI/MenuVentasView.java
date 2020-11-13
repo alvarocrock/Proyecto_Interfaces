@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import javax.swing.border.TitledBorder;
 
 import Models.Usuarios;
-import javafx.scene.layout.Border;
 
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
@@ -277,6 +276,30 @@ public class MenuVentasView extends JFrame {
 		JLB_buc_conce.setForeground(Color.decode("#E9C46A"));
 		panel_opciones.add(JLB_buc_conce);
 		
+		JLabel JLB_buc_ppto = new JLabel("Buscar Presupuestos");
+		JLB_buc_ppto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				BuscarPresupuestosView miconceview = new BuscarPresupuestosView(usuario);
+				miconceview.getFrame().setVisible(true);
+				miconceview.getFrame().setAlwaysOnTop(true);
+				frame.dispose();
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				JLB_buc_ppto.setForeground(Color.RED);
+				JLB_buc_ppto.setFont(new Font("Tahoma",Font.BOLD,14));
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				JLB_buc_ppto.setForeground(Color.ORANGE);
+				JLB_buc_ppto.setFont(new Font("Tahoma",Font.BOLD,14));
+			}
+		});
+		JLB_buc_ppto.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLB_buc_ppto.setForeground(Color.decode("#E9C46A"));
+		panel_opciones.add(JLB_buc_ppto);
+		
 		
 		JLabel JLB_cerrar_sesion = new JLabel("Cerrar sesi\u00F3n");
 		JLB_cerrar_sesion.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -315,6 +338,8 @@ public class MenuVentasView extends JFrame {
 		imagenbienvenida=new ImageIcon("src/png/bienvenida.png");
 		JLabel JLB_imagen = new JLabel(imagenbienvenida);
 		PNDerecho.add(JLB_imagen);
+		
+		frame.pack();
 		
 	}
 
