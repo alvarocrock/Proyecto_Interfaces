@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -24,6 +25,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+
+import Common.Constantes;
+import Common.Constantes.DigitoDni;
 import DAO.ClientesDAO;
 import GUI.MenuVentasView.MyKeyListener;
 import Models.Clientes;
@@ -288,19 +292,21 @@ public class FichaClienteView extends JFrame{
 			BTGuardar.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// crea el nuevo cliente
-					Clientes cliente=new Clientes(0,TFDni.getText(),TFNombre.getText(),TFApellidos.getText(),TFDir.getText(),
-							TFProv.getText(),TFPob.getText(),Date.valueOf(LocalDate.now()));
-					// comprobar si ya existe el registro
-					if (miCliDAO.ComprobarCliente(TFDni.getText())) {
-						// guardar el registro
-						miCliDAO.updateCliente(cliente);	
-					} else {
-						// insertar el registro
-						miCliDAO.addCliente(cliente);
+					if (comprobarDatos()) {
+						// crea el nuevo cliente
+						Clientes cliente=new Clientes(0,TFDni.getText(),TFNombre.getText(),TFApellidos.getText(),TFDir.getText(),
+								TFProv.getText(),TFPob.getText(),Date.valueOf(LocalDate.now()));
+						// comprobar si ya existe el registro
+						if (miCliDAO.ComprobarCliente(TFDni.getText())) {
+							// guardar el registro
+							miCliDAO.updateCliente(cliente);	
+						} else {
+							// insertar el registro
+							miCliDAO.addCliente(cliente);
+						}
+						daBotones(true);
+						refrescaReg();
 					}
-					daBotones(true);
-					refrescaReg();
 				}
 			});
 			
@@ -404,6 +410,87 @@ public class FichaClienteView extends JFrame{
 			});
 	}
 	
+	// comprueba que los datos son correctos 
+	protected boolean comprobarDatos() {
+
+		if (!comprobarDNI() || (TFDni.getText().length()==0) || (TFApellidos.getText().length()==0)  || (TFDir.getText().length()==0) 
+				||  (TFNombre.getText().length()==0)  || (TFPob.getText().length()==0)  || (TFProv.getText().length()==0)) {
+			return false;
+		} else {
+			return true;
+		}
+
+	}
+
+	private boolean comprobarDNI() {
+		boolean resultado = true;
+		String dni = TFDni.getText();
+
+		
+		// el dni tiene que tener 9 dígitos
+		if ((dni.length()>9) || (dni.length()<9)) {
+			resultado= false;
+			System.out.println("El NIF/NIE debe tener 9 dígitos");
+		} else {
+		// comprueba que los formatos DNI/NIE sean correctos
+			if (
+					(dni.substring(8, 9).matches("[a-zA-Z]")
+					&& dni.substring(0, 8).matches("[0-9]{8}")) 
+					|| (dni.substring(0, 1).matches("[x-zX-Z]") 
+					&& dni.substring(8, 9).matches("[a-zA-Z]") 
+					&& dni.substring(1, 8).matches("[0-9]{7}")))  {
+		// Es un NIE
+				if (dni.substring(0, 1).matches("[x-zX-Z]")) {
+		// cambiamos el primer dígito por el número correspondiente de un NIE
+					switch (dni.substring(0, 1).toUpperCase()) {
+						case "X":
+							dni = "0" + dni.substring(1, 9);
+							break;
+						case "Y":
+							dni = "1" + dni.substring(1, 9);
+							break;
+						case "Z":
+							dni = "2" + dni.substring(1, 9);
+							break;
+						default:
+							System.out.println("algo ha ido fatal");
+							resultado=false;
+					}
+		// calculamos la letra
+					resultado=comprueba(dni);
+		// Es un DNI
+				} else {
+					resultado=comprueba(dni);
+				}
+			} else {
+				System.out.println("El DNI debe tener 8 números y una letra, el NIE: una letra (X, Y o Z), 7 números y una letra ");
+				resultado = false;
+			}
+		}
+		
+		return resultado;
+	}
+
+	private boolean comprueba(String dni) {
+		boolean resultado=true;
+		
+		// divide entre 23 y extrae el resto
+		int resto = Integer.parseInt(dni.substring(1,8))%23;
+		// carga la lista de letras del dni
+		ArrayList<String> miArray = new ArrayList<String>();
+		int i=0;
+		for (DigitoDni d: DigitoDni.values()) {
+			miArray.add(d.toString());
+			i++;
+		};
+		// comprueba la letra 
+		if (!miArray.get(resto).equals(dni.substring(8,9))) {
+			System.out.println("Letra errónea. " + miArray.get(resto));
+			resultado=false;
+		}	
+		return resultado;
+	}
+
 	/**
 	 * Activa/desactiva botones
 	 * @param estado
@@ -431,14 +518,14 @@ public class FichaClienteView extends JFrame{
 		TFPob.setText(miCliente.getProvincia());
 	}
 
-	/*
+	/**
 	 * Get Frame
 	 */
 	public Window getFrame() {
 		return frame;
 	}
 	
-	/*
+	/**
 	 * Implementa keyEvents
 	 */
 	public class MyKeyListener implements KeyListener {

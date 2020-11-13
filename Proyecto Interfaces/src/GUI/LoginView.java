@@ -63,7 +63,7 @@ public class LoginView extends JFrame{
 		KeyListener listener = new MyKeyListener();
 		frame.addKeyListener(listener);
 		frame.setFocusable(true);
-		frame.requestFocus();
+	
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
@@ -137,6 +137,7 @@ public class LoginView extends JFrame{
 		
 		Panel_usuario.add(JTF_usuario);
 		JTF_usuario.setColumns(10);
+		JTF_usuario.requestFocus();
 		
 		JPanel panel_passwd = new JPanel();
 		panel_login.add(panel_passwd, BorderLayout.CENTER);

@@ -13,4 +13,21 @@ public abstract class Constantes{
 
 	//comportamientos
 	public Constantes() {}
+	
+	/**
+	 * enumerado para usar en el cálculo de DNI
+	 * @author Roque
+	 *
+	 */
+	public enum DigitoDni {
+		T,R,W,A,G,M,Y,F,P,D,X,B,N,J,Z,S,Q,V,H,L,C,K,E
+		}
+	/**
+	 * enumerado permitidos en un NIE
+	 * @author Roque
+	 *
+	 */
+	public enum DigitoNie {
+		X,Y,Z
+		}
 }

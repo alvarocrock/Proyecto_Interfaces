@@ -489,7 +489,6 @@ public class BusCliView extends JFrame{
 	 */
 	protected void seleccionar() {
 		// coger id_cli de la tabla
-
 		int idCli=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
 		// llamada a menu ventas con el idcli
 		FichaClienteView miMenuVentas = new FichaClienteView(usuario,idCli);
@@ -501,7 +500,6 @@ public class BusCliView extends JFrame{
 	 * Refresca el label de control de registros
 	 */
 	private void refrescaReg() {
-		
 		String p="Registro " + (TBCli.getSelectedRow()+1) + " de "+ TBCli.getRowCount()+".";
 		LBRegistros.setText(p);	
 	}
