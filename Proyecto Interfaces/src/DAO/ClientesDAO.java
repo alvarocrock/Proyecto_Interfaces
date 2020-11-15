@@ -251,7 +251,11 @@ public class ClientesDAO extends AbstractDAO {
 		// devuelve el número de registros 
 		return count;
 	}
-
+	
+	/**
+	 * Carga en un arrayList los registros de clientes
+	 * @return
+	 */
 	public ArrayList<Clientes> cargaListaDAO() {
 		ArrayList<Clientes> miArray = new ArrayList<Clientes>();
 		String 	strSql="select id_cli,DNI,nombre,apellidos,direccion,provincia,poblacion,"
