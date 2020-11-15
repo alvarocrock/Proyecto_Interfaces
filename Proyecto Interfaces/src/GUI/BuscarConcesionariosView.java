@@ -36,10 +36,10 @@ import Models.Concesionario;
 import Models.Usuarios;
 import Models.Ventas;
 
-public class BuscarConcesionariosView {
+public class BuscarConcesionariosView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
-	private Usuarios miuser;
+	private Usuarios miUser;
 	private ConcesionarioDAO contro;
 	private JTable TBCli;
 	private JScrollPane scrollPane;
@@ -52,7 +52,7 @@ public class BuscarConcesionariosView {
 	
 	public BuscarConcesionariosView(Usuarios user) {
 		contro=new ConcesionarioDAO();
-		miuser=user;
+		miUser=user;
 		initialize();
 		
 	}
@@ -87,30 +87,30 @@ public class BuscarConcesionariosView {
 		panel.add(panel_principal);
 		
 		
-		
-		JPanel panel_izquierdo = new JPanel();
-		panel_izquierdo.setBackground(Color.decode("#2A9D8F"));
-		panel_principal.add(panel_izquierdo);
-		panel_izquierdo.setLayout(new BoxLayout(panel_izquierdo, BoxLayout.Y_AXIS));
+		// Menú lateral
+		JPanel PNMenu = new JPanel();
+		PNMenu.setBackground(Color.decode("#2A9D8F"));
+		panel_principal.add(PNMenu);
+		PNMenu.setLayout(new BoxLayout(PNMenu, BoxLayout.Y_AXIS));
 		
 		JLabel lblNewLabel = new JLabel("Usuario actual");
-		panel_izquierdo.add(lblNewLabel);
+		PNMenu.add(lblNewLabel);
 		
 		
-		ImageIcon imagenuser = new ImageIcon(miuser.getFoto());
+		ImageIcon imagenuser = new ImageIcon(miUser.getFoto());
 		JLabel JLB_image_user = new JLabel(imagenuser);
-		panel_izquierdo.add(JLB_image_user);
+		PNMenu.add(JLB_image_user);
 		
 		JLabel JLB_USER_actual = new JLabel("ACTUAL");
-		panel_izquierdo.add(JLB_USER_actual);
-		JLB_USER_actual.setText(miuser.getNick());
+		PNMenu.add(JLB_USER_actual);
+		JLB_USER_actual.setText(miUser.getNick());
 		
 		
 		JLabel JLB_buc_ventas = new JLabel("Buscar ventas");
 		JLB_buc_ventas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VerVentasView miventa = new VerVentasView(miuser);
+				VerVentasView miventa = new VerVentasView(miUser);
 				miventa.getFrame().setVisible(true);
 				miventa.getFrame().setAlwaysOnTop(true);
 				frame.dispose();
@@ -126,13 +126,13 @@ public class BuscarConcesionariosView {
 		});
 		JLB_buc_ventas.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		JLB_buc_ventas.setForeground(Color.decode("#E9C46A"));
-		panel_izquierdo.add(JLB_buc_ventas);
+		PNMenu.add(JLB_buc_ventas);
 		
 		JLabel JLB_buscar_cli = new JLabel("Buscar Clientes");
 		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BusCliView miBuscCli = new BusCliView(miuser);
+				BusCliView miBuscCli = new BusCliView(miUser);
 				miBuscCli.getFrame().setAlwaysOnTop(true);
 				miBuscCli.getFrame().setVisible(true);
 				frame.dispose();
@@ -148,13 +148,13 @@ public class BuscarConcesionariosView {
 		});
 		JLB_buscar_cli.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		JLB_buscar_cli.setForeground(Color.decode("#E9C46A"));
-		panel_izquierdo.add(JLB_buscar_cli);
+		PNMenu.add(JLB_buscar_cli);
 		
 		JLabel JLB_ficha_cliente = new JLabel("Ficha Cliente");
 		JLB_ficha_cliente.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FichaClienteView miFichaClientes = new FichaClienteView(miuser,0);
+				FichaClienteView miFichaClientes = new FichaClienteView(miUser,0);
 				miFichaClientes.getFrame().setAlwaysOnTop(true);
 				miFichaClientes.getFrame().setVisible(true);
 				frame.dispose();
@@ -170,13 +170,13 @@ public class BuscarConcesionariosView {
 		});
 		JLB_ficha_cliente.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		JLB_ficha_cliente.setForeground(Color.decode("#E9C46A"));
-		panel_izquierdo.add(JLB_ficha_cliente);
+		PNMenu.add(JLB_ficha_cliente);
 		
 		JLabel Busca_vehiculos = new JLabel("Busca Vehiculos");
 		Busca_vehiculos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ConsVeh busqueda= new ConsVeh(miuser);
+				ConsVeh busqueda= new ConsVeh(miUser);
 				busqueda.getFrame().setAlwaysOnTop(true);
 				busqueda.getFrame().setVisible(true);
 				frame.dispose();
@@ -192,13 +192,13 @@ public class BuscarConcesionariosView {
 		});
 		Busca_vehiculos.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		Busca_vehiculos.setForeground(Color.decode("#E9C46A"));
-		panel_izquierdo.add(Busca_vehiculos);
+		PNMenu.add(Busca_vehiculos);
 		
 		JLabel JLB_ficha_vehiculo = new JLabel("Ficha Vehiculo");
 		JLB_ficha_vehiculo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FichaVehiculoView miFicVeh = new FichaVehiculoView (miuser,0);
+				FichaVehiculoView miFicVeh = new FichaVehiculoView (miUser,0);
 				miFicVeh.getFrame().setVisible(true);
 				miFicVeh.getFrame().setAlwaysOnTop(true);
 				frame.dispose();
@@ -214,7 +214,7 @@ public class BuscarConcesionariosView {
 		});
 		JLB_ficha_vehiculo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		JLB_ficha_vehiculo.setForeground(Color.decode("#E9C46A"));
-		panel_izquierdo.add(JLB_ficha_vehiculo);
+		PNMenu.add(JLB_ficha_vehiculo);
 		
 		
 		JLabel JLB_cerrar_sesion = new JLabel("Cerrar sesi\u00F3n");
@@ -237,7 +237,7 @@ public class BuscarConcesionariosView {
 		});
 		JLB_cerrar_sesion.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		JLB_cerrar_sesion.setForeground(Color.decode("#E76F51"));
-		panel_izquierdo.add(JLB_cerrar_sesion);
+		PNMenu.add(JLB_cerrar_sesion);
 		
 		
 		JPanel panel_derecho = new JPanel();
@@ -353,9 +353,8 @@ public class BuscarConcesionariosView {
 		textField_1.setColumns(10);
 		
 		cargarConce(contro.getconce());
-		
-		
-		//evento
+				
+		// doble click de la tabla
 		TBCli.addMouseListener(new MouseAdapter(){
 			public void mouseReleased(MouseEvent e){
 			if(e.getClickCount()==2){
@@ -458,6 +457,10 @@ public class BuscarConcesionariosView {
 
 	}
 	
+	/**
+	 * Carga los concesionarios en la tabla
+	 * @param lista
+	 */
 	public void cargarConce(ArrayList<Concesionario> lista) {
 		Object [] fila = new Object[2];
 
@@ -469,14 +472,30 @@ public class BuscarConcesionariosView {
 		
 	}
 	
+	/**
+	 * Getter del frame
+	 * @return
+	 */
 	public JFrame getFrame() {
 		return frame;
 	}
 	
+	/**
+	 * Llama a la ficha de concesionario con el Id seleccionado
+	 */
 	protected void seleccionar() {
-		//implementar navegacion a la ficha
+		// coger id_conce de la tabla
+		int idConce=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
+		// llamada a ficha concesionario
+		FichaConce miFicConce = new FichaConce(miUser,idConce);
+		miFicConce.getFrame().setAlwaysOnTop(true);
+		miFicConce.getFrame().setVisible(true);
 	}
 	
+	/**
+	 * Carga los filtros	
+	 * @param e
+	 */
 	protected void addFiltros(KeyEvent e) {
 		ArrayList <RowFilter<TableModel,Integer>> filtros = new ArrayList <RowFilter<TableModel,Integer>>();
 		int ascii = e.getKeyChar();
@@ -509,7 +528,7 @@ public class BuscarConcesionariosView {
 	}
 	
 	/*
-	 * Implementa keyEvents
+	 * Implementa keyEvents en el frame
 	 */
 	public class MyKeyListener implements KeyListener {
 		@Override
@@ -537,7 +556,7 @@ public class BuscarConcesionariosView {
 	 */
 	public void salir() {
 		frame.dispose();
-		MenuVentasView miMenuVentas = new MenuVentasView(miuser);
+		MenuVentasView miMenuVentas = new MenuVentasView(miUser);
 		miMenuVentas.getFrame().setAlwaysOnTop(true);
 		miMenuVentas.getFrame().setVisible(true);
 	}

@@ -123,6 +123,7 @@ public class BusCliView extends JFrame{
 			PNMedio = new JPanel();
 			frame.getContentPane().add(PNMedio);
 			PNMedio.setLayout(new BoxLayout(PNMedio, BoxLayout.X_AXIS));
+			PNMedio.setBackground(Color.decode("#2A9D8F"));
 			
 			// Panel Usuario
 			JPanel PNUsuario = new JPanel();
@@ -160,12 +161,147 @@ public class BusCliView extends JFrame{
 			PNUsuario.add(LBNomUsu);
             LBNomUsu.setAlignmentX(0.5f);            
             LBNomUsu.setText(usuario.getNick());
-		
+	//****************
+    		// Menú lateral
+    		JPanel PNMenu = new JPanel();
+    		PNMenu.setBackground(Color.decode("#2A9D8F"));
+    		PNUsuario.add(PNMenu);
+    		PNMenu.setLayout(new BoxLayout(PNMenu, BoxLayout.Y_AXIS));
+    		
+            JLabel JLB_buc_ventas = new JLabel("Buscar ventas");
+    		JLB_buc_ventas.addMouseListener(new MouseAdapter() {
+    			@Override
+    			public void mouseClicked(MouseEvent e) {
+    				VerVentasView miventa = new VerVentasView(usuario);
+    				miventa.getFrame().setVisible(true);
+    				miventa.getFrame().setAlwaysOnTop(true);
+    				frame.dispose();
+    			}
+    			@Override
+    			public void mouseEntered (MouseEvent e) {
+    				JLB_buc_ventas.setForeground(Color.RED);
+    			}
+    			@Override
+    			public void mouseExited (MouseEvent e) {
+    				JLB_buc_ventas.setForeground(Color.ORANGE);
+    			}
+    		});
+    		JLB_buc_ventas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+    		JLB_buc_ventas.setForeground(Color.decode("#E9C46A"));
+    		PNMenu.add(JLB_buc_ventas);
+    		
+    		JLabel JLB_buscar_cli = new JLabel("Buscar Clientes");
+    		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
+    			@Override
+    			public void mouseClicked(MouseEvent e) {
+    				BusCliView miBuscCli = new BusCliView(usuario);
+    				miBuscCli.getFrame().setAlwaysOnTop(true);
+    				miBuscCli.getFrame().setVisible(true);
+    				frame.dispose();
+    			}
+    			@Override
+    			public void mouseEntered (MouseEvent e) {
+    				JLB_buscar_cli.setForeground(Color.RED);
+    			}
+    			@Override
+    			public void mouseExited (MouseEvent e) {
+    				JLB_buscar_cli.setForeground(Color.ORANGE);
+    			}
+    		});
+    		JLB_buscar_cli.setFont(new Font("Tahoma", Font.PLAIN, 14));
+    		JLB_buscar_cli.setForeground(Color.decode("#E9C46A"));
+    		PNMenu.add(JLB_buscar_cli);
+    		
+    		JLabel JLB_ficha_cliente = new JLabel("Ficha Cliente");
+    		JLB_ficha_cliente.addMouseListener(new MouseAdapter() {
+    			@Override
+    			public void mouseClicked(MouseEvent e) {
+    				FichaClienteView miFichaClientes = new FichaClienteView(usuario,0);
+    				miFichaClientes.getFrame().setAlwaysOnTop(true);
+    				miFichaClientes.getFrame().setVisible(true);
+    				frame.dispose();
+    			}
+    			@Override
+    			public void mouseEntered (MouseEvent e) {
+    				JLB_ficha_cliente.setForeground(Color.RED);
+    			}
+    			@Override
+    			public void mouseExited (MouseEvent e) {
+    				JLB_ficha_cliente.setForeground(Color.ORANGE);
+    			}
+    		});
+    		JLB_ficha_cliente.setFont(new Font("Tahoma", Font.PLAIN, 14));
+    		JLB_ficha_cliente.setForeground(Color.decode("#E9C46A"));
+    		PNMenu.add(JLB_ficha_cliente);
+    		
+    		JLabel Busca_vehiculos = new JLabel("Busca Vehiculos");
+    		Busca_vehiculos.addMouseListener(new MouseAdapter() {
+    			@Override
+    			public void mouseClicked(MouseEvent e) {
+    				ConsVeh busqueda= new ConsVeh(usuario);
+    				busqueda.getFrame().setAlwaysOnTop(true);
+    				busqueda.getFrame().setVisible(true);
+    				frame.dispose();
+    			}
+    			@Override
+    			public void mouseEntered (MouseEvent e) {
+    				Busca_vehiculos.setForeground(Color.RED);
+    			}
+    			@Override
+    			public void mouseExited (MouseEvent e) {
+    				Busca_vehiculos.setForeground(Color.ORANGE);
+    			}
+    		});
+    		Busca_vehiculos.setFont(new Font("Tahoma", Font.PLAIN, 14));
+    		Busca_vehiculos.setForeground(Color.decode("#E9C46A"));
+    		PNMenu.add(Busca_vehiculos);
+    		
+    		JLabel JLB_ficha_vehiculo = new JLabel("Ficha Vehiculo");
+    		JLB_ficha_vehiculo.addMouseListener(new MouseAdapter() {
+    			@Override
+    			public void mouseClicked(MouseEvent e) {
+    				FichaVehiculoView miFicVeh = new FichaVehiculoView (usuario,0);
+    				miFicVeh.getFrame().setVisible(true);
+    				miFicVeh.getFrame().setAlwaysOnTop(true);
+    				frame.dispose();
+    			}
+    			@Override
+    			public void mouseEntered (MouseEvent e) {
+    				JLB_ficha_vehiculo.setForeground(Color.RED);
+    			}
+    			@Override
+    			public void mouseExited (MouseEvent e) {
+    				JLB_ficha_vehiculo.setForeground(Color.ORANGE);
+    			}
+    		});
+    		JLB_ficha_vehiculo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+    		JLB_ficha_vehiculo.setForeground(Color.decode("#E9C46A"));
+    		PNMenu.add(JLB_ficha_vehiculo);
+    		
+    		
+    		JLabel JLB_cerrar_sesion = new JLabel("Cerrar sesi\u00F3n");
+    		JLB_cerrar_sesion.addMouseListener(new MouseAdapter() {
+    			@Override
+    			public void mouseClicked(MouseEvent e) {
+    				frame.dispose();
+    				LoginView miLogin = new LoginView();
+    				miLogin.getFrame().setAlwaysOnTop(true);
+    				miLogin.getFrame().setVisible(true);
+    			}
+    			@Override
+    			public void mouseEntered (MouseEvent e) {
+    				JLB_cerrar_sesion.setForeground(Color.RED);
+    			}
+    			@Override
+    			public void mouseExited (MouseEvent e) {
+    				JLB_cerrar_sesion.setForeground(Color.ORANGE);
+    			}
+    		});
+    		JLB_cerrar_sesion.setFont(new Font("Tahoma", Font.PLAIN, 13));
+    		JLB_cerrar_sesion.setForeground(Color.decode("#E76F51"));
+    		PNMenu.add(JLB_cerrar_sesion);
 
-			
-			// panel nombre de usuario
-			PNMenu = new JPanel();
-			PNUsuario.add(PNMenu);
+	//***************		
 			
 			// panel central
 			JPanel PNCentral = new JPanel();
@@ -422,6 +558,9 @@ public class BusCliView extends JFrame{
 
 		}
 	
+	/**
+	 * Salir de la vista
+	 */
 	protected void salir() {
 		frame.dispose();
 		MenuVentasView miMenuVentas = new MenuVentasView(usuario);
@@ -490,10 +629,10 @@ public class BusCliView extends JFrame{
 	protected void seleccionar() {
 		// coger id_cli de la tabla
 		int idCli=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
-		// llamada a menu ventas con el idcli
-		FichaClienteView miMenuVentas = new FichaClienteView(usuario,idCli);
-		miMenuVentas.getFrame().setAlwaysOnTop(true);
-		miMenuVentas.getFrame().setVisible(true);
+		// llamada a ficha clientes con el idcli
+		FichaClienteView miFicCli = new FichaClienteView(usuario,idCli);
+		miFicCli.getFrame().setAlwaysOnTop(true);
+		miFicCli.getFrame().setVisible(true);
 	}
 	
 	/**
