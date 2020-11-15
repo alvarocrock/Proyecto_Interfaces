@@ -1,28 +1,20 @@
 package GUI;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
-import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
 import Models.Usuarios;
 import Models.Ventas;
 
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
@@ -32,11 +24,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import com.sun.tools.javac.tree.JCTree.JCYield;
-
 import DAO.VentasDAO;
-import GUI.FichaClienteView.MyKeyListener;
-
 import javax.swing.JButton;
 
 import java.awt.event.ActionEvent;
