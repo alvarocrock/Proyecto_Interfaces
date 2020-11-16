@@ -74,7 +74,8 @@ public class ConcesionarioDAO extends AbstractDAO{
 
 		ResultSet rs=null;
             try {
-	            rs = stm.executeQuery("SELECT * FROM concesionario where id_conce=;"+miId);
+	            rs = stm.executeQuery("SELECT * FROM concesionario where id_conce="+miId+";");
+	            rs.first();
 	          	miConce=new Concesionario(rs.getString(2),rs.getInt(1));
 			} catch (SQLException e) {
 				e.printStackTrace();

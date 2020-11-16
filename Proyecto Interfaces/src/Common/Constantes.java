@@ -30,4 +30,12 @@ public abstract class Constantes{
 	public enum DigitoNie {
 		X,Y,Z
 		}
+	/**
+	 * enumerado tipos de vehículos
+	 * 	 * @author Roque
+	 *
+	 */
+	public enum TiposVeh {
+		COCHE,MOTOCICLETA,MOTO
+		}
 }

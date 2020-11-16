@@ -30,6 +30,8 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import Common.Constantes.DigitoDni;
+import Common.Constantes.TiposVeh;
 import DAO.ClientesDAO;
 import DAO.ConcesionarioDAO;
 import DAO.VehiculosDAO;
@@ -39,8 +41,9 @@ import Models.Concesionario;
 import Models.Usuarios;
 import Models.Vehiculos;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JComboBox;
 
-public class FichaVehiculoView extends JFrame{
+public class FichaVehiculoView extends JFrame {
 
 	/**
 	 * 
@@ -69,6 +72,7 @@ public class FichaVehiculoView extends JFrame{
 	private JButton BTGuardar;
 	private JButton BTSalir;
 	private JLabel LBNomCli;
+	private JLabel LBNomConce;
 
 	/**
 	 * Constructor con usuario e id de cliente
@@ -383,6 +387,9 @@ public class FichaVehiculoView extends JFrame{
 			TFConce.setColumns(10);
 			PNLinea3.add(TFConce);
 			
+			LBNomConce = new JLabel("Nombre del concesionario");
+			PNLinea3.add(LBNomConce);
+			
 			// panel linea 4
 			JPanel PNLinea4 = new JPanel();
 			PNCentral.add(PNLinea4, "cell 0 3,grow");
@@ -399,6 +406,23 @@ public class FichaVehiculoView extends JFrame{
 			
 			LBNomCli = new JLabel("Nombre del cliente");
 			PNLinea4.add(LBNomCli);
+			
+			// panel linea 5
+						JPanel PNLinea5 = new JPanel();
+						PNCentral.add(PNLinea5, "cell 0 3,grow");
+						PNLinea5.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+						PNLinea5.setBackground(Color.decode("#2A9D8F"));
+						
+						JLabel LBTipo = new JLabel("Tipo");
+						PNLinea5.add(LBTipo);
+						
+						JComboBox <String> CBTipo = new JComboBox <String>();
+						PNLinea5.add(CBTipo);
+						// guarda el enum en un array
+						for (TiposVeh d: TiposVeh.values()) {
+							CBTipo.addItem(d.toString());
+						};
+
 			
 			// Panel para los botones del control de registros
 			JPanel panelBotoneras = new JPanel();
@@ -572,6 +596,7 @@ public class FichaVehiculoView extends JFrame{
 					refrescaReg();
 				}
 			});
+	
 	}
 	
 	/**
@@ -660,8 +685,8 @@ public class FichaVehiculoView extends JFrame{
 		// carga el nombre de concesionario
 		ConcesionarioDAO miConDAO = new ConcesionarioDAO();
 		Concesionario miCon = miConDAO.goToConce(Integer.parseInt(TFConce.getText()));
-		LBNomCli.setText(miCli.getNombre()+" "+miCli.getApellido());
-	}
+		LBNomConce.setText(miCon.getNombre());
+}
 
 	/*
 	 * Get Frame
