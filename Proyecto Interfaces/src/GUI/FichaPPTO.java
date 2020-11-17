@@ -331,6 +331,7 @@ public class FichaPPTO {
 			PNLinea1.add(LBIdConce);
 			
 				JTF_id_presu = new JTextField();
+				JTF_id_presu.setEditable(false);
 				JTF_id_presu.setEnabled(false);
 				PNLinea1.add(JTF_id_presu);
 				JTF_id_presu.setColumns(10);
@@ -388,10 +389,10 @@ public class FichaPPTO {
 					if (comprobardatos()) {
 						// crea el nuevo concesionario
 						int id=Integer.parseInt(JTF_id_presu.getText());
-						int id_cli= contro.getidclibydni(JTF_DNI_cli.toString());
-						int id_emple=contro.getidemplebynick(JTF_empleado.toString());
-						int id_veh=contro.getidvehbymat(JTF_matricula.toString());
-						Presupuesto mipresu=new Presupuesto(id,id_cli,id_emple,JTF_fechappto.toString(),JTF_fecha_validez.toString(),id_veh,Float.parseFloat(JTF_precio_ppto.toString()));
+						int id_cli= contro.getidclibydni(JTF_DNI_cli.getText());
+						int id_emple=contro.getidemplebynick(JTF_empleado.getText());
+						int id_veh=contro.getidvehbymat(JTF_matricula.getText());
+						Presupuesto mipresu=new Presupuesto(id,id_cli,id_emple,JTF_fechappto.getText(),JTF_fecha_validez.getText(),id_veh,Float.parseFloat(JTF_precio_ppto.getText()));
 								
 						// comprobar si ya existe el registro
 						if (contro.comprobarppto(Integer.parseInt(JTF_id_presu.getText()))) {
@@ -414,6 +415,13 @@ public class FichaPPTO {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					JTF_nombre_cli.setText("");
+					JTF_DNI_cli.setText("");
+					JTF_empleado.setText(usuario.getNick());
+					JTF_fecha_validez.setText("");
+					JTF_fechappto.setText("");
+					JTF_matricula.setText("");
+					JTF_id_presu.setText( String.valueOf(contro.ultimo().getId()+1));
+					JTF_precio_ppto.setText("");
 					JTF_nombre_cli.requestFocus();
 					daBotones(false);
 				}
@@ -591,7 +599,9 @@ public class FichaPPTO {
 	 * @return
 	 */
 	private boolean comprobardatos() {
-		if (JTF_nombre_cli.getText().length()==0)  
+		if (JTF_DNI_cli.getText().length()==0 || JTF_empleado.getText().length()==0
+			|| JTF_fecha_validez.getText().length()==0|| JTF_fechappto.getText().length()==0 ||
+			JTF_matricula.getText().length()==0 || JTF_precio_ppto.getText().length()==0)
 		{
 			return false;
 		} else {

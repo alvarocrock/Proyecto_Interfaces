@@ -72,7 +72,8 @@ public class VehiculosDAO extends AbstractDAO{
 		try {
             super.conectar();
             stm = (Statement) cn.createStatement();
-            rs = stm.executeQuery("SELECT id_vehiculo FROM vehiculos where matricula="+mat+";");
+            String consulta="SELECT id_vehiculo FROM proyecto.vehiculos where matricula='"+mat+"';";
+            rs = stm.executeQuery(consulta);
             while (rs.next()) {
             			
             	matr= rs.getInt(1);

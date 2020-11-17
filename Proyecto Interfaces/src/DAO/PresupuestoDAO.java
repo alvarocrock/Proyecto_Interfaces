@@ -27,17 +27,40 @@ public class PresupuestoDAO extends AbstractDAO{
 	
 	public void borrappto(int id) {
 		String 	strSql="delete from ppto where id_presupuesto="+id+";";
-		super.ejecutaSQL(strSql);
+		try {
+            super.conectar();
+            stm = (Statement) cn.createStatement();
+           
+            stm.executeUpdate(strSql);
+         
+         
+      
+        } catch (SQLException e) {
+            e.printStackTrace();    
+        } finally {
+        	try {
+        		if (cn!=null) {
+        			cn.close();
+        		}
+        		if (stm!=null) {
+        			stm.close();
+        		}
+        		}
+				catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				 }
+        	}
 	}
 	
 	
 	public void updateppto(Presupuesto presu) {
 		
-		String 	strSql="UPDATE ppto SET `id_cli` = '"+presu.getFecha_ppto()+"', `id_emple` = '"+presu.getId_emple()+"', "
+		String 	strSql="UPDATE ppto SET `id_cli` = '"+presu.getId_cli()+"', `id_emple` = '"+presu.getId_emple()+"', "
 				+ "`fecha_ppto` = '"+presu.getFecha_ppto()+"', `fecha_validez` = '"+presu.getFecha_validez()+"',"
 				+ " `id_vehiculo` = '"+presu.getId_veh()+"', `precio` = '"+presu.getPrecio()+"' "
 				+ "WHERE (`id_presupuesto` = '"+presu.getId()+"');";
-		super.ejecutaSQL(strSql);
+		
 	}
 	
 	public String getDNIcli(int id) {
@@ -55,17 +78,40 @@ public class PresupuestoDAO extends AbstractDAO{
 	
 	
 	public void addpresu(Presupuesto presu) {
-		String 	strSql="INSERT INTO `proyecto`.`ppto` (`id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) "
-				+ "VALUES ('3', '2', '2000-04-21', '2012-04-21', '5', '3000');";
+		String 	strSql="INSERT INTO ppto (`id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) "
+				+ "VALUES ('"+presu.getId_cli()+"', '"+presu.getId_emple()+"', '"+presu.getFecha_ppto()+"', '"+presu.getFecha_validez()+"', '"+presu.getId_veh()+"', '"+presu.getPrecio()+"');";
 		// Se ejecuta correctamente el SQL
-		super.ejecutaSQL(strSql);
+		try {
+            super.conectar();
+            stm = (Statement) cn.createStatement();
+           
+            stm.executeUpdate(strSql);
+         
+         
+      
+        } catch (SQLException e) {
+            e.printStackTrace();    
+        } finally {
+        	try {
+        		if (cn!=null) {
+        			cn.close();
+        		}
+        		if (stm!=null) {
+        			stm.close();
+        		}
+        		}
+				catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				 }
+        	}
 	}
 	
 	
 	
 	public boolean comprobarppto(int id) {
 		boolean resultado=false;
-		String 	strSql="select id_presupuesto from ppto where id_conce="+id+";";
+		String 	strSql="select id_presupuesto from ppto where id_presupuesto="+id+";";
 		
 		// ejecuta la consulta
 		ResultSet rst=super.consultaSQL(strSql);

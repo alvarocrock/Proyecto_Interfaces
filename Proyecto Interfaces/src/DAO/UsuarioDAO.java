@@ -26,7 +26,8 @@ public class UsuarioDAO extends  AbstractDAO{
 		try {
             super.conectar();
             stm = (Statement) cn.createStatement();
-            rs = stm.executeQuery("SELECT id_user FROM usuarios where nick="+nick+";");
+            String consulta="SELECT id_user FROM proyecto.usuarios where nick='"+nick+"';";
+            rs = stm.executeQuery(consulta);
             while (rs.next()) {
             	id= rs.getInt(1);	
             }

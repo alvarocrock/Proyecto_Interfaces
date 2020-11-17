@@ -348,7 +348,8 @@ public class ClientesDAO extends AbstractDAO {
 			try {
 	            super.conectar();
 	            stm = (Statement) cn.createStatement();
-	            rs = stm.executeQuery("SELECT id_cli FROM clientes where dni="+dni+";");
+	            String consulta="SELECT id_cli FROM proyecto.clientes where dni='"+dni+"';";
+	            rs = stm.executeQuery(consulta);
 	            while (rs.next()) {
 	            			
 	            	nombre= rs.getInt(1);
@@ -416,7 +417,7 @@ public class ClientesDAO extends AbstractDAO {
 	
 	public String getnombrebyid(int id) {
 		String nombre="";
-		String 	strSql="select nombre from clientes where id_cli = " + id + ";";
+		String 	strSql="select nombre from clientes where id_cli = '" + id + "';";
 		
 		// ejecuta la consulta
 		ResultSet rst=super.consultaSQL(strSql);

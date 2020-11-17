@@ -161,8 +161,18 @@ public abstract class AbstractDAO {
             JOptionPane.showMessageDialog(null, strSQL, "Error: "+e.getMessage(), JOptionPane.ERROR_MESSAGE);
 			resultado=false;
 		} finally {
-			
-        }
+				/*
+				try {
+					if (stm!=null) {
+					stm.close();
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				*/
+			}
+        
 		return resultado;
 	}
 	
