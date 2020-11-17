@@ -28,7 +28,7 @@ public class VehiculosDAO extends AbstractDAO{
 	 * comportamiento que devuelve una array con los concesionarrios de la bbdd
 	 * @return
 	 */
-	public ArrayList<Concesionario> arrayconce(){
+	/*public ArrayList<Concesionario> arrayconce(){
 		ArrayList<Concesionario> miarray= new ArrayList();
 		Concesionario miconce=null; 
 		ResultSet rs=null;
@@ -64,7 +64,7 @@ public class VehiculosDAO extends AbstractDAO{
    
 		return miarray;
 		
-	}
+	}*/
 		
 	/**
 	 * comporatmientop para obtener el id de cliente en base a un dni dado
@@ -188,7 +188,7 @@ public class VehiculosDAO extends AbstractDAO{
 	public ArrayList<Vehiculos> cargaListaDAO() {
 		ArrayList<Vehiculos> miArray = new ArrayList<Vehiculos>();
 		String 	strSql="select id_vehiculo,matricula, bastidor,"
-				+"marca, modelo,precio,fecha_alta,id_cliente,id_usuario,id_conce from vehiculos order by id_vehiculo";
+				+"marca, modelo,precio,fecha_alta,id_cliente,id_usuario,id_conce, tipo from vehiculos order by id_vehiculo";
 		
 		// ejecuta la consulta
 		ResultSet rst=super.consultaSQL(strSql);
@@ -197,7 +197,7 @@ public class VehiculosDAO extends AbstractDAO{
 			while (rst.next()) {
 				Vehiculos miVeh = new Vehiculos(rst.getInt(1), rst.getString(2), rst.getString(3), 
 						rst.getString(4), rst.getString(5), rst.getFloat(6), rst.getDate(7), rst.getInt(8), 
-						rst.getInt(9), rst.getInt(10));
+						rst.getInt(9), rst.getInt(10), rst.getString(11));
 					miArray.add(miVeh);
 
 			}
@@ -224,7 +224,7 @@ public class VehiculosDAO extends AbstractDAO{
 		try {
 			rst.first();
 			veh = new Vehiculos(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
-					rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10));
+					rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10), rst.getString(11));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -272,7 +272,8 @@ public class VehiculosDAO extends AbstractDAO{
 				+ " precio = '"+mivehiculo.getPrecio()+"',"
 				+ " fecha_alta = '"+mivehiculo.getFecha_alta() + "', "
 				+" id_usuario = '"+mivehiculo.getId_user()+"',"
-				+ " id_conce = '"+mivehiculo.getId_conce()+"' "
+				+ " id_conce = '"+mivehiculo.getId_conce()+"', "
+				+" tipo = '"+mivehiculo.getTipo()+"' "
 				+" WHERE matricula = '"+mivehiculo.getMatricula()+"';";
 		super.ejecutaSQL(strSql);
 
@@ -293,7 +294,7 @@ public class VehiculosDAO extends AbstractDAO{
 			rst.first();
 			// crea el vehiculo
 			miVehiculo = new Vehiculos(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
-					rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10));
+					rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10), rst.getString(11));
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -323,7 +324,7 @@ public class VehiculosDAO extends AbstractDAO{
 			if (rst.previous()) {
 				// crea el vehiculo
 				miVehiculo = new Vehiculos(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4),
-						rst.getString(5),rst.getFloat(6),rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10));
+						rst.getString(5),rst.getFloat(6),rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10), rst.getString(11));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -418,7 +419,8 @@ public class VehiculosDAO extends AbstractDAO{
 				+ miVeh.getFecha_alta() + "', '"
 				+ miVeh.getId_cli()+"', '"
 				+ miVeh.getId_user() + "', '"
-				+ miVeh.getId_conce() + "');";
+				+ miVeh.getId_conce() + "', '"
+				+ miVeh.getTipo() + "');";
 		// Se ejecuta  el SQL
 		super.ejecutaSQL(strSql);		
 	}
@@ -442,7 +444,7 @@ public class VehiculosDAO extends AbstractDAO{
 			if (rst.next()) {
 				// crea el vehiculo
 				miVeh = new Vehiculos(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4),
-						rst.getString(5),rst.getFloat(6), rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10));
+						rst.getString(5),rst.getFloat(6), rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10), rst.getString(11));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -466,7 +468,7 @@ public class VehiculosDAO extends AbstractDAO{
 			rst.last();
 			// crea el vehiculo
 			miVeh = new Vehiculos(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
-					rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10));
+					rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10), rst.getString(11));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

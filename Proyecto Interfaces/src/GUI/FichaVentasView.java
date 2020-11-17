@@ -18,39 +18,33 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import com.sun.glass.events.WindowEvent;
-
-import Common.Constantes;
-import Common.Constantes.DigitoDni;
 import Common.Constantes.TiposVeh;
 import DAO.ClientesDAO;
 import DAO.ConcesionarioDAO;
 import DAO.VehiculosDAO;
-import GUI.ConsVeh.MyKeyListener;
+import DAO.VentasDAO;
+import GUI.FichaVehiculoView.MiWindowListener;
+import GUI.FichaVehiculoView.MyKeyListener;
 import Models.Clientes;
 import Models.Concesionario;
 import Models.Usuarios;
 import Models.Vehiculos;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JComboBox;
 
-public class FichaVehiculoView extends JFrame {
-
+public class FichaVentasView {
 	/**
-	 * 
+	 * 	estados
 	 */
 	private static final long serialVersionUID = 1L;
 	private Usuarios usuario;
@@ -78,25 +72,26 @@ public class FichaVehiculoView extends JFrame {
 	private JLabel LBNomCli;
 	private JLabel LBNomConce;
 	private JComboBox <String> CBTipo ;
+	private VentasDAO miVentaDAO;
 
 	/**
 	 * Constructor con usuario e id de cliente
 	 * @param miuser
 	 * @param idVeh
 	 */
-	public FichaVehiculoView(Usuarios miuser, int idVeh) {
+	public FichaVentasView(Usuarios miuser, int idVenta) {
 		usuario=miuser;
-		miVehDAO = new VehiculosDAO();
+		miVentaDAO = new VentasDAO();
 		initialize();
 		// carga usuario
 		LBUsuario.setText(usuario.getNick());
 		LBNomUsu.setText(usuario.getNick());
-		if (idVeh==0) {
+		if (idVenta==0) {
 			// carga primer registro
-			cargaVehiculo(miVehDAO.primero());
+			cargaVenta(miVentaDAO.primero());
 		} else {
 			// carga registro del usuario solicitado
-			cargaVehiculo(miVehDAO.goToIdVeh(idVeh));
+			cargaVenta(miVentaDAO.goToIdVenta(idVenta));
 		}
 		refrescaReg();
 	}
@@ -469,7 +464,7 @@ public class FichaVehiculoView extends JFrame {
 						miVehDAO.borraVehiculo(TFMatricula.getText());	
 						Vehiculos miVeh = miVehDAO.primero();
 						// cargar cliente en form
-						cargaVehiculo(miVeh);
+						cargaVenta(miVeh);
 						refrescaReg();
 					}
 
@@ -550,7 +545,7 @@ public class FichaVehiculoView extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					Vehiculos miveh = miVehDAO.primero();
 					// cargar vehiculo en form
-					cargaVehiculo(miveh);
+					cargaVenta(miveh);
 					refrescaReg();
 				}
 			});
@@ -565,7 +560,7 @@ public class FichaVehiculoView extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					Vehiculos miVeh = miVehDAO.anterior(TFMatricula.getText());
 					if (miVeh!=null) {
-						cargaVehiculo(miVeh);
+						cargaVenta(miVeh);
 						refrescaReg();
 					}
 				}
@@ -587,7 +582,7 @@ public class FichaVehiculoView extends JFrame {
 					Vehiculos miVeh = miVehDAO.siguiente(TFMatricula.getText());
 					// cargar cliente en form
 					if (miVeh!=null) {
-						cargaVehiculo(miVeh);
+						cargaVenta(miVeh);
 						refrescaReg();
 					}
 				}
@@ -603,7 +598,7 @@ public class FichaVehiculoView extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					Vehiculos miVeh = miVehDAO.ultimo();
 					// cargar cliente en form
-					cargaVehiculo(miVeh);
+					cargaVenta(miVeh);
 					refrescaReg();
 				}
 			});
@@ -684,7 +679,7 @@ public class FichaVehiculoView extends JFrame {
 	 * Carga el formulario con los datos de un cliente 
 	 * @param miCliente
 	 */
-	protected void cargaVehiculo(Vehiculos miVeh) {
+	protected void cargaVenta(Vehiculos miVeh) {
 		TFMatricula.setText(miVeh.getMatricula());
 		TFBastidor.setText(miVeh.getBastidor());
 		TFMarca.setText(miVeh.getMarca());
@@ -768,4 +763,5 @@ public class FichaVehiculoView extends JFrame {
 	}
 	//**************************** fin
 	
+
 }

@@ -36,6 +36,6 @@ public abstract class Constantes{
 	 *
 	 */
 	public enum TiposVeh {
-		COCHE,MOTOCICLETA,MOTO
+		COCHE,MOTOCICLETA,CICLOMOTOR
 		}
 }

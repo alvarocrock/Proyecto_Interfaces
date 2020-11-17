@@ -16,11 +16,12 @@ public class Vehiculos {
 	int id_cli;
 	int id_user;
 	int id_conce;
+	String tipo;
 
 	
 	public Vehiculos(int idVeh,String mimatricula, String mibastidor,String mimarca, String 
 			mimodelo, float miprecio,Date mifecha_alta , int miid_cli,int mi_id_user,
-			int miid_conce) {
+			int miid_conce, String tipo) {
 
 		this.idVeh=idVeh;
 		matricula=mimatricula;
@@ -32,6 +33,7 @@ public class Vehiculos {
 		id_cli=miid_cli;
 		id_user=mi_id_user;
 		id_conce=miid_conce;
+		this.tipo=tipo;
 
 		
 	}
@@ -106,6 +108,16 @@ public class Vehiculos {
 
 	public void setId_conce(int id_conce) {
 		this.id_conce = id_conce;
+	}
+
+
+	public int getIdVeh() {
+		return idVeh;
+	}
+
+
+	public String getTipo() {
+		return tipo;
 	}
 
 
