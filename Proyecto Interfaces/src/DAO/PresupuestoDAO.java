@@ -23,6 +23,62 @@ public class PresupuestoDAO extends AbstractDAO{
 		vehiculo= new VehiculosDAO();
 		usuarios= new UsuarioDAO();
 	}
+	
+	
+	public void borrappto(int id) {
+		String 	strSql="delete from ppto where id_presupuesto="+id+";";
+		super.ejecutaSQL(strSql);
+	}
+	
+	
+	public void updateppto(Presupuesto presu) {
+		
+		String 	strSql="UPDATE ppto SET `id_cli` = '"+presu.getFecha_ppto()+"', `id_emple` = '"+presu.getId_emple()+"', "
+				+ "`fecha_ppto` = '"+presu.getFecha_ppto()+"', `fecha_validez` = '"+presu.getFecha_validez()+"',"
+				+ " `id_vehiculo` = '"+presu.getId_veh()+"', `precio` = '"+presu.getPrecio()+"' "
+				+ "WHERE (`id_presupuesto` = '"+presu.getId()+"');";
+		super.ejecutaSQL(strSql);
+	}
+	
+	public String getDNIcli(int id) {
+		return cliente.getDNIbyid(id);
+	}
+	
+	
+	public int getidclibydni(String dni) {
+		return cliente.getidbydni(dni);
+	}
+	
+	public int getidvehbymat(String mat) {
+		return vehiculo.getidbymat(mat);
+	}
+	
+	
+	public void addpresu(Presupuesto presu) {
+		String 	strSql="INSERT INTO `proyecto`.`ppto` (`id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) "
+				+ "VALUES ('3', '2', '2000-04-21', '2012-04-21', '5', '3000');";
+		// Se ejecuta correctamente el SQL
+		super.ejecutaSQL(strSql);
+	}
+	
+	
+	
+	public boolean comprobarppto(int id) {
+		boolean resultado=false;
+		String 	strSql="select id_presupuesto from ppto where id_conce="+id+";";
+		
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		
+		// devuelve rst.next (falso si no existe, true si existe)
+		try {
+			resultado= rst.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return resultado;
+	}
 
 	public ArrayList<Presupuesto> getpresupuestos() {
 		ArrayList<Presupuesto> lista= new ArrayList();
@@ -71,6 +127,10 @@ public class PresupuestoDAO extends AbstractDAO{
 	
 	public String getnick(int id) {
 		return usuarios.getnickbyid(id);
+	}
+	
+	public int getidemplebynick(String nick) {
+		return usuarios.getidbynick(nick);
 	}
 	
 
@@ -141,9 +201,67 @@ public class PresupuestoDAO extends AbstractDAO{
 		return mipresu;
 	}
 	
+	public Presupuesto ultimo() {
+		String 	strSql="select *"
+						+" from ppto order by id_presupuesto";
+		Presupuesto mipresu=null;
+		
+		// ejecuta la consulta
+		ResultSet rs=super.consultaSQL(strSql);
+		try {
+			// se posiciona en el primer registro
+			rs.last();
+			// crea el concesionario
+			mipresu = new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7));	
+			} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// devuelve el cliente 
+		return mipresu;
+	}
+	
+	
+	public Presupuesto siguiente(String id) {
+		String 	strSql="select *"
+						+" from ppto order by id_presupuesto";
+		Presupuesto mipresu=null;
+		
+		// ejecuta la consulta
+		ResultSet rs=super.consultaSQL(strSql);
+		try {
+			rs.absolute(Integer.parseInt(id));
+			rs.next();
+			// crea el concesionario
+			mipresu = new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7));	
+			} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// devuelve el cliente 
+		return mipresu;
+	}
+	
+	public Presupuesto anterior(String id) {
+		String 	strSql="select *"
+						+" from ppto order by id_presupuesto";
+		Presupuesto mipresu=null;
+		
+		// ejecuta la consulta
+		ResultSet rs=super.consultaSQL(strSql);
+		try {
+			rs.absolute(Integer.parseInt(id));
+			rs.previous();
+			// crea el concesionario
+			mipresu = new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7));	
+			} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// devuelve el cliente 
+		return mipresu;
+	}
+	
 	
 	public Presupuesto goToPPTO_byid(int id) {
-		String 	strSql="select * from concesionario where id_presupuesto = " + id + ";";
+		String 	strSql="select * from ppto where id_presupuesto= " + id + ";";
 		
 		// ejecuta la consulta
 		ResultSet rs=super.consultaSQL(strSql);
@@ -158,6 +276,9 @@ public class PresupuestoDAO extends AbstractDAO{
 		}
 		return mipresu;
 	}
+
+
+	
 	
 	
 

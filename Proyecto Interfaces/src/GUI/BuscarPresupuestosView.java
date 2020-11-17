@@ -597,7 +597,12 @@ public class BuscarPresupuestosView {
 	}
 	
 	protected void seleccionar() {
-		//implementar navegacion a la ficha
+		int id_Conce=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
+		// llamada a ficha concesionario
+		FichaPPTO miFicppto = new FichaPPTO(miuser,id_Conce);
+		miFicppto.getFrame().setAlwaysOnTop(true);
+		miFicppto.getFrame().setVisible(true);
+		frame.dispose();
 	}
 	
 	protected void addFiltros(KeyEvent e) {

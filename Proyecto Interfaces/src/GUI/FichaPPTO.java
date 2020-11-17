@@ -45,7 +45,7 @@ public class FichaPPTO {
 	private JLabel LBRegistros;
 	private JFrame frame;
 	private JTextField JTF_id_presu;
-	private JTextField JTF_nombre_cli;
+	private JLabel JTF_nombre_cli;
 	private JButton BTBuscar;
 	private JButton BTBorra;
 	private JButton BTGuardar;
@@ -56,8 +56,8 @@ public class FichaPPTO {
 	private JButton BTSiguiente;
 	private JButton BTultimo;
 	private JLabel LBNomCli;
-	private JTextField JTF_apellido_cli;
-	private JTextField JTB_empleado;
+	private JTextField JTF_DNI_cli;
+	private JTextField JTF_empleado;
 	private JTextField JTF_fechappto;
 	private JTextField JTF_fecha_validez;
 	private JTextField JTF_matricula;
@@ -332,23 +332,8 @@ public class FichaPPTO {
 			
 				JTF_id_presu = new JTextField();
 				JTF_id_presu.setEnabled(false);
-				JTF_id_presu.setEditable(false);
 				PNLinea1.add(JTF_id_presu);
 				JTF_id_presu.setColumns(10);
-			
-			// panel linea 2
-			JPanel PNLinea2 = new JPanel();
-			PNCentral.add(PNLinea2, "cell 0 1,grow");
-			PNLinea2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-			PNLinea2.setBackground(Color.decode("#2A9D8F"));
-				
-				JLabel JBL_Cliente = new JLabel("Nombre Cliente");
-				JBL_Cliente.setHorizontalAlignment(SwingConstants.TRAILING);
-				PNLinea2.add(JBL_Cliente);
-				
-					JTF_nombre_cli = new JTextField();
-					PNLinea2.add(JTF_nombre_cli);
-					JTF_nombre_cli.setColumns(15);
 			
 			// Panel para los botones del control de registros
 			JPanel panelBotoneras = new JPanel();
@@ -367,7 +352,7 @@ public class FichaPPTO {
 				public void actionPerformed(ActionEvent e) {
 					// llamada a buscar cliente
 					frame.dispose();
-					ConsVeh miBusqueda = new ConsVeh(usuario);
+					BuscarPresupuestosView miBusqueda = new BuscarPresupuestosView(usuario);
 					miBusqueda.getFrame().setAlwaysOnTop(true);
 					miBusqueda.getFrame().setVisible(true);
 
@@ -385,7 +370,7 @@ public class FichaPPTO {
 							"Borrar registro", 
 							JOptionPane.YES_NO_OPTION,
 							JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_NO_OPTION) {
-						contro.borraConce(Integer.parseInt(JTF_id_presu.getText()));	
+						contro.borrappto(Integer.parseInt(JTF_id_presu.getText()));	
 						Presupuesto presu = contro.primero();
 						// cargar cliente en form
 						cargaPPTO(presu);
@@ -402,15 +387,19 @@ public class FichaPPTO {
 				public void actionPerformed(ActionEvent e) {
 					if (comprobardatos()) {
 						// crea el nuevo concesionario
-						Concesionario miConce=new Concesionario(JTF_nombre_cli.getText(),0);
+						int id=Integer.parseInt(JTF_id_presu.getText());
+						int id_cli= contro.getidclibydni(JTF_DNI_cli.toString());
+						int id_emple=contro.getidemplebynick(JTF_empleado.toString());
+						int id_veh=contro.getidvehbymat(JTF_matricula.toString());
+						Presupuesto mipresu=new Presupuesto(id,id_cli,id_emple,JTF_fechappto.toString(),JTF_fecha_validez.toString(),id_veh,Float.parseFloat(JTF_precio_ppto.toString()));
 								
 						// comprobar si ya existe el registro
-						if (contro.comprobarConce(Integer.parseInt(JTF_id_presu.getText()))) {
+						if (contro.comprobarppto(Integer.parseInt(JTF_id_presu.getText()))) {
 							// guardar el registro
-							contro.updateConce(miConce);	
+							contro.updateppto(mipresu);	
 						} else {
 							// insertar el registro
-							contro.addConce(miConce);
+							contro.addpresu(mipresu);
 						}
 						daBotones(true);
 						refrescaReg();
@@ -452,9 +441,9 @@ public class FichaPPTO {
 			BTPrimero.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Concesionario miveh = contro.primero();
+					Presupuesto miconce = contro.primero();
 					// cargar vehiculo en form
-					cargaPPTO(miveh);
+					cargaPPTO(miconce);
 					refrescaReg();
 				}
 			});
@@ -467,9 +456,9 @@ public class FichaPPTO {
 			BTAnterior.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Concesionario miConce = contro.anterior(JTF_id_presu.getText());
-					if (miConce!=null) {
-						cargaPPTO(miConce);
+					Presupuesto miconce = contro.anterior(JTF_id_presu.getText());
+					if (miconce!=null) {
+						cargaPPTO(miconce);
 						refrescaReg();
 					}
 				}
@@ -488,7 +477,7 @@ public class FichaPPTO {
 			BTSiguiente.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Concesionario miConce = contro.siguiente(JTF_id_presu.getText());
+					Presupuesto miConce = contro.siguiente(JTF_id_presu.getText());
 					// cargar cliente en form
 					if (miConce!=null) {
 						cargaPPTO(miConce);
@@ -508,12 +497,15 @@ public class FichaPPTO {
 			PNLinea3.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 			PNLinea3.setBackground(new Color(42, 157, 143));
 			
-			JLabel JLB_apellido_cliente = new JLabel("Apellido Cliente");
-			PNLinea3.add(JLB_apellido_cliente);
+			JLabel JLB_DNI_cli = new JLabel("DNI Cliente");
+			PNLinea3.add(JLB_DNI_cli);
 			
-			JTF_apellido_cli = new JTextField();
-			PNLinea3.add(JTF_apellido_cli);
-			JTF_apellido_cli.setColumns(15);
+			JTF_DNI_cli = new JTextField();
+			PNLinea3.add(JTF_DNI_cli);
+			JTF_DNI_cli.setColumns(15);
+			
+				JTF_nombre_cli = new JLabel();
+				PNLinea3.add(JTF_nombre_cli);
 			
 			
 			JPanel PNLinea4 = new JPanel();
@@ -524,9 +516,9 @@ public class FichaPPTO {
 			JLabel JLB_empleado = new JLabel("Empleado");
 			PNLinea4.add(JLB_empleado);
 			
-			JTB_empleado = new JTextField();
-			PNLinea4.add(JTB_empleado);
-			JTB_empleado.setColumns(10);
+			JTF_empleado = new JTextField();
+			PNLinea4.add(JTF_empleado);
+			JTF_empleado.setColumns(10);
 			
 			JPanel PNLinea5 = new JPanel();
 			PNLinea5.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -636,10 +628,15 @@ public class FichaPPTO {
 	 * @param miCliente
 	 */
 	protected void cargaPPTO(Presupuesto mipresu) {
-		int id=miConce.getId();
+		int id=mipresu.getId();
 		JTF_id_presu.setText(String.valueOf(id));
-		JTF_nombre_cli.setText(mipresu.getId_cli());
-		JTF_apellido_cli.setText(mipresu.getId_cli());
+		JTF_nombre_cli.setText(contro.getnombrecli(mipresu.getId_cli())+" "+contro.getapellidocli(mipresu.getId_cli()));
+		JTF_DNI_cli.setText(contro.getDNIcli(mipresu.getId_cli()));
+		JTF_fecha_validez.setText(mipresu.getFecha_validez());
+		JTF_fechappto.setText(mipresu.getFecha_ppto());
+		JTF_matricula.setText(contro.getmatricula(mipresu.getId_veh()));
+		JTF_precio_ppto.setText(String.valueOf(mipresu.getPrecio()));
+		JTF_empleado.setText(contro.getnick(mipresu.getId_emple()));
 	}
 
 	/*

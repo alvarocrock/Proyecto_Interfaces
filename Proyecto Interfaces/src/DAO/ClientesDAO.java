@@ -303,23 +303,22 @@ public class ClientesDAO extends AbstractDAO {
 			e.printStackTrace();
 		}
 		return cliente;
-	}
+		}
 	
-	public String getapellidoByID(int  id) {
+	
+		public String getDNIbyid(int  id) {
 		String nombre="";
 		//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
 		ResultSet rs=null;
 		try {
             super.conectar();
             stm = (Statement) cn.createStatement();
-            rs = stm.executeQuery("SELECT apellidos FROM clientes where id_cli="+id+";");
+            rs = stm.executeQuery("SELECT dni FROM clientes where id_cli="+id+";");
             while (rs.next()) {
             			
             	nombre= rs.getString(1);
             	
             }
-            
-      
         } catch (SQLException e) {
             e.printStackTrace();    
         } finally {
@@ -341,6 +340,79 @@ public class ClientesDAO extends AbstractDAO {
         	}
 		return nombre;
 	}
+		
+		public int getidbydni(String  dni) {
+			int nombre=0;
+			//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
+			ResultSet rs=null;
+			try {
+	            super.conectar();
+	            stm = (Statement) cn.createStatement();
+	            rs = stm.executeQuery("SELECT id_cli FROM clientes where dni="+dni+";");
+	            while (rs.next()) {
+	            			
+	            	nombre= rs.getInt(1);
+	            	
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();    
+	        } finally {
+	        	try {
+	        		if (cn!=null) {
+	        			cn.close();
+	        		}
+	        		if (stm!=null) {
+	        			stm.close();
+	        		}
+	        		if (rs!=null) {
+	        			rs.close();
+	        		}
+	        		}
+					catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					 }
+	        	}
+			return nombre;
+		}
+		
+		public String getapellidoByID(int  id) {
+			String nombre="";
+			//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
+			ResultSet rs=null;
+			try {
+	            super.conectar();
+	            stm = (Statement) cn.createStatement();
+	            rs = stm.executeQuery("SELECT apellidos FROM clientes where id_cli="+id+";");
+	            while (rs.next()) {
+	            			
+	            	nombre= rs.getString(1);
+	            	
+	            }
+	            
+	            
+	      
+	        } catch (SQLException e) {
+	            e.printStackTrace();    
+	        } finally {
+	        	try {
+	        		if (cn!=null) {
+	        			cn.close();
+	        		}
+	        		if (stm!=null) {
+	        			stm.close();
+	        		}
+	        		if (rs!=null) {
+	        			rs.close();
+	        		}
+	        		}
+					catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					 }
+	        	}
+			return nombre;
+		}
 	
 	public String getnombrebyid(int id) {
 		String nombre="";

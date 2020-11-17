@@ -20,6 +20,41 @@ public class UsuarioDAO extends  AbstractDAO{
 	}
 	
 	
+	public int getidbynick(String nick) {
+		int id=0;
+		ResultSet rs=null;
+		try {
+            super.conectar();
+            stm = (Statement) cn.createStatement();
+            rs = stm.executeQuery("SELECT id_user FROM usuarios where nick="+nick+";");
+            while (rs.next()) {
+            	id= rs.getInt(1);	
+            }
+            
+      
+        } catch (SQLException e) {
+            e.printStackTrace();    
+        } finally {
+        	try {
+        		if (cn!=null) {
+        			cn.close();
+        		}
+        		if (stm!=null) {
+        			stm.close();
+        		}
+        		if (rs!=null) {
+        			rs.close();
+        		}
+        		}
+				catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				 }
+        	}
+		return id;
+	}
+	
+	
 	public String getnickbyid(int id) {
 		String nick="";
 		ResultSet rs=null;
