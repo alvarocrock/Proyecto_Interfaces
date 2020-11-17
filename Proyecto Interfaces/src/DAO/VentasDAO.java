@@ -97,7 +97,7 @@ public class VentasDAO extends AbstractDAO{
 				 }
         	}
    
-		
+		 
 		return miventa;
 	}
 	
