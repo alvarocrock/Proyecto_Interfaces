@@ -92,8 +92,8 @@ public class FichaConce extends JFrame {
 	 * Refresca el label de control de registros
 	 */
 	private void refrescaReg() {
-		String p="Registro " + String.valueOf(miConceDAO.goToConce(Integer.parseInt(TFIdConce.getText())) + " de "+ 
-				String.valueOf(miConceDAO.count())+".");
+		String valor = String.valueOf(miConceDAO.goToConce(Integer.parseInt(TFIdConce.getText())).getId());
+		String p="Registro " + valor + " de "+ String.valueOf(miConceDAO.count())+".";
 		LBRegistros.setText(p);	
 	}
 
@@ -177,7 +177,7 @@ public class FichaConce extends JFrame {
 		
 		//****************
 		// Menú lateral
-		JPanel PNMenu = new JPanel();
+		PNMenu = new JPanel();
 		PNMenu.setBackground(Color.decode("#2A9D8F"));
 		PNUsuario.add(PNMenu);
 		PNMenu.setLayout(new BoxLayout(PNMenu, BoxLayout.Y_AXIS));
@@ -556,7 +556,8 @@ public class FichaConce extends JFrame {
 	 * @param miCliente
 	 */
 	protected void cargaConce(Concesionario miConce) {
-		TFIdConce.setText(String.valueOf(miConce.getId()));
+		int id=miConce.getId();
+		TFIdConce.setText(String.valueOf(id));
 		TFNombre.setText(miConce.getNombre());
 	}
 

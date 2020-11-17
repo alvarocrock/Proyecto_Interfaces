@@ -183,7 +183,7 @@ public class ConcesionarioDAO extends AbstractDAO{
 	 * @return número de registros en la tabla de concesionarios
 	 */
 	public int count() {
-		String 	strSql="select id_conce from clientes order by id_conce";
+		String 	strSql="select id_conce from concesionario order by id_conce";
 		int count=0;
 		
 		// ejecuta la consulta
@@ -212,7 +212,7 @@ public class ConcesionarioDAO extends AbstractDAO{
 	 * @return
 	 */
 	public Concesionario goToIdConce(int idConce) {
-		String 	strSql="select id_conce, nombre from clientes where id_conce = " + idConce + ";";
+		String 	strSql="select id_conce, nombre from concesionario where id_conce = " + idConce + ";";
 		
 		// ejecuta la consulta
 		ResultSet rst=super.consultaSQL(strSql);

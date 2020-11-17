@@ -485,9 +485,9 @@ public class BuscarConcesionariosView extends JFrame {
 	 */
 	protected void seleccionar() {
 		// coger id_conce de la tabla
-		int idConce=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
+		int id_Conce=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
 		// llamada a ficha concesionario
-		FichaConce miFicConce = new FichaConce(miUser,idConce);
+		FichaConce miFicConce = new FichaConce(miUser,id_Conce);
 		miFicConce.getFrame().setAlwaysOnTop(true);
 		miFicConce.getFrame().setVisible(true);
 	}
