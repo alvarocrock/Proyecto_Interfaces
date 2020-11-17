@@ -19,6 +19,41 @@ public class UsuarioDAO extends  AbstractDAO{
 		miusuario=null;
 	}
 	
+	
+	public String getnickbyid(int id) {
+		String nick="";
+		ResultSet rs=null;
+		try {
+            super.conectar();
+            stm = (Statement) cn.createStatement();
+            rs = stm.executeQuery("SELECT Nick FROM usuarios where id_user="+id+";");
+            while (rs.next()) {
+            	nick= rs.getString(1);	
+            }
+            
+      
+        } catch (SQLException e) {
+            e.printStackTrace();    
+        } finally {
+        	try {
+        		if (cn!=null) {
+        			cn.close();
+        		}
+        		if (stm!=null) {
+        			stm.close();
+        		}
+        		if (rs!=null) {
+        			rs.close();
+        		}
+        		}
+				catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				 }
+        	}
+		return nick;
+	}
+	
 	//devuelve true si el login es correcto, false si es incorrecto
 	public boolean compobarlogin(String user, String contra) {
 		ResultSet rs= null;

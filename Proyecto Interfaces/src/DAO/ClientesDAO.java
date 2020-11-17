@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import com.mysql.jdbc.Statement;
+
 import Models.Clientes;
 
 
@@ -301,5 +303,63 @@ public class ClientesDAO extends AbstractDAO {
 			e.printStackTrace();
 		}
 		return cliente;
+	}
+	
+	public String getapellidoByID(int  id) {
+		String nombre="";
+		//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
+		ResultSet rs=null;
+		try {
+            super.conectar();
+            stm = (Statement) cn.createStatement();
+            rs = stm.executeQuery("SELECT apellidos FROM clientes where id_cli="+id+";");
+            while (rs.next()) {
+            			
+            	nombre= rs.getString(1);
+            	
+            }
+            
+      
+        } catch (SQLException e) {
+            e.printStackTrace();    
+        } finally {
+        	try {
+        		if (cn!=null) {
+        			cn.close();
+        		}
+        		if (stm!=null) {
+        			stm.close();
+        		}
+        		if (rs!=null) {
+        			rs.close();
+        		}
+        		}
+				catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				 }
+        	}
+		return nombre;
+	}
+	
+	public String getnombrebyid(int id) {
+		String nombre="";
+		String 	strSql="select nombre from clientes where id_cli = " + id + ";";
+		
+		// ejecuta la consulta
+		ResultSet rst=super.consultaSQL(strSql);
+		// crea el cliente
+		
+
+		try {
+			rst.next();
+			nombre=rst.getString(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return nombre;
 	}
 }

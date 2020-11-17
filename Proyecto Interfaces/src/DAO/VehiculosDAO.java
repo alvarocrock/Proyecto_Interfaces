@@ -70,6 +70,42 @@ public class VehiculosDAO extends AbstractDAO{
 	 * comporatmientop para obtener el id de cliente en base a un dni dado
 	 */
 	
+	public String getmatriculabyid(int id) {
+		String mat="";
+		ResultSet rs=null;
+		try {
+            super.conectar();
+            stm = (Statement) cn.createStatement();
+            rs = stm.executeQuery("SELECT matricula FROM vehiculos where id_vehiculo="+id+";");
+            while (rs.next()) {
+            			
+            	mat= rs.getString(1);
+            	
+            }
+            
+      
+        } catch (SQLException e) {
+            e.printStackTrace();    
+        } finally {
+        	try {
+        		if (cn!=null) {
+        			cn.close();
+        		}
+        		if (stm!=null) {
+        			stm.close();
+        		}
+        		if (rs!=null) {
+        			rs.close();
+        		}
+        		}
+				catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				 }
+        	}
+		return mat;
+	}
+	
 	public int getidcli(String DNI) {
 		int miint=0;
 		ResultSet rs=null;

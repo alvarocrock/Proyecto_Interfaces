@@ -31,6 +31,7 @@ import DAO.ConcesionarioDAO;
 import DAO.PresupuestoDAO;
 import GUI.FichaConce.MyKeyListener;
 import Models.Concesionario;
+import Models.Presupuesto;
 import Models.Usuarios;
 import javax.swing.SwingConstants;
 
@@ -43,7 +44,7 @@ public class FichaPPTO {
 	private JLabel LBNomUsu;
 	private JLabel LBRegistros;
 	private JFrame frame;
-	private JTextField TFIdConce;
+	private JTextField JTF_id_presu;
 	private JTextField JTF_nombre_cli;
 	private JButton BTBuscar;
 	private JButton BTBorra;
@@ -55,7 +56,7 @@ public class FichaPPTO {
 	private JButton BTSiguiente;
 	private JButton BTultimo;
 	private JLabel LBNomCli;
-	private JTextField textField;
+	private JTextField JTF_apellido_cli;
 	private JTextField JTB_empleado;
 	private JTextField JTF_fechappto;
 	private JTextField JTF_fecha_validez;
@@ -74,10 +75,10 @@ public class FichaPPTO {
 		LBNomUsu.setText(usuario.getNick());
 		if (idConce==0) {
 			// carga primer registro
-			cargaConce(contro.primero());
+			cargaPPTO(contro.primero());
 		} else {
 			// carga registro del usuario solicitado
-			cargaConce(contro.goToIdConce(idConce));
+			cargaPPTO(contro.goToPPTO_byid(idConce));
 		}
 		refrescaReg();
 	}
@@ -89,7 +90,7 @@ public class FichaPPTO {
 	 * Refresca el label de control de registros
 	 */
 	private void refrescaReg() {
-		String valor = String.valueOf(contro.goToPPTO(Integer.parseInt(TFIdConce.getText())).getId());
+		String valor = String.valueOf(contro.goToPPTO(Integer.parseInt(JTF_id_presu.getText())).getId());
 		String p="Registro " + valor + " de "+ String.valueOf(contro.count())+".";
 		LBRegistros.setText(p);	
 	}
@@ -329,11 +330,11 @@ public class FichaPPTO {
 			JLabel LBIdConce = new JLabel("Identificador");
 			PNLinea1.add(LBIdConce);
 			
-				TFIdConce = new JTextField();
-				TFIdConce.setEnabled(false);
-				TFIdConce.setEditable(false);
-				PNLinea1.add(TFIdConce);
-				TFIdConce.setColumns(10);
+				JTF_id_presu = new JTextField();
+				JTF_id_presu.setEnabled(false);
+				JTF_id_presu.setEditable(false);
+				PNLinea1.add(JTF_id_presu);
+				JTF_id_presu.setColumns(10);
 			
 			// panel linea 2
 			JPanel PNLinea2 = new JPanel();
@@ -347,7 +348,7 @@ public class FichaPPTO {
 				
 					JTF_nombre_cli = new JTextField();
 					PNLinea2.add(JTF_nombre_cli);
-					JTF_nombre_cli.setColumns(50);
+					JTF_nombre_cli.setColumns(15);
 			
 			// Panel para los botones del control de registros
 			JPanel panelBotoneras = new JPanel();
@@ -384,10 +385,10 @@ public class FichaPPTO {
 							"Borrar registro", 
 							JOptionPane.YES_NO_OPTION,
 							JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_NO_OPTION) {
-						contro.borraConce(Integer.parseInt(TFIdConce.getText()));	
-						Concesionario miConce = contro.primero();
+						contro.borraConce(Integer.parseInt(JTF_id_presu.getText()));	
+						Presupuesto presu = contro.primero();
 						// cargar cliente en form
-						cargaConce(miConce);
+						cargaPPTO(presu);
 						refrescaReg();
 					}
 
@@ -404,7 +405,7 @@ public class FichaPPTO {
 						Concesionario miConce=new Concesionario(JTF_nombre_cli.getText(),0);
 								
 						// comprobar si ya existe el registro
-						if (contro.comprobarConce(Integer.parseInt(TFIdConce.getText()))) {
+						if (contro.comprobarConce(Integer.parseInt(JTF_id_presu.getText()))) {
 							// guardar el registro
 							contro.updateConce(miConce);	
 						} else {
@@ -453,7 +454,7 @@ public class FichaPPTO {
 				public void actionPerformed(ActionEvent e) {
 					Concesionario miveh = contro.primero();
 					// cargar vehiculo en form
-					cargaConce(miveh);
+					cargaPPTO(miveh);
 					refrescaReg();
 				}
 			});
@@ -466,9 +467,9 @@ public class FichaPPTO {
 			BTAnterior.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Concesionario miConce = contro.anterior(TFIdConce.getText());
+					Concesionario miConce = contro.anterior(JTF_id_presu.getText());
 					if (miConce!=null) {
-						cargaConce(miConce);
+						cargaPPTO(miConce);
 						refrescaReg();
 					}
 				}
@@ -487,10 +488,10 @@ public class FichaPPTO {
 			BTSiguiente.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Concesionario miConce = contro.siguiente(TFIdConce.getText());
+					Concesionario miConce = contro.siguiente(JTF_id_presu.getText());
 					// cargar cliente en form
 					if (miConce!=null) {
-						cargaConce(miConce);
+						cargaPPTO(miConce);
 						refrescaReg();
 					}
 				}
@@ -510,9 +511,9 @@ public class FichaPPTO {
 			JLabel JLB_apellido_cliente = new JLabel("Apellido Cliente");
 			PNLinea3.add(JLB_apellido_cliente);
 			
-			textField = new JTextField();
-			PNLinea3.add(textField);
-			textField.setColumns(10);
+			JTF_apellido_cli = new JTextField();
+			PNLinea3.add(JTF_apellido_cli);
+			JTF_apellido_cli.setColumns(15);
 			
 			
 			JPanel PNLinea4 = new JPanel();
@@ -585,9 +586,9 @@ public class FichaPPTO {
 			BTultimo.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Concesionario miConce = contro.ultimo();
+					Presupuesto mipresu = contro.ultimo();
 					// cargar cliente en form
-					cargaConce(miConce);
+					cargaPPTO(mipresu);
 					refrescaReg();
 				}
 			});
@@ -634,10 +635,11 @@ public class FichaPPTO {
 	 * Carga el formulario con los datos de un cliente 
 	 * @param miCliente
 	 */
-	protected void cargaConce(Concesionario miConce) {
+	protected void cargaPPTO(Presupuesto mipresu) {
 		int id=miConce.getId();
-		TFIdConce.setText(String.valueOf(id));
-		JTF_nombre_cli.setText(miConce.getNombre());
+		JTF_id_presu.setText(String.valueOf(id));
+		JTF_nombre_cli.setText(mipresu.getId_cli());
+		JTF_apellido_cli.setText(mipresu.getId_cli());
 	}
 
 	/*
