@@ -20,10 +20,9 @@ public class VentasDAO extends AbstractDAO{
 	 * @return
 	 */
 	public ArrayList<Ventas> getventas(){
-		ArrayList<Ventas> lista= new ArrayList();
+		ArrayList<Ventas> lista= new ArrayList<Ventas>();
 		Ventas miventa;
 		ResultSet rst=null;
-		String contenido="";
 		try {
             //super.conectar();
             rst = stm.executeQuery("SELECT * FROM ventas;");
@@ -61,7 +60,7 @@ public class VentasDAO extends AbstractDAO{
 	
 	/**
 	 * comportamiento que devuelve un objeto de tipo venta dado un id
-	 * @return
+	 * @return 
 	 */
 	public Ventas getuserbyid(int id) {
 		Ventas miventa=null;

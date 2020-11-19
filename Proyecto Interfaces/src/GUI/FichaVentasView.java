@@ -788,7 +788,6 @@ public class FichaVentasView extends JFrame {
 		}
 		@Override
 		public void windowClosed(java.awt.event.WindowEvent arg0) {
-			salir();
 		}
 
 		@Override
