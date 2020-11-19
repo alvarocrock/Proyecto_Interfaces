@@ -57,14 +57,17 @@ public class UsuarioDAO extends  AbstractDAO{
 	
 	
 	public String getnickbyid(int id) {
-		String nick="";
+		String valor="";
+		//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
 		ResultSet rs=null;
 		try {
             super.conectar();
             stm = (Statement) cn.createStatement();
             rs = stm.executeQuery("SELECT Nick FROM usuarios where id_user="+id+";");
             while (rs.next()) {
-            	nick= rs.getString(1);	
+            			
+            	valor= rs.getString(1);
+            	
             }
             
       
@@ -87,7 +90,7 @@ public class UsuarioDAO extends  AbstractDAO{
 				e.printStackTrace();
 				 }
         	}
-		return nick;
+		return valor;
 	}
 	
 	//devuelve true si el login es correcto, false si es incorrecto

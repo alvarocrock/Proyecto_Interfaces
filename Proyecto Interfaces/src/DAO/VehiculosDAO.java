@@ -108,7 +108,8 @@ public class VehiculosDAO extends AbstractDAO{
 	 */
 	
 	public String getmatriculabyid(int id) {
-		String mat="";
+		String valor="";
+		//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
 		ResultSet rs=null;
 		try {
             super.conectar();
@@ -116,7 +117,7 @@ public class VehiculosDAO extends AbstractDAO{
             rs = stm.executeQuery("SELECT matricula FROM vehiculos where id_vehiculo="+id+";");
             while (rs.next()) {
             			
-            	mat= rs.getString(1);
+            	valor= rs.getString(1);
             	
             }
             
@@ -140,7 +141,7 @@ public class VehiculosDAO extends AbstractDAO{
 				e.printStackTrace();
 				 }
         	}
-		return mat;
+		return valor;
 	}
 	
 	public int getidcli(String DNI) {

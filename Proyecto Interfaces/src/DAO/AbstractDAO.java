@@ -161,17 +161,7 @@ public abstract class AbstractDAO {
             JOptionPane.showMessageDialog(null, strSQL, "Error: "+e.getMessage(), JOptionPane.ERROR_MESSAGE);
 			resultado=false;
 		} finally {
-				/*
-				try {
-					if (stm!=null) {
-					stm.close();
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				*/
-			}
+		}
         
 		return resultado;
 	}
@@ -184,6 +174,7 @@ public abstract class AbstractDAO {
 	protected ResultSet consultaSQL(String strSql) {
 		ResultSet rst=null;
 		try {
+			//stm = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
 			rst = stm.executeQuery(strSql);
 		} catch (SQLException e) {
 			e.printStackTrace();

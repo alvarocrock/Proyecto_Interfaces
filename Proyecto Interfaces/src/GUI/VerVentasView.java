@@ -24,6 +24,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import DAO.ClientesDAO;
+import DAO.UsuarioDAO;
+import DAO.VehiculosDAO;
 import DAO.VentasDAO;
 import javax.swing.JButton;
 

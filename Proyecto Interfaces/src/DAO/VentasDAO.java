@@ -11,9 +11,15 @@ import Models.Ventas;
 
 public class VentasDAO extends AbstractDAO{
 	
+	protected ClientesDAO cliente;
+	protected VehiculosDAO vehiculo;
+	protected UsuarioDAO usuarios;
 	
 	public 	VentasDAO() {
 		super();
+		cliente=new ClientesDAO();
+		vehiculo=new VehiculosDAO();
+		usuarios= new UsuarioDAO();
 	}
 	
 	/**
@@ -99,6 +105,26 @@ public class VentasDAO extends AbstractDAO{
    
 		 
 		return miventa;
+	}
+
+	public String getnick(int id_emple) {
+		// TODO Auto-generated method stub
+		return usuarios.getnickbyid(id_emple);
+	}
+
+	public String getnombrecli(int id_cli) {
+		// TODO Auto-generated method stub
+		return cliente.getnombrebyid(id_cli);
+	}
+
+	public String getapellidocli(int id_cli) {
+		// TODO Auto-generated method stub
+		return cliente.getapellidoByID(id_cli);
+	}
+
+	public String getmatricula(int id_vehiculo) {
+		// TODO Auto-generated method stub
+		return vehiculo.getmatriculabyid(id_vehiculo);
 	}
 	
 }

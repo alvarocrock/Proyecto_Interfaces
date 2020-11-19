@@ -244,7 +244,7 @@ public class ConcesionarioDAO extends AbstractDAO{
 	 */
 	public boolean comprobarConce(int idConce) {
 		boolean resultado=false;
-		String 	strSql="select id_conce from concesionarios where id_conce="+idConce+";";
+		String 	strSql="select id_conce from concesionario where id_conce="+idConce+";";
 		
 		// ejecuta la consulta
 		ResultSet rst=super.consultaSQL(strSql);

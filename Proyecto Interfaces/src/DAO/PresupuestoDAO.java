@@ -1,11 +1,14 @@
 package DAO;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.mysql.jdbc.Statement;
 
+import Common.Constantes;
 import Models.Concesionario;
 import Models.Presupuesto;
 import Models.Ventas;
@@ -60,11 +63,46 @@ public class PresupuestoDAO extends AbstractDAO{
 				+ "`fecha_ppto` = '"+presu.getFecha_ppto()+"', `fecha_validez` = '"+presu.getFecha_validez()+"',"
 				+ " `id_vehiculo` = '"+presu.getId_veh()+"', `precio` = '"+presu.getPrecio()+"' "
 				+ "WHERE (`id_presupuesto` = '"+presu.getId()+"');";
-		
+		super.ejecutaSQL(strSql);
 	}
 	
 	public String getDNIcli(int id) {
-		return cliente.getDNIbyid(id);
+		//return cliente.getDNIbyid(id);
+		String valor="";
+		//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
+		ResultSet rs=null;
+		try {
+            super.conectar();
+            stm = (Statement) cn.createStatement();
+            rs = stm.executeQuery("SELECT dni FROM clientes where id_cli="+id+";");
+            while (rs.next()) {
+            			
+            	valor= rs.getString(1);
+            	
+            }
+            
+      
+        } catch (SQLException e) {
+            e.printStackTrace();    
+        } finally {
+        	try {
+        		if (cn!=null) {
+        			cn.close();
+        		}
+        		if (stm!=null) {
+        			stm.close();
+        		}
+        		if (rs!=null) {
+        			rs.close();
+        		}
+        		}
+				catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				 }
+        	}
+		return valor;
+		
 	}
 	
 	
@@ -80,31 +118,7 @@ public class PresupuestoDAO extends AbstractDAO{
 	public void addpresu(Presupuesto presu) {
 		String 	strSql="INSERT INTO ppto (`id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) "
 				+ "VALUES ('"+presu.getId_cli()+"', '"+presu.getId_emple()+"', '"+presu.getFecha_ppto()+"', '"+presu.getFecha_validez()+"', '"+presu.getId_veh()+"', '"+presu.getPrecio()+"');";
-		// Se ejecuta correctamente el SQL
-		try {
-            super.conectar();
-            stm = (Statement) cn.createStatement();
-           
-            stm.executeUpdate(strSql);
-         
-         
-      
-        } catch (SQLException e) {
-            e.printStackTrace();    
-        } finally {
-        	try {
-        		if (cn!=null) {
-        			cn.close();
-        		}
-        		if (stm!=null) {
-        			stm.close();
-        		}
-        		}
-				catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				 }
-        	}
+		super.ejecutaSQL(strSql);
 	}
 	
 	
@@ -146,12 +160,6 @@ public class PresupuestoDAO extends AbstractDAO{
             e.printStackTrace();    
         } finally {
         	try {
-        		if (cn!=null) {
-        			cn.close();
-        		}
-        		if (stm!=null) {
-        			stm.close();
-        		}
         		if (rs!=null) {
         			rs.close();
         		}
@@ -168,14 +176,55 @@ public class PresupuestoDAO extends AbstractDAO{
 	
 	public String getnombrecli(int id) {
 		return cliente.getnombrebyid(id);
+		/*
+		String valor="";
+		//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
+		
+		ResultSet rs=null;
+		try {
+            super.conectar();
+            stm = (Statement) cn.createStatement();
+            rs = stm.executeQuery("select nombre from clientes where id_cli = '" + id + "';");
+            while (rs.next()) {
+            			
+            	valor= rs.getString(1);
+            	
+            }
+            
+      
+        } catch (SQLException e) {
+            e.printStackTrace();    
+        } finally {
+        	try {
+        		if (cn!=null) {
+        			cn.close();
+        		}
+        		if (stm!=null) {
+        			stm.close();
+        		}
+        		if (rs!=null) {
+        			rs.close();
+        		}
+        		}
+				catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				 }
+        	}
+        	
+        	
+		return valor;
+		*/
 	}
 	
 	
 	public String getnick(int id) {
 		return usuarios.getnickbyid(id);
+		
 	}
 	
 	public int getidemplebynick(String nick) {
+		
 		return usuarios.getidbynick(nick);
 	}
 	
@@ -184,6 +233,8 @@ public class PresupuestoDAO extends AbstractDAO{
 	public String getapellidocli(int id) {
 		return cliente.getapellidoByID(id);
 	}
+		
+
 	
 	public String getmatricula(int id) {
 		return vehiculo.getmatriculabyid(id);
@@ -224,7 +275,7 @@ public class PresupuestoDAO extends AbstractDAO{
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		// devuelve el nÃºmero de registros 
+		// devuelve el número de registros 
 		return count;
 	}
 	

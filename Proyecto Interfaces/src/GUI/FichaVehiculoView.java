@@ -31,7 +31,6 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import com.sun.glass.events.WindowEvent;
 
 import Common.Constantes;
 import Common.Constantes.DigitoDni;

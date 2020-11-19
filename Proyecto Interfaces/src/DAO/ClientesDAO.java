@@ -378,7 +378,7 @@ public class ClientesDAO extends AbstractDAO {
 		}
 		
 		public String getapellidoByID(int  id) {
-			String nombre="";
+			String valor="";
 			//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
 			ResultSet rs=null;
 			try {
@@ -387,10 +387,9 @@ public class ClientesDAO extends AbstractDAO {
 	            rs = stm.executeQuery("SELECT apellidos FROM clientes where id_cli="+id+";");
 	            while (rs.next()) {
 	            			
-	            	nombre= rs.getString(1);
+	            	valor= rs.getString(1);
 	            	
 	            }
-	            
 	            
 	      
 	        } catch (SQLException e) {
@@ -412,27 +411,43 @@ public class ClientesDAO extends AbstractDAO {
 					e.printStackTrace();
 					 }
 	        	}
-			return nombre;
+			return valor;
 		}
 	
 	public String getnombrebyid(int id) {
-		String nombre="";
-		String 	strSql="select nombre from clientes where id_cli = '" + id + "';";
-		
-		// ejecuta la consulta
-		ResultSet rst=super.consultaSQL(strSql);
-		// crea el cliente
-		
-
+		String valor="";
+		//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
+		ResultSet rs=null;
 		try {
-			rst.next();
-			nombre=rst.getString(1);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		return nombre;
+            super.conectar();
+            stm = (Statement) cn.createStatement();
+            rs = stm.executeQuery("SELECT nombre FROM clientes where id_cli="+id+";");
+            while (rs.next()) {
+            			
+            	valor= rs.getString(1);
+            	
+            }
+            
+      
+        } catch (SQLException e) {
+            e.printStackTrace();    
+        } finally {
+        	try {
+        		if (cn!=null) {
+        			cn.close();
+        		}
+        		if (stm!=null) {
+        			stm.close();
+        		}
+        		if (rs!=null) {
+        			rs.close();
+        		}
+        		}
+				catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				 }
+        	}
+		return valor;
 	}
 }
