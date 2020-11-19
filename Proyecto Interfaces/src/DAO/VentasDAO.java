@@ -306,7 +306,7 @@ public class VentasDAO extends AbstractDAO{
 	 * @return número de registros en la tabla de ventas
 	 */
 	public int count() {
-		String 	strSql="select id from ventas";
+		String 	strSql="select id_ventas from ventas";
 		int count=0;
 		
 		// ejecuta la consulta
@@ -361,7 +361,7 @@ public class VentasDAO extends AbstractDAO{
 	 * @return
 	 */
 	public Ventas goToIdVenta(int id) {
-		String 	strSql="select * from ventas where id_ventasi = " + id + ";";
+		String 	strSql="select * from ventas where id_ventas = " + id + ";";
 		
 		// ejecuta la consulta
 		ResultSet rst=super.consultaSQL(strSql);

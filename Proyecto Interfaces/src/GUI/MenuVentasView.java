@@ -148,6 +148,32 @@ public class MenuVentasView extends JFrame {
 		JLB_ver_ventas.setForeground(Color.decode("#E9C46A"));
 		panel_opciones.add(JLB_ver_ventas);
 		
+		JLabel LBVentas = new JLabel("Ficha Ventas");
+		LBVentas.setForeground(new Color(233, 196, 106));
+		LBVentas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		LBVentas.setBorder(BorderFactory.createEmptyBorder(5,0,5,0));
+		panel_opciones.add(LBVentas);
+		LBVentas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FichaVentasView miFV = new FichaVentasView (usuario,0);
+				miFV.getFrame().setAlwaysOnTop(true);
+				miFV.getFrame().setVisible(true);
+				frame.dispose();
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				LBVentas.setForeground(Color.RED);
+				LBVentas.setFont(new Font("Tahoma",Font.BOLD,14));
+
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				LBVentas.setForeground(Color.ORANGE);
+				LBVentas.setFont(new Font("Tahoma",Font.PLAIN,14));
+			}
+		});
+		
 		JLabel JLB_buscar_cli = new JLabel("Buscar Clientes");
 		JLB_buscar_cli.setBorder(BorderFactory.createEmptyBorder(5,0,5,0));
 		JLB_buscar_cli.setFont(new Font("Tahoma", Font.PLAIN, 14));

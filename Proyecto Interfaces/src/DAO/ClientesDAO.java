@@ -168,6 +168,14 @@ public class ClientesDAO extends AbstractDAO {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
+		} finally {
+			if (rst!=null)
+				try {
+					rst.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 		return resultado;
 	}

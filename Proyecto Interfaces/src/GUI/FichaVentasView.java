@@ -335,8 +335,6 @@ public class FichaVentasView extends JFrame {
 			PNLinea1.add(LBIdVentas);
 			
 				TFIdVentas = new JTextField();
-				TFIdVentas.setEnabled(false);
-				TFIdVentas.setEditable(false);
 				PNLinea1.add(TFIdVentas);
 				TFIdVentas.setColumns(10);
 				
@@ -344,8 +342,6 @@ public class FichaVentasView extends JFrame {
 				PNLinea1.add(LBFechaPpto);
 				
 				TFFechaPpto = new JTextField();
-				TFFechaPpto.setEnabled(false);
-				TFFechaPpto.setEditable(false);
 				TFFechaPpto.setColumns(10);
 				PNLinea1.add(TFFechaPpto);
 				
@@ -353,8 +349,6 @@ public class FichaVentasView extends JFrame {
 				PNLinea1.add(LBfFechaVal);
 				
 				TFFechaVal = new JTextField();
-				TFFechaVal.setEnabled(false);
-				TFFechaVal.setEditable(false);
 				TFFechaVal.setColumns(10);
 				PNLinea1.add(TFFechaVal);
 			
@@ -384,6 +378,21 @@ public class FichaVentasView extends JFrame {
 							FlowLayout flowLayout_1 = (FlowLayout) PNDatCli.getLayout();
 							flowLayout_1.setAlignment(FlowLayout.LEFT);
 							PNCliente.add(PNDatCli);
+							
+							JButton BTBuscarCli = new JButton(" ");
+							BTBuscarCli.setSelectedIcon(new ImageIcon(FichaVentasView.class.getResource("/png/lupa.png")));
+							PNDatCli.add(BTBuscarCli);
+							BTBuscarCli.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									// llamada a buscar cliente
+									BusCliView miBusqueda = new BusCliView(usuario);
+									miBusqueda.getFrame().setAlwaysOnTop(true);
+									miBusqueda.getFrame().setVisible(true);
+
+								}
+							});
+							
 							
 							JLabel LBDni = new JLabel("DNI");
 							PNDatCli.add(LBDni);
@@ -729,20 +738,14 @@ public class FichaVentasView extends JFrame {
 		TFFechaVal.setText(String.valueOf(ventas.getFechavalidez()));
 		// recupera datos del cliente
 		ClientesDAO miCliDAO= new ClientesDAO();
-		Clientes miCli = miCliDAO.g(Integer.parseInt(TFDni.getText()));
-		TFDni.setText(ventas.getId_cli());
-		TFPrecio.setText(String.valueOf(ventas.getPrecio()));
-		TFIdCli.setText(String.valueOf(ventas.getId_cli()));
-		TFConce.setText(String.valueOf(ventas.getId_conce()));
-		// carga el nombre de cliente
-		ClientesDAO miCliDAO = new ClientesDAO();
 		Clientes miCli = miCliDAO.goToIdCli(ventas.getId_cli());
-		LBNomCli.setText(miCli.getNombre()+" "+miCli.getApellido());
-		// carga el nombre de concesionario
-		ConcesionarioDAO miConDAO = new ConcesionarioDAO();
-		Concesionario miCon = miConDAO.goToConce(Integer.parseInt(TFConce.getText()));
-		LBNomConce.setText(miCon.getNombre());
-		CBTipo.setSelectedItem(ventas.getTipo());
+		if (miCli!=null) {
+			LBNomCli.setText(miCli.getNombre()+" "+miCli.getApellido());
+			TFDni.setText(miCli.getDNI());
+		} else {
+			JOptionPane.showMessageDialog(frame,"Ese cliente no existe","Error",JOptionPane.ERROR_MESSAGE);
+		}
+		
 		
 }
 
