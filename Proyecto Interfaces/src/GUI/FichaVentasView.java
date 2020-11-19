@@ -51,14 +51,9 @@ public class FichaVentasView {
 	private VehiculosDAO miVehDAO;
 	private JLabel LBUsuario;
 	private JLabel LBNomUsu;
-	private JTextField TFMatricula;
-	private JTextField TFBastidor;
-	private JTextField TFMarca;
-	private JTextField TFModelo;
-	private JTextField TFPrecio;
-	private JTextField TFIdCli;
+	private JTextField TFIdVentas;
+	private JTextField TFDni;
 	private JFrame frame;
-	private JTextField TFConce;
 	private JLabel LBRegistros;
 	private JButton BTBorra;
 	private JButton BTAnterior;
@@ -70,9 +65,8 @@ public class FichaVentasView {
 	private JButton BTGuardar;
 	private JButton BTSalir;
 	private JLabel LBNomCli;
-	private JLabel LBNomConce;
-	private JComboBox <String> CBTipo ;
 	private VentasDAO miVentaDAO;
+	private JTextField TFIdVehiculo;
 
 	/**
 	 * Constructor con usuario e id de cliente
@@ -100,7 +94,7 @@ public class FichaVentasView {
 	 * Refresca el label de control de registros
 	 */
 	private void refrescaReg() {
-		String p="Registro " + String.valueOf(miVehDAO.buscaMatricula(TFMatricula.getText()) + " de "+ 
+		String p="Registro " + String.valueOf(miVehDAO.buscaMatricula(TFIdVentas.getText()) + " de "+ 
 				String.valueOf(miVehDAO.count())+".");
 		LBRegistros.setText(p);	
 	}
@@ -133,7 +127,7 @@ public class FichaVentasView {
 		PNTitulo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		PNTitulo.setBackground(Color.decode("#264653"));
 		
-		JLabel LBTitulo = new JLabel("Ficha de vehículos");
+		JLabel LBTitulo = new JLabel("Ficha de ventas");
 		LBTitulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LBTitulo.setForeground(Color.ORANGE);
 		PNTitulo.add(LBTitulo);
@@ -254,7 +248,7 @@ public class FichaVentasView {
 		JLB_ficha_cliente.setForeground(Color.decode("#E9C46A"));
 		PNMenu.add(JLB_ficha_cliente);
 		
-		JLabel Busca_vehiculos = new JLabel("Busca Vehiculos");
+		JLabel Busca_vehiculos = new JLabel("Buscar Vehiculos");
 		Busca_vehiculos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -276,7 +270,7 @@ public class FichaVentasView {
 		Busca_vehiculos.setForeground(Color.decode("#E9C46A"));
 		PNMenu.add(Busca_vehiculos);
 		
-		JLabel JLB_ficha_vehiculo = new JLabel("Ficha Vehiculo");
+		JLabel JLB_ficha_vehiculo = new JLabel("Ficha de Vehiculos");
 		JLB_ficha_vehiculo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -335,39 +329,36 @@ public class FichaVentasView {
 			PNLinea1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 			PNLinea1.setBackground(Color.decode("#2A9D8F"));
 			
-			JLabel LBMatricula = new JLabel("Matrícula");
-			PNLinea1.add(LBMatricula);
+			JLabel LBIdVentas = new JLabel("Identificador");
+			PNLinea1.add(LBIdVentas);
 			
-				TFMatricula = new JTextField();
-				PNLinea1.add(TFMatricula);
-				TFMatricula.setColumns(10);
-				
-				JLabel LBBastidor = new JLabel("Bastidor");
-				PNLinea1.add(LBBastidor);
-				
-					TFBastidor = new JTextField();
-					PNLinea1.add(TFBastidor);
-					TFBastidor.setColumns(20);
+				TFIdVentas = new JTextField();
+				TFIdVentas.setEnabled(false);
+				TFIdVentas.setEditable(false);
+				PNLinea1.add(TFIdVentas);
+				TFIdVentas.setColumns(10);
 			
 			// panel linea 2
 			JPanel PNLinea2 = new JPanel();
 			PNCentral.add(PNLinea2, "cell 0 1,grow");
-			PNLinea2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 			PNLinea2.setBackground(Color.decode("#2A9D8F"));
-				
-				JLabel LBMarca = new JLabel("Marca");
-				PNLinea2.add(LBMarca);
-				
-					TFMarca = new JTextField();
-					PNLinea2.add(TFMarca);
-					TFMarca.setColumns(10);
-					
-					JLabel LBModelo = new JLabel("Modelo");
-					PNLinea2.add(LBModelo);
-					
-						TFModelo = new JTextField();
-						PNLinea2.add(TFModelo);
-						TFModelo.setColumns(10);
+						PNLinea2.setLayout(new BoxLayout(PNLinea2, BoxLayout.Y_AXIS));
+						
+						JPanel panel = new JPanel();
+						PNLinea2.add(panel);
+						
+						JLabel LBDni = new JLabel("DNI");
+						panel.add(LBDni);
+						
+							TFDni = new JTextField();
+							panel.add(TFDni);
+							TFDni.setColumns(10);
+							
+							JLabel LBIdCli = new JLabel("IdCli");
+							panel.add(LBIdCli);
+							
+							LBNomCli = new JLabel("Nombre del cliente");
+							panel.add(LBNomCli);
 			
 			// panel linea 3
 			JPanel PNLinea3 = new JPanel();
@@ -375,22 +366,15 @@ public class FichaVentasView {
 			PNLinea3.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 			PNLinea3.setBackground(Color.decode("#2A9D8F"));
 				
-			JLabel LBPrecio = new JLabel("Precio");
-			PNLinea3.add(LBPrecio);
+			JLabel LBIdUsuario = new JLabel("Empleado");
+			LBIdUsuario.setToolTipText("");
+			PNLinea3.add(LBIdUsuario);
 			
-			TFPrecio = new JTextField();
-			PNLinea3.add(TFPrecio);
-			TFPrecio.setColumns(10);
+			JLabel LBIdUser = new JLabel("IdUser");
+			PNLinea3.add(LBIdUser);
 			
-			JLabel LBConcesionario = new JLabel("Concesionario");
-			PNLinea3.add(LBConcesionario);
-			
-			TFConce = new JTextField();
-			TFConce.setColumns(10);
-			PNLinea3.add(TFConce);
-			
-			LBNomConce = new JLabel("Nombre del concesionario");
-			PNLinea3.add(LBNomConce);
+			JLabel lblNombreDelUsuario = new JLabel("Nombre del usuario");
+			PNLinea3.add(lblNombreDelUsuario);
 			
 			// panel linea 4
 			JPanel PNLinea4 = new JPanel();
@@ -398,16 +382,18 @@ public class FichaVentasView {
 			PNLinea4.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 			PNLinea4.setBackground(Color.decode("#2A9D8F"));
 			
-			JLabel LBCliente = new JLabel("Cliente");
-			PNLinea4.add(LBCliente);
+			JLabel LBIdVehculo = new JLabel("Id vehículo");
+			PNLinea4.add(LBIdVehculo);
 			
-			TFIdCli = new JTextField();
-			PNLinea4.add(TFIdCli);
-			TFIdCli.setText("Málaga");
-			TFIdCli.setColumns(10);
+			TFIdVehiculo = new JTextField();
+			TFIdVehiculo.setColumns(10);
+			PNLinea4.add(TFIdVehiculo);
 			
-			LBNomCli = new JLabel("Nombre del cliente");
-			PNLinea4.add(LBNomCli);
+			JLabel LBMatrícula = new JLabel("Matricula");
+			PNLinea4.add(LBMatrícula);
+			
+			JLabel LBMarca = new JLabel("Marca");
+			PNLinea4.add(LBMarca);
 			
 			// panel linea 5
 						JPanel PNLinea5 = new JPanel();
@@ -415,11 +401,11 @@ public class FichaVentasView {
 						PNLinea5.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 						PNLinea5.setBackground(Color.decode("#2A9D8F"));
 						
-						JLabel LBTipo = new JLabel("Tipo");
-						PNLinea5.add(LBTipo);
+						JLabel LBModelo = new JLabel("Modelo");
+						PNLinea5.add(LBModelo);
 						
-						CBTipo = new JComboBox <String>();
-						PNLinea5.add(CBTipo);
+						JLabel LBPrecio = new JLabel("Precio");
+						PNLinea5.add(LBPrecio);
 						// guarda el enum en un array
 						for (TiposVeh d: TiposVeh.values()) {
 							CBTipo.addItem(d.toString());
@@ -461,7 +447,7 @@ public class FichaVentasView {
 							"Borrar registro", 
 							JOptionPane.YES_NO_OPTION,
 							JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_NO_OPTION) {
-						miVehDAO.borraVehiculo(TFMatricula.getText());	
+						miVehDAO.borraVehiculo(TFIdVentas.getText());	
 						Vehiculos miVeh = miVehDAO.primero();
 						// cargar cliente en form
 						cargaVenta(miVeh);
@@ -480,8 +466,8 @@ public class FichaVentasView {
 						// Recoge el valor del combo
 						String miTipo = (String) CBTipo.getSelectedItem();
 						// crea el nuevo vehículo
-						Vehiculos miVeh=new Vehiculos(0,TFMatricula.getText(),TFBastidor.getText(),
-								TFMarca.getText(),TFModelo.getText(),
+						Vehiculos miVeh=new Vehiculos(0,TFIdVentas.getText(),TFBastidor.getText(),
+								TFMarca.getText(),TFDni.getText(),
 								Float.parseFloat(TFPrecio.getText()),
 								Date.valueOf(LocalDate.now()),
 								Integer.parseInt(TFIdCli.getText()),
@@ -490,7 +476,7 @@ public class FichaVentasView {
 								miTipo
 								);
 						// comprobar si ya existe el registro
-						if (miVehDAO.Comprobarvehiculo(TFMatricula.getText())) {
+						if (miVehDAO.Comprobarvehiculo(TFIdVentas.getText())) {
 							// guardar el registro
 							miVehDAO.updateVehiculo(miVeh);	
 						} else {
@@ -509,11 +495,11 @@ public class FichaVentasView {
 			BTNuevo.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					TFMatricula.setText("");
-					TFMatricula.requestFocus();
+					TFIdVentas.setText("");
+					TFIdVentas.requestFocus();
 					TFBastidor.setText("");
 					TFMarca.setText("");
-					TFModelo.setText("");
+					TFDni.setText("");
 					TFPrecio.setText("");
 					TFIdCli.setText("");
 					TFConce.setText("");
@@ -558,7 +544,7 @@ public class FichaVentasView {
 			BTAnterior.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Vehiculos miVeh = miVehDAO.anterior(TFMatricula.getText());
+					Vehiculos miVeh = miVehDAO.anterior(TFIdVentas.getText());
 					if (miVeh!=null) {
 						cargaVenta(miVeh);
 						refrescaReg();
@@ -579,7 +565,7 @@ public class FichaVentasView {
 			BTSiguiente.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Vehiculos miVeh = miVehDAO.siguiente(TFMatricula.getText());
+					Vehiculos miVeh = miVehDAO.siguiente(TFIdVentas.getText());
 					// cargar cliente en form
 					if (miVeh!=null) {
 						cargaVenta(miVeh);
@@ -614,7 +600,7 @@ public class FichaVentasView {
 				|| !comprobarInt(TFIdCli.getText()) || !comprobarInt(TFConce.getText())
 				|| (TFBastidor.getText().length()==0) || (TFConce.getText().length()==0)  
 				|| (TFIdCli.getText().length()==0)	||  (TFMarca.getText().length()==0)
-				|| (TFMatricula.getText().length()==0)  || (TFModelo.getText().length()==0)
+				|| (TFIdVentas.getText().length()==0)  || (TFDni.getText().length()==0)
 				|| (TFPrecio.getText().length()==0)
 				) 
 		{
@@ -680,10 +666,10 @@ public class FichaVentasView {
 	 * @param miCliente
 	 */
 	protected void cargaVenta(Vehiculos miVeh) {
-		TFMatricula.setText(miVeh.getMatricula());
+		TFIdVentas.setText(miVeh.getMatricula());
 		TFBastidor.setText(miVeh.getBastidor());
 		TFMarca.setText(miVeh.getMarca());
-		TFModelo.setText(miVeh.getModelo());
+		TFDni.setText(miVeh.getModelo());
 		TFPrecio.setText(String.valueOf(miVeh.getPrecio()));
 		TFIdCli.setText(String.valueOf(miVeh.getId_cli()));
 		TFConce.setText(String.valueOf(miVeh.getId_conce()));
