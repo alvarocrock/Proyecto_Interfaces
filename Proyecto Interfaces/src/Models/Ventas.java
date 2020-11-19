@@ -1,16 +1,18 @@
 package Models;
 
+import java.sql.Date;
+
 public class Ventas {
 
 	int id_ventas;
 	int id_cli;
 	int id_emple;
-	String fechappto;
-	String fechavalidez;
+	Date fechappto;
+	Date fechavalidez;
 	int id_vehiculo;
 	float precio;
 	
-	public Ventas(int id_v, int id_clie,int miid_emple, String mifechappto,String FV,int id_vehi,float miprecio) {
+	public Ventas(int id_v, int id_clie,int miid_emple, Date mifechappto,Date FV,int id_vehi,float miprecio) {
 		id_ventas=id_v;
 		id_cli=id_clie;
 		id_emple=miid_emple;
@@ -52,19 +54,19 @@ public class Ventas {
 		this.id_emple = id_emple;
 	}
 
-	public String getFechappto() {
+	public Date getFechappto() {
 		return fechappto;
 	}
 
-	public void setFechappto(String fechappto) {
+	public void setFechappto(Date fechappto) {
 		this.fechappto = fechappto;
 	}
 
-	public String getFechavalidez() {
+	public Date getFechavalidez() {
 		return fechavalidez;
 	}
 
-	public void setFechavalidez(String fechavalidez) {
+	public void setFechavalidez(Date fechavalidez) {
 		this.fechavalidez = fechavalidez;
 	}
 

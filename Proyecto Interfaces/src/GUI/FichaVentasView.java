@@ -41,14 +41,14 @@ import Models.Clientes;
 import Models.Concesionario;
 import Models.Usuarios;
 import Models.Vehiculos;
+import Models.Ventas;
 
-public class FichaVentasView {
+public class FichaVentasView extends JFrame {
 	/**
 	 * 	estados
 	 */
 	private static final long serialVersionUID = 1L;
 	private Usuarios usuario;
-	private VehiculosDAO miVehDAO;
 	private JLabel LBUsuario;
 	private JLabel LBNomUsu;
 	private JTextField TFIdVentas;
@@ -67,6 +67,8 @@ public class FichaVentasView {
 	private JLabel LBNomCli;
 	private VentasDAO miVentaDAO;
 	private JTextField TFIdVehiculo;
+	private JTextField TFFechaPpto;
+	private JTextField TFFechaVal;
 
 	/**
 	 * Constructor con usuario e id de cliente
@@ -84,7 +86,7 @@ public class FichaVentasView {
 			// carga primer registro
 			cargaVenta(miVentaDAO.primero());
 		} else {
-			// carga registro del usuario solicitado
+			// carga registro de la venta solicitada
 			cargaVenta(miVentaDAO.goToIdVenta(idVenta));
 		}
 		refrescaReg();
@@ -94,8 +96,8 @@ public class FichaVentasView {
 	 * Refresca el label de control de registros
 	 */
 	private void refrescaReg() {
-		String p="Registro " + String.valueOf(miVehDAO.buscaMatricula(TFIdVentas.getText()) + " de "+ 
-				String.valueOf(miVehDAO.count())+".");
+		String p="Registro " + String.valueOf(miVentaDAO.goToIdVenta(Integer.parseInt(TFIdVentas.getText())) + " de "+ 
+				String.valueOf(miVentaDAO.count())+".");
 		LBRegistros.setText(p);	
 	}
 
@@ -329,7 +331,7 @@ public class FichaVentasView {
 			PNLinea1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 			PNLinea1.setBackground(Color.decode("#2A9D8F"));
 			
-			JLabel LBIdVentas = new JLabel("Identificador");
+			JLabel LBIdVentas = new JLabel("Identificador de venta");
 			PNLinea1.add(LBIdVentas);
 			
 				TFIdVentas = new JTextField();
@@ -337,6 +339,24 @@ public class FichaVentasView {
 				TFIdVentas.setEditable(false);
 				PNLinea1.add(TFIdVentas);
 				TFIdVentas.setColumns(10);
+				
+				JLabel LBFechaPpto = new JLabel("Fecha Presupuesto");
+				PNLinea1.add(LBFechaPpto);
+				
+				TFFechaPpto = new JTextField();
+				TFFechaPpto.setEnabled(false);
+				TFFechaPpto.setEditable(false);
+				TFFechaPpto.setColumns(10);
+				PNLinea1.add(TFFechaPpto);
+				
+				JLabel LBfFechaVal = new JLabel("Fecha validez");
+				PNLinea1.add(LBfFechaVal);
+				
+				TFFechaVal = new JTextField();
+				TFFechaVal.setEnabled(false);
+				TFFechaVal.setEditable(false);
+				TFFechaVal.setColumns(10);
+				PNLinea1.add(TFFechaVal);
 			
 			// panel linea 2
 			JPanel PNLinea2 = new JPanel();
@@ -344,72 +364,120 @@ public class FichaVentasView {
 			PNLinea2.setBackground(Color.decode("#2A9D8F"));
 						PNLinea2.setLayout(new BoxLayout(PNLinea2, BoxLayout.Y_AXIS));
 						
-						JPanel panel = new JPanel();
-						PNLinea2.add(panel);
+						JPanel PNCliente = new JPanel();
+						PNLinea2.add(PNCliente);
+						PNCliente.setLayout(new BoxLayout(PNCliente, BoxLayout.Y_AXIS));
 						
-						JLabel LBDni = new JLabel("DNI");
-						panel.add(LBDni);
+						JPanel PNTitDatCli = new JPanel();
+						PNTitDatCli.setForeground(Color.BLUE);
+						PNTitDatCli.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+						PNTitDatCli.setBackground(Color.decode("#264653"));
+						PNCliente.add(PNTitDatCli);
+						PNTitDatCli.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+						
+						JLabel LBTitDatCliente = new JLabel("Datos del cliente");
+						LBTitDatCliente.setForeground(Color.ORANGE);
+						LBTitDatCliente.setFont(new Font("Tahoma", Font.PLAIN, 16));
+						PNTitDatCli.add(LBTitDatCliente);
+							
+							JPanel PNDatCli = new JPanel();
+							FlowLayout flowLayout_1 = (FlowLayout) PNDatCli.getLayout();
+							flowLayout_1.setAlignment(FlowLayout.LEFT);
+							PNCliente.add(PNDatCli);
+							
+							JLabel LBDni = new JLabel("DNI");
+							PNDatCli.add(LBDni);
+							PNDatCli.setBackground(Color.decode("#2A9D8F"));
 						
 							TFDni = new JTextField();
-							panel.add(TFDni);
+							PNDatCli.add(TFDni);
 							TFDni.setColumns(10);
 							
 							JLabel LBIdCli = new JLabel("IdCli");
-							panel.add(LBIdCli);
+							PNDatCli.add(LBIdCli);
 							
 							LBNomCli = new JLabel("Nombre del cliente");
-							panel.add(LBNomCli);
-			
-			// panel linea 3
-			JPanel PNLinea3 = new JPanel();
-			PNCentral.add(PNLinea3, "cell 0 2,grow");
-			PNLinea3.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-			PNLinea3.setBackground(Color.decode("#2A9D8F"));
-				
+							PNDatCli.add(LBNomCli);
+							
+							JPanel PNEmpleado = new JPanel();
+							PNLinea2.add(PNEmpleado);
+							PNEmpleado.setLayout(new BoxLayout(PNEmpleado, BoxLayout.Y_AXIS));
+							
+							JPanel PNTitDatEmp = new JPanel();
+							PNTitDatEmp.setForeground(Color.BLUE);
+							PNTitDatEmp.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+							PNTitDatEmp.setBackground(new Color(38, 70, 83));
+							PNEmpleado.add(PNTitDatEmp);
+							PNTitDatEmp.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+							
+							JLabel LBDatEmp = new JLabel("Datos del empleado");
+							LBDatEmp.setForeground(Color.ORANGE);
+							LBDatEmp.setFont(new Font("Tahoma", Font.PLAIN, 16));
+							PNTitDatEmp.add(LBDatEmp);
+							
+							JPanel PNDatCli_1 = new JPanel();
+							FlowLayout flowLayout = (FlowLayout) PNDatCli_1.getLayout();
+							flowLayout.setAlignment(FlowLayout.LEFT);
+							PNDatCli_1.setBackground(new Color(42, 157, 143));
+							PNEmpleado.add(PNDatCli_1);
+							
 			JLabel LBIdUsuario = new JLabel("Empleado");
+			PNDatCli_1.add(LBIdUsuario);
 			LBIdUsuario.setToolTipText("");
-			PNLinea3.add(LBIdUsuario);
 			
 			JLabel LBIdUser = new JLabel("IdUser");
-			PNLinea3.add(LBIdUser);
+			PNDatCli_1.add(LBIdUser);
 			
-			JLabel lblNombreDelUsuario = new JLabel("Nombre del usuario");
-			PNLinea3.add(lblNombreDelUsuario);
+			JLabel LBNomUser = new JLabel("Nombre del usuario");
+			PNDatCli_1.add(LBNomUser);
+			
+			JPanel PNVehiculo = new JPanel();
+			PNEmpleado.add(PNVehiculo);
+			PNVehiculo.setLayout(new BoxLayout(PNVehiculo, BoxLayout.Y_AXIS));
+			PNVehiculo.setBackground(Color.decode("#2A9D8F"));
+			
+			JPanel PNTitDatVeh = new JPanel();
+			PNTitDatVeh.setForeground(Color.BLUE);
+			PNTitDatVeh.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			PNTitDatVeh.setBackground(new Color(38, 70, 83));
+			PNVehiculo.add(PNTitDatVeh);
+			PNTitDatVeh.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			
+			JLabel LBDatosDelVehculo = new JLabel("Datos del vehículo");
+			LBDatosDelVehculo.setForeground(Color.ORANGE);
+			LBDatosDelVehculo.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			PNTitDatVeh.add(LBDatosDelVehculo);
 			
 			// panel linea 4
-			JPanel PNLinea4 = new JPanel();
-			PNCentral.add(PNLinea4, "cell 0 3,grow");
-			PNLinea4.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-			PNLinea4.setBackground(Color.decode("#2A9D8F"));
+			JPanel PNDatVeh1 = new JPanel();
+			PNVehiculo.add(PNDatVeh1);
+			PNDatVeh1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+			PNDatVeh1.setBackground(Color.decode("#2A9D8F"));
 			
 			JLabel LBIdVehculo = new JLabel("Id vehículo");
-			PNLinea4.add(LBIdVehculo);
+			PNDatVeh1.add(LBIdVehculo);
 			
 			TFIdVehiculo = new JTextField();
 			TFIdVehiculo.setColumns(10);
-			PNLinea4.add(TFIdVehiculo);
+			PNDatVeh1.add(TFIdVehiculo);
 			
 			JLabel LBMatrícula = new JLabel("Matricula");
-			PNLinea4.add(LBMatrícula);
+			PNDatVeh1.add(LBMatrícula);
 			
 			JLabel LBMarca = new JLabel("Marca");
-			PNLinea4.add(LBMarca);
+			PNDatVeh1.add(LBMarca);
 			
 			// panel linea 5
-						JPanel PNLinea5 = new JPanel();
-						PNCentral.add(PNLinea5, "cell 0 3,grow");
-						PNLinea5.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-						PNLinea5.setBackground(Color.decode("#2A9D8F"));
+						JPanel PNDatVeh2 = new JPanel();
+						PNVehiculo.add(PNDatVeh2);
+						PNDatVeh2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+						PNDatVeh2.setBackground(Color.decode("#2A9D8F"));
 						
 						JLabel LBModelo = new JLabel("Modelo");
-						PNLinea5.add(LBModelo);
+						PNDatVeh2.add(LBModelo);
 						
 						JLabel LBPrecio = new JLabel("Precio");
-						PNLinea5.add(LBPrecio);
-						// guarda el enum en un array
-						for (TiposVeh d: TiposVeh.values()) {
-							CBTipo.addItem(d.toString());
-						};
+						PNDatVeh2.add(LBPrecio);
 
 			
 			// Panel para los botones del control de registros
@@ -429,7 +497,7 @@ public class FichaVentasView {
 				public void actionPerformed(ActionEvent e) {
 					// llamada a buscar cliente
 					frame.dispose();
-					ConsVeh miBusqueda = new ConsVeh(usuario);
+					VerVentasView miBusqueda = new VerVentasView(usuario);
 					miBusqueda.getFrame().setAlwaysOnTop(true);
 					miBusqueda.getFrame().setVisible(true);
 
@@ -447,10 +515,10 @@ public class FichaVentasView {
 							"Borrar registro", 
 							JOptionPane.YES_NO_OPTION,
 							JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_NO_OPTION) {
-						miVehDAO.borraVehiculo(TFIdVentas.getText());	
-						Vehiculos miVeh = miVehDAO.primero();
-						// cargar cliente en form
-						cargaVenta(miVeh);
+						miVentaDAO.borraVenta(TFIdVentas.getText());	
+						Ventas miVenta = miVentaDAO.primero();
+						// cargar venta en form
+						cargaVenta(miVenta);
 						refrescaReg();
 					}
 
@@ -463,25 +531,23 @@ public class FichaVentasView {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (comprobardatos()) {
-						// Recoge el valor del combo
-						String miTipo = (String) CBTipo.getSelectedItem();
-						// crea el nuevo vehículo
-						Vehiculos miVeh=new Vehiculos(0,TFIdVentas.getText(),TFBastidor.getText(),
-								TFMarca.getText(),TFDni.getText(),
-								Float.parseFloat(TFPrecio.getText()),
-								Date.valueOf(LocalDate.now()),
-								Integer.parseInt(TFIdCli.getText()),
-								usuario.getId(),
-								Integer.parseInt(TFConce.getText()),
-								miTipo
+						// crea la nueva venta
+						Ventas miVenta=new Ventas(0,
+								Integer.parseInt(LBIdCli.getText()),
+								Integer.parseInt(LBIdUser.getText()),
+								Date.valueOf(TFFechaPpto.getText()),
+								Date.valueOf(TFFechaVal.getText()),
+								Integer.parseInt(TFIdVehiculo.getText()),
+								Float.parseFloat(LBPrecio.getText())
 								);
+						
 						// comprobar si ya existe el registro
-						if (miVehDAO.Comprobarvehiculo(TFIdVentas.getText())) {
+						if (miVentaDAO.ComprobarVenta((TFIdVentas.getText()))) {
 							// guardar el registro
-							miVehDAO.updateVehiculo(miVeh);	
+							miVentaDAO.updateVenta(miVenta);	
 						} else {
 							// insertar el registro
-							miVehDAO.addVehiculo(miVeh);
+							miVentaDAO.addVenta(miVenta);
 						}
 						daBotones(true);
 						refrescaReg();
@@ -497,12 +563,18 @@ public class FichaVentasView {
 				public void actionPerformed(ActionEvent e) {
 					TFIdVentas.setText("");
 					TFIdVentas.requestFocus();
-					TFBastidor.setText("");
-					TFMarca.setText("");
+					TFFechaPpto.setText("");
+					TFFechaVal.setText("");
 					TFDni.setText("");
-					TFPrecio.setText("");
-					TFIdCli.setText("");
-					TFConce.setText("");
+					LBIdCli.setText("");
+					LBNomCli.setText("");
+					LBIdUser.setText("");
+					LBNomUser.setText("");
+					TFIdVehiculo.setText("");
+					LBMatrícula.setText("");
+					LBMarca.setText("");
+					LBModelo.setText("");
+					LBPrecio.setText("");
 					daBotones(false);
 				}
 			});
@@ -529,9 +601,9 @@ public class FichaVentasView {
 			BTPrimero.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Vehiculos miveh = miVehDAO.primero();
-					// cargar vehiculo en form
-					cargaVenta(miveh);
+					Ventas miVenta = miVentaDAO.primero();
+					// cargar venta en form
+					cargaVenta(miVenta);
 					refrescaReg();
 				}
 			});
@@ -544,9 +616,9 @@ public class FichaVentasView {
 			BTAnterior.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Vehiculos miVeh = miVehDAO.anterior(TFIdVentas.getText());
-					if (miVeh!=null) {
-						cargaVenta(miVeh);
+					Ventas miVenta = miVentaDAO.anterior(TFIdVentas.getText());
+					if (miVenta!=null) {
+						cargaVenta(miVenta);
 						refrescaReg();
 					}
 				}
@@ -565,10 +637,10 @@ public class FichaVentasView {
 			BTSiguiente.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Vehiculos miVeh = miVehDAO.siguiente(TFIdVentas.getText());
+					Ventas miVenta = miVentaDAO.siguiente(TFIdVentas.getText());
 					// cargar cliente en form
-					if (miVeh!=null) {
-						cargaVenta(miVeh);
+					if (miVenta!=null) {
+						cargaVenta(miVenta);
 						refrescaReg();
 					}
 				}
@@ -582,9 +654,9 @@ public class FichaVentasView {
 			BTultimo.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Vehiculos miVeh = miVehDAO.ultimo();
+					Ventas miVenta = miVentaDAO.ultimo();
 					// cargar cliente en form
-					cargaVenta(miVeh);
+					cargaVenta(miVenta);
 					refrescaReg();
 				}
 			});
@@ -596,12 +668,10 @@ public class FichaVentasView {
 	 * @return
 	 */
 	private boolean comprobardatos() {
-		if (!comprobarFloat(TFPrecio.getText())
-				|| !comprobarInt(TFIdCli.getText()) || !comprobarInt(TFConce.getText())
-				|| (TFBastidor.getText().length()==0) || (TFConce.getText().length()==0)  
-				|| (TFIdCli.getText().length()==0)	||  (TFMarca.getText().length()==0)
-				|| (TFIdVentas.getText().length()==0)  || (TFDni.getText().length()==0)
-				|| (TFPrecio.getText().length()==0)
+		if ( !comprobarInt(TFIdVentas.getText()) || !comprobarInt(TFIdVehiculo.getText())
+				|| (TFDni.getText().length()==0) || (TFFechaPpto.getText().length()==0)  
+				|| (TFFechaVal.getText().length()==0)	||  (TFIdVehiculo.getText().length()==0)
+				|| (TFIdVentas.getText().length()==0)
 				) 
 		{
 			return false;
@@ -624,18 +694,6 @@ public class FichaVentasView {
 		return resultado;
 	}
 
-	/**
-	 * 
-	 * @return verdadero si es un float
-	 */
-	private boolean comprobarFloat(String miStr) {
-		boolean resultado=true;
-		if (!(miStr.matches("[0-9]*.[0-9]{0,1}"))) {
-			resultado=false;
-			JOptionPane.showMessageDialog(frame, "El precio no es un número válido. O no ha introducido todos los datos requeridos.");
-		};
-		return resultado;
-	}
 	
 	/**
 	 * Salir de la view
@@ -665,23 +723,26 @@ public class FichaVentasView {
 	 * Carga el formulario con los datos de un cliente 
 	 * @param miCliente
 	 */
-	protected void cargaVenta(Vehiculos miVeh) {
-		TFIdVentas.setText(miVeh.getMatricula());
-		TFBastidor.setText(miVeh.getBastidor());
-		TFMarca.setText(miVeh.getMarca());
-		TFDni.setText(miVeh.getModelo());
-		TFPrecio.setText(String.valueOf(miVeh.getPrecio()));
-		TFIdCli.setText(String.valueOf(miVeh.getId_cli()));
-		TFConce.setText(String.valueOf(miVeh.getId_conce()));
+	protected void cargaVenta(Ventas ventas) {
+		TFIdVentas.setText(String.valueOf(ventas.getId_ventas()));
+		TFFechaPpto.setText(String.valueOf(ventas.getFechappto()));
+		TFFechaVal.setText(String.valueOf(ventas.getFechavalidez()));
+		// recupera datos del cliente
+		ClientesDAO miCliDAO= new ClientesDAO();
+		Clientes miCli = miCliDAO.g(Integer.parseInt(TFDni.getText()));
+		TFDni.setText(ventas.getId_cli());
+		TFPrecio.setText(String.valueOf(ventas.getPrecio()));
+		TFIdCli.setText(String.valueOf(ventas.getId_cli()));
+		TFConce.setText(String.valueOf(ventas.getId_conce()));
 		// carga el nombre de cliente
 		ClientesDAO miCliDAO = new ClientesDAO();
-		Clientes miCli = miCliDAO.goToIdCli(miVeh.getId_cli());
+		Clientes miCli = miCliDAO.goToIdCli(ventas.getId_cli());
 		LBNomCli.setText(miCli.getNombre()+" "+miCli.getApellido());
 		// carga el nombre de concesionario
 		ConcesionarioDAO miConDAO = new ConcesionarioDAO();
 		Concesionario miCon = miConDAO.goToConce(Integer.parseInt(TFConce.getText()));
 		LBNomConce.setText(miCon.getNombre());
-		CBTipo.setSelectedItem(miVeh.getTipo());
+		CBTipo.setSelectedItem(ventas.getTipo());
 		
 }
 
