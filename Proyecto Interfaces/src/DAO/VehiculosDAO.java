@@ -15,6 +15,7 @@ import Models.Clientes;
 import Models.Concesionario;
 import Models.Usuarios;
 import Models.Vehiculos;
+import Models.Ventas;
 
 public class VehiculosDAO extends AbstractDAO{
 	
@@ -106,43 +107,6 @@ public class VehiculosDAO extends AbstractDAO{
 	/**
 	 * comporatmientop para obtener el id de cliente en base a un dni dado
 	 */
-	
-	public String getmatriculabyid(int id) {
-		String valor="";
-		//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
-		ResultSet rs=null;
-		try {
-            super.conectar();
-            stm = (Statement) cn.createStatement();
-            rs = stm.executeQuery("SELECT matricula FROM vehiculos where id_vehiculo="+id+";");
-            while (rs.next()) {
-            			
-            	valor= rs.getString(1);
-            	
-            }
-            
-      
-        } catch (SQLException e) {
-            e.printStackTrace();    
-        } finally {
-        	try {
-        		if (cn!=null) {
-        			cn.close();
-        		}
-        		if (stm!=null) {
-        			stm.close();
-        		}
-        		if (rs!=null) {
-        			rs.close();
-        		}
-        		}
-				catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				 }
-        	}
-		return valor;
-	}
 	
 	public int getidcli(String DNI) {
 		int miint=0;
@@ -289,21 +253,43 @@ public class VehiculosDAO extends AbstractDAO{
 	 */
 	public Vehiculos goToIdVeh(int idVeh) {
 		String 	strSql="select * from vehiculos where id_vehiculo = " + idVeh + ";";
-		
-		// ejecuta la consulta
-		ResultSet rst=super.consultaSQL(strSql);
+	
 		// crea el cliente
 		Vehiculos veh=null;
-
+		ResultSet rs=null;
 		try {
-			rst.first();
-			veh = new Vehiculos(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4),rst.getString(5),rst.getFloat(6),
-					rst.getDate(7),rst.getInt(8),rst.getInt(9),rst.getInt(10), rst.getString(11));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return veh;
+            super.conectar();
+            stm = (Statement) cn.createStatement();
+            rs = stm.executeQuery(strSql);
+            while (rs.next()) {
+			rs.first();
+			veh = new Vehiculos(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(5),rs.getFloat(6),
+					rs.getDate(7),rs.getInt(8),rs.getInt(9),rs.getInt(10), rs.getString(11));
+            }
+              
+        } catch (SQLException e) {
+            e.printStackTrace();    
+        } finally {
+        	try {
+        		if (cn!=null) {
+        			cn.close();
+        		}
+        		if (stm!=null) {
+        			stm.close();
+        		}
+        		if (rs!=null) {
+        			rs.close();
+        		}
+        		}
+				catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				 }
+        	}
+		
+        return veh;
+        	
+		
 	}
 	
 	/**

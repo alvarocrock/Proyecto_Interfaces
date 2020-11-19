@@ -114,17 +114,17 @@ public class VentasDAO extends AbstractDAO{
 
 	public String getnombrecli(int id_cli) {
 		// TODO Auto-generated method stub
-		return cliente.getnombrebyid(id_cli);
+		return cliente.goToIdCli(id_cli).getNombre();
 	}
 
 	public String getapellidocli(int id_cli) {
 		// TODO Auto-generated method stub
-		return cliente.getapellidoByID(id_cli);
+		return cliente.goToIdCli(id_cli).getApellido();
 	}
 
 	public String getmatricula(int id_vehiculo) {
 		// TODO Auto-generated method stub
-		return vehiculo.getmatriculabyid(id_vehiculo);
+		return vehiculo.goToIdVeh(id_vehiculo).getMatricula();
 	}
 	
 }

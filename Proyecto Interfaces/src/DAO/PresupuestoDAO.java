@@ -175,46 +175,8 @@ public class PresupuestoDAO extends AbstractDAO{
 	
 	
 	public String getnombrecli(int id) {
-		return cliente.getnombrebyid(id);
-		/*
-		String valor="";
-		//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
+		return cliente.goToIdCli(id).getNombre();
 		
-		ResultSet rs=null;
-		try {
-            super.conectar();
-            stm = (Statement) cn.createStatement();
-            rs = stm.executeQuery("select nombre from clientes where id_cli = '" + id + "';");
-            while (rs.next()) {
-            			
-            	valor= rs.getString(1);
-            	
-            }
-            
-      
-        } catch (SQLException e) {
-            e.printStackTrace();    
-        } finally {
-        	try {
-        		if (cn!=null) {
-        			cn.close();
-        		}
-        		if (stm!=null) {
-        			stm.close();
-        		}
-        		if (rs!=null) {
-        			rs.close();
-        		}
-        		}
-				catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				 }
-        	}
-        	
-        	
-		return valor;
-		*/
 	}
 	
 	
@@ -231,27 +193,46 @@ public class PresupuestoDAO extends AbstractDAO{
 
 	
 	public String getapellidocli(int id) {
-		return cliente.getapellidoByID(id);
+		return cliente.goToIdCli(id).getApellido();
 	}
 		
 
 	
 	public String getmatricula(int id) {
-		return vehiculo.getmatriculabyid(id);
+		return vehiculo.goToIdVeh(id).getMatricula();
 	}
 	
 	
 	public Presupuesto goToPPTO(int miId){
 		Presupuesto mipresu = null;
-
 		ResultSet rs=null;
-            try {
-	            rs = stm.executeQuery("SELECT * FROM ppto where id_presupuesto="+miId+";");
-	            rs.first();
-	          	mipresu=new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7));
-			} catch (SQLException e) {
+		try {
+            super.conectar();
+            stm = (Statement) cn.createStatement();
+	        rs = stm.executeQuery("SELECT * FROM ppto where id_presupuesto="+miId+";");
+	         rs.first();
+	         mipresu=new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+        		if (cn!=null) {
+        			cn.close();
+        		}
+        		if (stm!=null) {
+        			stm.close();
+        		}
+        		if (rs!=null) {
+        			rs.close();
+        		}
+        		}
+				catch (SQLException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+				 }
+		}
+			
 		return mipresu;
 	}
 	

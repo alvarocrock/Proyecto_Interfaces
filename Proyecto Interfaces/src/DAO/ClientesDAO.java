@@ -286,23 +286,44 @@ public class ClientesDAO extends AbstractDAO {
 	 * @return
 	 */
 	public Clientes goToIdCli(int idCli) {
+		
+		ResultSet rs=null;
+		Clientes cliente=null;
 		String 	strSql="select id_cli,DNI,nombre,apellidos,direccion,provincia,poblacion,fecha_alta "
 				+"from clientes where id_cli = " + idCli + ";";
 		
 		// ejecuta la consulta
-		ResultSet rst=super.consultaSQL(strSql);
-		// crea el cliente
-		Clientes cliente=null;
-
 		try {
-			rst.first();
-			cliente = new Clientes(rst.getInt(1),rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), 
-					rst.getString(6),rst.getString(7), rst.getDate(8));
+            super.conectar();
+            stm = (Statement) cn.createStatement();
+            rs = stm.executeQuery(strSql);
+		
+		
+			rs.first();
+			cliente = new Clientes(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), 
+					rs.getString(6),rs.getString(7), rs.getDate(8));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+        		if (cn!=null) {
+        			cn.close();
+        		}
+        		if (stm!=null) {
+        			stm.close();
+        		}
+        		if (rs!=null) {
+        			rs.close();
+        		}
+        		}
+				catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				 }
 		}
 		return cliente;
+		
 		}
 	
 	
@@ -377,77 +398,4 @@ public class ClientesDAO extends AbstractDAO {
 			return nombre;
 		}
 		
-		public String getapellidoByID(int  id) {
-			String valor="";
-			//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
-			ResultSet rs=null;
-			try {
-	            super.conectar();
-	            stm = (Statement) cn.createStatement();
-	            rs = stm.executeQuery("SELECT apellidos FROM clientes where id_cli="+id+";");
-	            while (rs.next()) {
-	            			
-	            	valor= rs.getString(1);
-	            	
-	            }
-	            
-	      
-	        } catch (SQLException e) {
-	            e.printStackTrace();    
-	        } finally {
-	        	try {
-	        		if (cn!=null) {
-	        			cn.close();
-	        		}
-	        		if (stm!=null) {
-	        			stm.close();
-	        		}
-	        		if (rs!=null) {
-	        			rs.close();
-	        		}
-	        		}
-					catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					 }
-	        	}
-			return valor;
-		}
-	
-	public String getnombrebyid(int id) {
-		String valor="";
-		//SELECT nombre,apellidos FROM proyecto.clientes where id_cli=1;
-		ResultSet rs=null;
-		try {
-            super.conectar();
-            stm = (Statement) cn.createStatement();
-            rs = stm.executeQuery("SELECT nombre FROM clientes where id_cli="+id+";");
-            while (rs.next()) {
-            			
-            	valor= rs.getString(1);
-            	
-            }
-            
-      
-        } catch (SQLException e) {
-            e.printStackTrace();    
-        } finally {
-        	try {
-        		if (cn!=null) {
-        			cn.close();
-        		}
-        		if (stm!=null) {
-        			stm.close();
-        		}
-        		if (rs!=null) {
-        			rs.close();
-        		}
-        		}
-				catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				 }
-        	}
-		return valor;
-	}
 }
