@@ -6,13 +6,20 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.Statement;
 
+import Models.Usuarios;
 import Models.Ventas;
 
 public class VentasDAO extends AbstractDAO{
 	
+	protected UsuarioDAO user;
+	protected VehiculosDAO vehi;
+	protected ClientesDAO clie;
 	
 	public 	VentasDAO() {
 		super();
+		user=new UsuarioDAO();
+		vehi=new VehiculosDAO();
+		clie= new ClientesDAO();
 	}
 	
 	/**
@@ -56,6 +63,22 @@ public class VentasDAO extends AbstractDAO{
    
 		return lista;
 		
+	}
+	
+	public String getnick(int id) {
+		return user.getnickbyid(id);
+	}
+	
+	public String getnombrecli(int id) {
+		return clie.goToIdCli(id).getNombre();
+	}
+	
+	public String getapellidocli(int id) {
+		return clie.goToIdCli(id).getApellido();
+	}
+	
+	public String getmatricula(int id) {
+		return vehi.goToIdVeh(id).getMatricula();
 	}
 	
 	/**
@@ -300,6 +323,7 @@ public class VentasDAO extends AbstractDAO{
 		// devuelve el cliente 
 		return venta;
 	}
+	
 
 	/**
 	 * cuenta los registros en la tabla de ventas

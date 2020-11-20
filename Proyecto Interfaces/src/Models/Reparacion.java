@@ -15,7 +15,7 @@ public class Reparacion {
 	
 	
 	/**
-	 * contructor de reparación
+	 * contructor de reparación parcial
 	 * @param miid
 	 * @param miid_cli
 	 * @param miid_jefe
@@ -34,6 +34,33 @@ public class Reparacion {
 		Fecha_repara=fecha_repara;
 		id_veh=miid_veh;
 		precio=miprecio;
+	}
+	/**
+	 * contructor de reparacion completo
+	 * @param miid
+	 * @param miid_cli
+	 * @param miid_jefe
+	 * @param miid_mec
+	 * @param midesc
+	 * @param mitiempo
+	 * @param fecha_repara
+	 * @param miid_veh
+	 * @param miprecio
+	 * @param mifecha_ini
+	 * @param mifecha_fin
+	 */
+	public Reparacion(int miid, int miid_cli,int miid_jefe,int miid_mec,String midesc,int mitiempo, String fecha_repara,int miid_veh,int miprecio,String mifecha_ini,String mifecha_fin) {
+		id=miid;
+		id_cli=miid_cli;
+		id_jefe=miid_jefe;
+		id_mec=miid_mec;
+		desc=midesc;
+		Fecha_repara=fecha_repara;
+		id_veh=miid_veh;
+		precio=miprecio;
+		tiempo=mitiempo;
+		fecha_ini=mifecha_ini;
+		fecha_fn=mifecha_fin;
 	}
 
 

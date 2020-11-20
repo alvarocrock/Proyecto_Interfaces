@@ -589,7 +589,7 @@ public class VerVentasView extends JFrame{
 
 	public void cargarVentas(ArrayList<Ventas> lista) {
 		Object [] fila = new Object[8];
-
+			
 		for (int i=0;i<lista.size();i++) {
 			fila[0]=(int) lista.get(i).getId_ventas();
 			fila[1]=contro.getnick(lista.get(i).getId_emple());
