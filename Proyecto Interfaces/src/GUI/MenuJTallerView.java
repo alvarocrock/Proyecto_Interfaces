@@ -19,9 +19,12 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.TitledBorder;
 
+import DAO.TrabajoHoyDAO;
 import GUI.LoginView.MyKeyListener;
 import Models.Usuarios;
 import net.miginfocom.swing.MigLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MenuJTallerView extends JFrame{
 
@@ -31,7 +34,6 @@ public class MenuJTallerView extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	Usuarios miuser;
-
 	/**
 	 * Create the application.
 	 * @param usuarios 
@@ -123,6 +125,14 @@ public class MenuJTallerView extends JFrame{
 		});
 		
 		JButton BTAsignar = new JButton("Asignar trabajo");
+		BTAsignar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CrearTrabajoView vista= new CrearTrabajoView(miuser);
+				vista.getFrame().setVisible(true);
+				vista.getFrame().setAlwaysOnTop(true);
+				frame.dispose();
+			}
+		});
 		BTAsignar.setIcon(new ImageIcon(MenuJTallerView.class.getResource("/png/RegTra.png")));
 		PNCentral.add(BTAsignar, "cell 0 2");
 		BTBusCli.addMouseListener(new MouseAdapter() {

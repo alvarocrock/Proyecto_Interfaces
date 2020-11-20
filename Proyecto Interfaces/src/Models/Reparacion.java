@@ -1,14 +1,16 @@
 package Models;
 
+import java.util.Date;
+
 public class Reparacion {
-	int id;
-	int id_cli;
-	int id_jefe;
-	int id_mec;
+	Integer id;
+	Integer id_cli;
+	Integer id_jefe;
+	Integer id_mec;
 	String desc;
 	String Fecha_repara;
-	int tiempo; //este campo se calculara a partir de las feca ini y fn
-	int id_veh;
+	Integer tiempo; //este campo se calculara a partir de las feca ini y fn
+	Integer id_veh;
 	float precio;
 	String fecha_ini; //este campo se pasara cuando el trabajador pulse inciar
 	String fecha_fn; //este campo se pasara cuando el trabajador pulse finalizar
@@ -25,7 +27,7 @@ public class Reparacion {
 	 * @param miid_veh
 	 * @param miprecio
 	 */
-	public Reparacion(int miid, int miid_cli,int miid_jefe,int miid_mec,String midesc, String fecha_repara,int miid_veh,int miprecio) {
+	public Reparacion(int miid, int miid_cli,int miid_jefe,int miid_mec,String midesc, String fecha_repara,int miid_veh,float miprecio) {
 		id=miid;
 		id_cli=miid_cli;
 		id_jefe=miid_jefe;
@@ -34,6 +36,10 @@ public class Reparacion {
 		Fecha_repara=fecha_repara;
 		id_veh=miid_veh;
 		precio=miprecio;
+		tiempo=null;
+		fecha_ini=null;
+		fecha_fn=null;
+		
 	}
 	/**
 	 * contructor de reparacion completo
@@ -49,6 +55,7 @@ public class Reparacion {
 	 * @param mifecha_ini
 	 * @param mifecha_fin
 	 */
+	
 	public Reparacion(int miid, int miid_cli,int miid_jefe,int miid_mec,String midesc,int mitiempo, String fecha_repara,int miid_veh,int miprecio,String mifecha_ini,String mifecha_fin) {
 		id=miid;
 		id_cli=miid_cli;
