@@ -56,7 +56,7 @@ public class Reparacion {
 	 * @param mifecha_fin
 	 */
 	
-	public Reparacion(int miid, int miid_cli,int miid_jefe,int miid_mec,String midesc,int mitiempo, String fecha_repara,int miid_veh,int miprecio,String mifecha_ini,String mifecha_fin) {
+	public Reparacion(int miid, int miid_cli,int miid_jefe,int miid_mec,String midesc,String fecha_repara,Integer mitiempo,int miid_veh,float miprecio,String mifecha_ini,String mifecha_fin) {
 		id=miid;
 		id_cli=miid_cli;
 		id_jefe=miid_jefe;
@@ -131,7 +131,7 @@ public class Reparacion {
 	}
 
 
-	public int getTiempo() {
+	public Integer getTiempo() {
 		return tiempo;
 	}
 

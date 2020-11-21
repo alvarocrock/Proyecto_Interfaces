@@ -98,28 +98,36 @@ public class MenuJTallerView extends JFrame{
 		PNCentral.setLayout(new MigLayout("", "[][][center][center][center]", "[][][]"));
 		PNCentral.setBackground(Color.decode("#2A9D8F"));
 		
-		JButton BTProVen = new JButton("Ficha clientes   ");
-		BTProVen.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Clientes.png")));
-		PNCentral.add(BTProVen, "flowx,cell 0 1,alignx right,aligny top");
-		BTProVen.addMouseListener(new MouseAdapter() {
+		JButton BT_ficha_cli = new JButton("Ficha clientes   ");
+		BT_ficha_cli.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Clientes.png")));
+		PNCentral.add(BT_ficha_cli, "flowx,cell 0 1,alignx right,aligny top");
+		BT_ficha_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FichaClienteView miFichaClientes = new FichaClienteView(miuser,0);
-				miFichaClientes.getFrame().setAlwaysOnTop(true);
-				miFichaClientes.getFrame().setVisible(true);
+				BusCliView miBuscCli = new BusCliView(miuser);
+				miBuscCli.getFrame().setAlwaysOnTop(true);
+				miBuscCli.getFrame().setVisible(true);
 				frame.dispose();
 			}
 		});
 		
-		JButton BTBusCli = new JButton("Ver trabajo");
-		BTBusCli.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Trabajo.png")));
-		PNCentral.add(BTBusCli, "cell 2 1");
-		BTBusCli.addMouseListener(new MouseAdapter() {
+		JButton BT_vertrabajo = new JButton("Ver trabajo");
+		BT_vertrabajo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				BuscarTrabajoView view= new BuscarTrabajoView(miuser);
+				view.getFrame().setVisible(true);
+				view.getFrame().setAlwaysOnTop(true);
+				frame.dispose();
+			}
+		});
+		BT_vertrabajo.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Trabajo.png")));
+		PNCentral.add(BT_vertrabajo, "cell 2 1");
+		BT_vertrabajo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VerTrabajoView verTra = new VerTrabajoView(miuser,0);
-				verTra.getFrame().setAlwaysOnTop(true);
-				verTra.getFrame().setVisible(true);
+				BuscarTrabajoView view = new BuscarTrabajoView(miuser);
+				view.getFrame().setVisible(true);
+				view.getFrame().setVisible(true);
 				frame.dispose();
 			}
 		});
@@ -135,16 +143,6 @@ public class MenuJTallerView extends JFrame{
 		});
 		BTAsignar.setIcon(new ImageIcon(MenuJTallerView.class.getResource("/png/RegTra.png")));
 		PNCentral.add(BTAsignar, "cell 0 2");
-		BTBusCli.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				AsignarTrabajoView asiTra = new AsignarTrabajoView(miuser,0);
-				asiTra.getFrame().setAlwaysOnTop(true);
-				asiTra.getFrame().setVisible(true);
-				frame.dispose();
-			}
-		});
-		
 		JButton BTSalir = new JButton("Salir           ");
 		PNCentral.add(BTSalir, "cell 2 2");
 		BTSalir.setSelectedIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Salida.png")));

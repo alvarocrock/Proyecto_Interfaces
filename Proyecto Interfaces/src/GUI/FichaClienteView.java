@@ -696,10 +696,17 @@ public class FichaClienteView extends JFrame{
 	}
 
 	public void salir() {
+		if (usuario.getRango().equals("jefeTaller")) {
+			MenuJTallerView view= new MenuJTallerView(usuario);
+			view.getFrame().setVisible(true);
+			view.getFrame().setAlwaysOnTop(true);
+			frame.dispose();
+		} else {
 		frame.dispose();
 		MenuVentasView miMenuVentas = new MenuVentasView(usuario);
 		miMenuVentas.getFrame().setAlwaysOnTop(true);
-		miMenuVentas.getFrame().setVisible(true);		
+		miMenuVentas.getFrame().setVisible(true);
+		}
 	}
 	
 //************************************************************* fin

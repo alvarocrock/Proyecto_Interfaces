@@ -562,11 +562,21 @@ public class BusCliView extends JFrame{
 	 * Salir de la vista
 	 */
 	protected void salir() {
+		String rango=usuario.getRango();
+		if (usuario.getRango().equals("jefeTaller")) {
+			MenuJTallerView view= new MenuJTallerView(usuario);
+			view.getFrame().setVisible(true);
+			view.getFrame().setAlwaysOnTop(true);
+			frame.dispose();
+		} else {
 		frame.dispose();
-		MenuVentasView miMenuVentas = new MenuVentasView(usuario);
-		miMenuVentas.getFrame().setAlwaysOnTop(true);
-		miMenuVentas.getFrame().setVisible(true);		
+			MenuVentasView miMenuVentas = new MenuVentasView(usuario);
+			miMenuVentas.getFrame().setAlwaysOnTop(true);
+			miMenuVentas.getFrame().setVisible(true);
+		
+		}
 	}
+	
 	/*
 	 * Add filtros a la tabla
 	 */
