@@ -224,6 +224,7 @@ public class BuscarTrabajoView {
 				PNBusquedas.setLayout(new BoxLayout(PNBusquedas, BoxLayout.Y_AXIS));
 				
 				Linea_1 = new JPanel();
+				Linea_1.setBackground(Color.decode("#2A9D8F"));
 				PNBusquedas.add(Linea_1);
 				
 				JLB_id = new JLabel("id");
@@ -347,6 +348,7 @@ public class BuscarTrabajoView {
 				JTF_jefe.setColumns(10);
 				
 				linea_2 = new JPanel();
+				linea_2.setBackground(Color.decode("#2A9D8F"));
 				PNBusquedas.add(linea_2);
 				
 				JLB_fecha_crea = new JLabel("Fecha creacion");
@@ -410,6 +412,7 @@ public class BuscarTrabajoView {
 				JTF_fecha_fn.setColumns(10);
 				
 				linea_3 = new JPanel();
+				linea_3.setBackground(Color.decode("#2A9D8F"));
 				PNBusquedas.add(linea_3);
 				
 				JLB_tiempo_total = new JLabel("Tiempo total");
