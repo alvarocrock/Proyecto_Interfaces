@@ -275,6 +275,7 @@ public class VerVentasView extends JFrame{
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
 			}
 		});
 		
@@ -294,6 +295,7 @@ public class VerVentasView extends JFrame{
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
 			}
 		});
 		
@@ -313,6 +315,7 @@ public class VerVentasView extends JFrame{
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
 			}
 		});
 		
@@ -332,6 +335,7 @@ public class VerVentasView extends JFrame{
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
 			}
 		});
 		
@@ -355,6 +359,7 @@ public class VerVentasView extends JFrame{
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
 			}
 		});
 		
@@ -375,6 +380,7 @@ public class VerVentasView extends JFrame{
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
 			}
 		});
 		
@@ -394,6 +400,7 @@ public class VerVentasView extends JFrame{
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
 			}
 		});
 		
@@ -413,6 +420,7 @@ public class VerVentasView extends JFrame{
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
 			}
 		});
 		
