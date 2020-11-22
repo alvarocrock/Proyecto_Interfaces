@@ -123,11 +123,25 @@ public class TrabajoHoyDAO  extends AbstractDAO{
      			// crea la venta
             	Integer tiempo;
             	if (rst.getString(7)!="null") {
-            		tiempo=null;
-            	} else {
             		tiempo=rst.getInt(7);
+            	} else {
+            		tiempo=null;
             	}
-				mirepa = new Reparacion(rst.getInt(1),rst.getInt(2),rst.getInt(3),rst.getInt(4),rst.getString(5),rst.getString(6),tiempo,rst.getInt(8),rst.getFloat(9),rst.getString(10),rst.getString(11));
+            	String fechaini;
+            	String prueba=rst.getString(10);
+            	if (rst.getString(10)==null) {
+            		fechaini="0000-00-00";
+            	} else {
+            		fechaini=rst.getString(10);
+            	}
+            	
+            	String fechafn;
+            	if (rst.getString(11)==null) {
+            		fechafn="0000-00-00";
+            	} else {
+            		fechafn=rst.getString(11);
+            	}
+				mirepa = new Reparacion(rst.getInt(1),rst.getInt(2),rst.getInt(3),rst.getInt(4),rst.getString(5),rst.getString(6),tiempo,rst.getInt(8),rst.getFloat(9),fechaini,fechafn);
             	lista.add(mirepa);
             }
             

@@ -43,6 +43,7 @@ import GUI.BusCliView.MyKeyListener;
 import Models.Clientes;
 import Models.Reparacion;
 import Models.Usuarios;
+import javax.swing.JComboBox;
 
 public class BuscarTrabajoView {
 
@@ -58,24 +59,43 @@ public class BuscarTrabajoView {
 	private JButton BTSiguiente;
 	private JButton BTultimo;
 	private TrabajoHoyDAO contro;
-	private JLabel LBL_idbusc;
-	private JTextField TFId;
 	private JPanel PNBusquedas;
 	private JScrollPane scrollPane;
 	private JTable TBCli;
 	private DefaultTableModel modeloTBCli;
-	private JLabel LBNombre;
-	private JTextField TFNombre;
-	private JLabel LBDNI;
-	private JTextField TFDNI;
 	private JPanel PNMedio;
 	private JPanel PNImg;
 	private JPanel PNTitUsu;
 	private JLabel LBImg;
 	private TableRowSorter<TableModel> modeloOrdenado;
 	private JLabel LBNomUsu;
-	private JLabel LBApellidos;
-	private JTextField TFApellidos;
+	private JPanel Linea_1;
+	private JLabel JLB_id;
+	private JTextField JTF_id;
+	private JLabel JLB_nom_cli;
+	private JTextField JTF_nomcli;
+	private JLabel JLB_ape_cli;
+	private JTextField JTF_ape_cli;
+	private JLabel JLB_encargado;
+	private JTextField JTF_mec;
+	private JPanel linea_2;
+	private JLabel JLB_fecha_crea;
+	private JTextField JTF_fecha_crea;
+	private JLabel JLB_mat;
+	private JTextField JTF_matricula;
+	private JLabel JLB_fecha_ini;
+	private JTextField JTF_fecha_ini;
+	private JLabel JLB_fecha_fn;
+	private JTextField JTF_fecha_fn;
+	private JPanel linea_3;
+	private JLabel JLB_tiempo_total;
+	private JTextField JTF_T_Total;
+	private JComboBox JCB_T_Total;
+	private JLabel JLB_presupuesto;
+	private JTextField JTF_precio;
+	private JComboBox JCB_precio;
+	private JLabel lblNewLabel;
+	private JTextField JTF_jefe;
 	/**
 	 * Create the application.
 	 */
@@ -201,15 +221,17 @@ public class BuscarTrabajoView {
 				// panel busquedas
 				PNBusquedas = new JPanel();
 				PNCentral.add(PNBusquedas);
-				PNBusquedas.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+				PNBusquedas.setLayout(new BoxLayout(PNBusquedas, BoxLayout.Y_AXIS));
 				
-				LBL_idbusc = new JLabel("Id");
-				PNBusquedas.add(LBL_idbusc);
+				Linea_1 = new JPanel();
+				PNBusquedas.add(Linea_1);
 				
-				TFId = new JTextField();
-				PNBusquedas.add(TFId);
-				TFId.setColumns(10);
-				TFId.addKeyListener(new KeyListener() {
+				JLB_id = new JLabel("id");
+				Linea_1.add(JLB_id);
+				
+				JTF_id = new JTextField();
+				JTF_id.setColumns(10);
+				JTF_id.addKeyListener(new KeyListener() {
 					@Override
 					public void keyPressed(java.awt.event.KeyEvent arg0) {
 					}
@@ -219,16 +241,17 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
 					}
 				});
+				Linea_1.add(JTF_id);
 				
-				LBDNI = new JLabel("DNI");
-				PNBusquedas.add(LBDNI);
+				JLB_nom_cli = new JLabel("Nombre cliente");
+				Linea_1.add(JLB_nom_cli);
 				
-				TFDNI = new JTextField();
-				TFDNI.setColumns(10);
-				PNBusquedas.add(TFDNI);
-				TFDNI.addKeyListener(new KeyListener() {
+				JTF_nomcli = new JTextField();
+				JTF_nomcli.setColumns(10);
+				JTF_nomcli.addKeyListener(new KeyListener() {
 					@Override
 					public void keyPressed(java.awt.event.KeyEvent arg0) {
 					}
@@ -238,17 +261,17 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
 					}
-
 				});
+				Linea_1.add(JTF_nomcli);
 				
-				LBNombre = new JLabel("Nombre");
-				PNBusquedas.add(LBNombre);
+				JLB_ape_cli = new JLabel("Apellido Cliente");
+				Linea_1.add(JLB_ape_cli);
 				
-				TFNombre = new JTextField();
-				TFNombre.setColumns(10);
-				PNBusquedas.add(TFNombre);
-				TFNombre.addKeyListener(new KeyListener() {
+				JTF_ape_cli = new JTextField();
+				JTF_ape_cli.setColumns(10);
+				JTF_ape_cli.addKeyListener(new KeyListener() {
 					@Override
 					public void keyPressed(java.awt.event.KeyEvent arg0) {
 					}
@@ -258,15 +281,17 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
 					}
 				});
+				Linea_1.add(JTF_ape_cli);
 				
-				LBApellidos = new JLabel("Apellidos");
-				PNBusquedas.add(LBApellidos);
+				JLB_encargado = new JLabel("Encargado");
+				Linea_1.add(JLB_encargado);
 				
-				TFApellidos = new JTextField();
-				TFApellidos.setColumns(10);
-				TFApellidos.addKeyListener(new KeyListener() {
+				JTF_mec = new JTextField();
+				JTF_mec.setColumns(10);
+				JTF_mec.addKeyListener(new KeyListener() {
 					@Override
 					public void keyPressed(java.awt.event.KeyEvent arg0) {
 					}
@@ -276,11 +301,170 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
 					}
 				});
+				Linea_1.add(JTF_mec);
 				
-				// panel busquedas
-				PNBusquedas.add(TFApellidos);
+				JLB_mat = new JLabel("Matricula");
+				Linea_1.add(JLB_mat);
+				
+				JTF_matricula = new JTextField();
+				JTF_matricula.addKeyListener(new KeyListener() {
+					@Override
+					public void keyPressed(java.awt.event.KeyEvent arg0) {
+					}
+					@Override
+					public void keyReleased(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+					@Override
+					public void keyTyped(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+				});
+				Linea_1.add(JTF_matricula);
+				JTF_matricula.setColumns(10);
+				
+				lblNewLabel = new JLabel("Jefe");
+				Linea_1.add(lblNewLabel);
+				
+				JTF_jefe = new JTextField();
+				Linea_1.add(JTF_jefe);
+				JTF_jefe.addKeyListener(new KeyListener() {
+					@Override
+					public void keyPressed(java.awt.event.KeyEvent arg0) {
+					}
+					@Override
+					public void keyReleased(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+					@Override
+					public void keyTyped(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+				});
+				JTF_jefe.setColumns(10);
+				
+				linea_2 = new JPanel();
+				PNBusquedas.add(linea_2);
+				
+				JLB_fecha_crea = new JLabel("Fecha creacion");
+				linea_2.add(JLB_fecha_crea);
+				
+				JTF_fecha_crea = new JTextField();
+				JTF_fecha_crea.addKeyListener(new KeyListener() {
+					@Override
+					public void keyPressed(java.awt.event.KeyEvent arg0) {
+					}
+					@Override
+					public void keyReleased(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+					@Override
+					public void keyTyped(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+				});
+				linea_2.add(JTF_fecha_crea);
+				JTF_fecha_crea.setColumns(10);
+				
+				JLB_fecha_ini = new JLabel("Fecha inicio");
+				linea_2.add(JLB_fecha_ini);
+				
+				JTF_fecha_ini = new JTextField();
+				JTF_fecha_ini.addKeyListener(new KeyListener() {
+					@Override
+					public void keyPressed(java.awt.event.KeyEvent arg0) {
+					}
+					@Override
+					public void keyReleased(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+					@Override
+					public void keyTyped(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+				});
+				linea_2.add(JTF_fecha_ini);
+				JTF_fecha_ini.setColumns(10);
+				
+				JLB_fecha_fn = new JLabel("Fecha fin");
+				linea_2.add(JLB_fecha_fn);
+				
+				JTF_fecha_fn = new JTextField();
+				JTF_fecha_fn.addKeyListener(new KeyListener() {
+					@Override
+					public void keyPressed(java.awt.event.KeyEvent arg0) {
+					}
+					@Override
+					public void keyReleased(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+					@Override
+					public void keyTyped(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+				});
+				linea_2.add(JTF_fecha_fn);
+				JTF_fecha_fn.setColumns(10);
+				
+				linea_3 = new JPanel();
+				PNBusquedas.add(linea_3);
+				
+				JLB_tiempo_total = new JLabel("Tiempo total");
+				linea_3.add(JLB_tiempo_total);
+				
+				JTF_T_Total = new JTextField();
+				JTF_T_Total.addKeyListener(new KeyListener() {
+					@Override
+					public void keyPressed(java.awt.event.KeyEvent arg0) {
+					}
+					@Override
+					public void keyReleased(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+					@Override
+					public void keyTyped(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+				});
+				linea_3.add(JTF_T_Total);
+				JTF_T_Total.setColumns(10);
+				
+				JCB_T_Total = new JComboBox();
+				//añadimos elementos al combobox
+				JCB_T_Total.addItem("=");
+				JCB_T_Total.addItem(">");
+				JCB_T_Total.addItem("<");
+				linea_3.add(JCB_T_Total);
+				
+				JLB_presupuesto = new JLabel("Precio");
+				linea_3.add(JLB_presupuesto);
+				
+				JTF_precio = new JTextField();
+				JTF_precio.addKeyListener(new KeyListener() {
+					@Override
+					public void keyPressed(java.awt.event.KeyEvent arg0) {
+					}
+					@Override
+					public void keyReleased(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+					@Override
+					public void keyTyped(java.awt.event.KeyEvent arg0) {
+						addFiltros(arg0);
+					}
+				});
+				linea_3.add(JTF_precio);
+				JTF_precio.setColumns(10);
+				
+				JCB_precio = new JComboBox();
+				//añadimos elementos al combobox
+				JCB_precio.addItem("=");
+				JCB_precio.addItem(">");
+				JCB_precio.addItem("<");
+				linea_3.add(JCB_precio);
 				
 				// panel para la tabla
 				scrollPane = new JScrollPane();
@@ -460,47 +644,18 @@ public class BuscarTrabajoView {
 		 * Salir de la vista
 		 */
 		protected void salir() {
+			if (usuario.getRango().equals("jefeTaller")) {
+				MenuJTallerView view= new MenuJTallerView(usuario);
+				view.getFrame().setVisible(true);
+				view.getFrame().setAlwaysOnTop(true);
+				frame.dispose();
+			} else {
 			frame.dispose();
-			MenuVentasView miMenuVentas = new MenuVentasView(usuario);
-			miMenuVentas.getFrame().setAlwaysOnTop(true);
-			miMenuVentas.getFrame().setVisible(true);		
-		}
-		/*
-		 * Add filtros a la tabla
-		 */
-		protected void addFiltros(KeyEvent e) {
-			ArrayList <RowFilter<TableModel,Integer>> filtros = new ArrayList <RowFilter<TableModel,Integer>>();
-			int ascii = e.getKeyChar();
-			if ((TFId.getText().length()>0) && (ascii>47) && (ascii<58)) {
-				filtros.add(RowFilter.numberFilter(
-						ComparisonType.EQUAL,
-						Integer.parseInt(String.valueOf(TFId.getText()))
-						,0));	
-				} else {
-					filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
-			}
+				MenuMecanicoView miMenuVentas = new MenuMecanicoView(usuario);
+				miMenuVentas.getFrame().setAlwaysOnTop(true);
+				miMenuVentas.getFrame().setVisible(true);
 			
-			if (TFDNI.getText().length()>0) {
-				filtros.add(RowFilter.regexFilter(TFDNI.getText(),1));
-			} else {
-				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
-			}
-			
-			if (TFNombre.getText().length()>0) {
-				filtros.add((RowFilter.regexFilter(TFNombre.getText(),2)));
-			} else {
-				modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",2));
-			}
-			
-			if (TFApellidos.getText().length()>0) {
-				filtros.add(RowFilter.regexFilter(TFApellidos.getText(),3));
-			} else {
-				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",3));
-			}
-			
-			RowFilter<TableModel, Integer> filtroAnd = RowFilter.andFilter(filtros);
-			modeloOrdenado.setRowFilter(filtroAnd);
-			
+			}		
 		}
 
 		/**
@@ -577,5 +732,128 @@ public class BuscarTrabajoView {
 			public void keyTyped(KeyEvent arg0) {
 			}
 		}
+		
+		protected void addFiltros(KeyEvent e) {
+			ArrayList <RowFilter<TableModel,Integer>> filtros = new ArrayList <RowFilter<TableModel,Integer>>();
+			int ascii = e.getKeyChar();
+			//filtro para el id
+			if ((JTF_id.getText().length()>0) && (ascii>47) && (ascii<58)) {
+				   filtros.add(RowFilter.numberFilter(
+				     ComparisonType.EQUAL,
+				     Integer.parseInt(String.valueOf(JTF_id.getText()))
+				     ,0)); 
+				   } else {
+				    filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",0));
+				   }
+			//filtro nombre lciente
+			if (JTF_nomcli.getText().length()>0) {
+				filtros.add(RowFilter.regexFilter(JTF_nomcli.getText(),1));
+			} else {
+				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
+			}
+			
+			//filtro apellido cliente
+			if (JTF_ape_cli.getText().length()>0) {
+				filtros.add(RowFilter.regexFilter(JTF_ape_cli.getText(),2));
+			} else {
+				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",2));
+			}
+			
+			//filtro jefe
+			if (JTF_jefe.getText().length()>0) {
+				filtros.add(RowFilter.regexFilter(JTF_jefe.getText(),3));
+			} else {
+				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",3));
+			}
+			
+			//filtro mecanico encargado
+			
+			if (JTF_mec.getText().length()>0) {
+				filtros.add(RowFilter.regexFilter(JTF_mec.getText(),4));
+			} else {
+				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",4));
+			}
+			
+			//filtro fecha creacion
+			if (JTF_fecha_crea.getText().length()>0) {
+				filtros.add(RowFilter.regexFilter(JTF_fecha_crea.getText(),6));
+			} else {
+				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",6));
+			}
+			
+			//filtro fecha_creacion
+			if (JTF_fecha_crea.getText().length()>0) {
+				filtros.add(RowFilter.regexFilter(JTF_fecha_crea.getText(),6));
+			} else {
+				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",6));
+			}
+			//filtro tiempo total
+			if ((JTF_T_Total.getText().length()>0)) {
+				if (JCB_T_Total.getSelectedItem().toString()=="=") {
+				   filtros.add(RowFilter.numberFilter(
+				     ComparisonType.EQUAL,
+				     Float.parseFloat(String.valueOf(JTF_T_Total.getText()))
+				     ,7));
+				} else if (JCB_T_Total.getSelectedItem().toString()=="<") {
+					  	filtros.add(RowFilter.numberFilter(
+						ComparisonType.BEFORE,
+						Float.parseFloat(String.valueOf(JTF_T_Total.getText()))
+						,7));
+					}else if (JCB_T_Total.getSelectedItem().toString()==">") {
+					  	filtros.add(RowFilter.numberFilter(
+						ComparisonType.AFTER,
+						Float.parseFloat(String.valueOf(JTF_T_Total.getText()))
+						,7));
+					}
+				} 
+			//filtro matricula
+			if (JTF_matricula.getText().length()>0) {
+				filtros.add(RowFilter.regexFilter(JTF_matricula.getText(),8));
+			} else {
+				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",8));
+			}
+			
+			//filtro precio
+			if ((JTF_precio.getText().length()>0)) {
+				if (JCB_precio.getSelectedItem().toString()=="=") {
+				   filtros.add(RowFilter.numberFilter(
+				     ComparisonType.EQUAL,
+				     Float.parseFloat(String.valueOf(JTF_precio.getText()))
+				     ,9));
+				} else if (JCB_precio.getSelectedItem().toString()=="<") {
+					  	filtros.add(RowFilter.numberFilter(
+						ComparisonType.BEFORE,
+						Float.parseFloat(String.valueOf(JTF_precio.getText()))
+						,9));
+					}else if (JCB_precio.getSelectedItem().toString()==">") {
+					  	filtros.add(RowFilter.numberFilter(
+						ComparisonType.AFTER,
+						Float.parseFloat(String.valueOf(JTF_precio.getText()))
+						,9));
+					}
+				}
+			//filtro fecha ini
+			if (JTF_fecha_ini.getText().length()>0) {
+				filtros.add(RowFilter.regexFilter(JTF_fecha_ini.getText(),10));
+			} else {
+				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",10));
+			}
+			
+			
+			//filtro fecha fn
+			
+			if (JTF_fecha_fn.getText().length()>0) {
+				filtros.add(RowFilter.regexFilter(JTF_fecha_fn.getText(),11));
+			} else {
+				filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",11));
+			}
+			
+			
+			RowFilter<TableModel, Integer> filtroAnd = RowFilter.andFilter(filtros);
+			modeloOrdenado.setRowFilter(filtroAnd);
+			}
+		
+			
+			
 
 }

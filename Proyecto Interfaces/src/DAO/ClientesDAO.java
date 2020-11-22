@@ -152,15 +152,19 @@ public class ClientesDAO extends AbstractDAO {
 		String 	strSql="select DNI from clientes order by id_cli";
 		
 		// ejecuta la consultaa
-		ResultSet rst=super.consultaSQL(strSql);
+		ResultSet rs=null;
+		
 		try {
-			rst.last();
-			rst.first();
+			super.conectar();
+			Statement stmt= (Statement) cn.createStatement();
+			rs = stmt.executeQuery(strSql);
+			rs.last();
+			rs.first();
 			while (!encontrado) {
-				if (dNI.equals(rst.getString(1))) {
+				if (dNI.equals(rs.getString(1))) {
 					encontrado=true;
 				} else {
-					rst.next();
+					rs.next();
 					resultado++;
 				}
 
@@ -169,9 +173,9 @@ public class ClientesDAO extends AbstractDAO {
 
 			e.printStackTrace();
 		} finally {
-			if (rst!=null)
+			if (rs!=null)
 				try {
-					rst.close();
+					rs.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -242,21 +246,32 @@ public class ClientesDAO extends AbstractDAO {
 		int count=0;
 		
 		// ejecuta la consulta
-		ResultSet rst=super.consultaSQL(strSql);
+		ResultSet rs=null;
 			try {
+				super.conectar();
+				Statement stmt= (Statement) cn.createStatement();
+				rs = stmt.executeQuery(strSql);
 				// si hay registros
-				if (rst.next()) {
+				if (rs.next()) {
 					// se posiciona en el primer registro
-					rst.first();
+					rs.first();
 					count=1;
 					// mientras haya registros suma 1 al contador
-					while (rst.next()) {
+					while (rs.next()) {
 						count++;
 					}
 				} else count=0;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} finally {
+				if (rs!=null)
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		// devuelve el número de registros 
 		return count;
