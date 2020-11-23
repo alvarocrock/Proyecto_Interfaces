@@ -47,6 +47,7 @@ import javax.swing.JComboBox;
 
 public class BuscarTrabajoView {
 
+	
 	private JFrame frame;
 	private static final long serialVersionUID = 1L;
 	private Usuarios usuario;
@@ -693,11 +694,15 @@ public class BuscarTrabajoView {
 		 */
 		protected void seleccionar() {
 			// coger id_cli de la tabla
-			int idCli=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
+			if (usuario.getRango().equals("jefeTaller")) {
+			int id=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
 			// llamada a ficha clientes con el idcli
-			FichaClienteView miFicCli = new FichaClienteView(usuario,idCli);
-			miFicCli.getFrame().setAlwaysOnTop(true);
-			miFicCli.getFrame().setVisible(true);
+			FichaTrabajo ficha = new FichaTrabajo(usuario,id);
+			ficha.getFrame().setAlwaysOnTop(true);
+			ficha.getFrame().setVisible(true);
+			} else {
+				
+			}
 		}
 		
 		/**
