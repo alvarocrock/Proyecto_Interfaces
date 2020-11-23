@@ -132,7 +132,7 @@ public class BuscarConcesionariosView extends JFrame {
 		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BusCliView miBuscCli = new BusCliView(miUser);
+				BusCliView miBuscCli = new BusCliView(frame, miUser);
 				miBuscCli.getFrame().setAlwaysOnTop(true);
 				miBuscCli.getFrame().setVisible(true);
 				frame.dispose();

@@ -210,7 +210,7 @@ public class FichaVentasView extends JFrame {
 		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BusCliView miBuscCli = new BusCliView(usuario);
+				BusCliView miBuscCli = new BusCliView(frame, usuario);
 				miBuscCli.getFrame().setAlwaysOnTop(true);
 				miBuscCli.getFrame().setVisible(true);
 				frame.dispose();
@@ -386,9 +386,10 @@ public class FichaVentasView extends JFrame {
 								@Override
 								public void actionPerformed(ActionEvent e) {
 									// llamada a buscar cliente
-									BusCliView miBusqueda = new BusCliView(usuario);
+									BusCliView miBusqueda = new BusCliView(frame, usuario);
 									miBusqueda.getFrame().setAlwaysOnTop(true);
 									miBusqueda.getFrame().setVisible(true);
+									frame.setVisible(false);
 
 								}
 							});
@@ -748,6 +749,18 @@ public class FichaVentasView extends JFrame {
 		
 		
 }
+	
+/**
+ * getters
+ * @param tFDni
+ */
+	public JTextField getTFDni() {
+		return TFDni;
+	}
+
+	public JTextField getTFIdVehiculo() {
+		return TFIdVehiculo;
+	}
 
 	/*
 	 * Get Frame

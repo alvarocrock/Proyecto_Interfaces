@@ -69,7 +69,6 @@ public class BusCliView extends JFrame{
 	private JLabel LBDNI;
 	private JTextField TFDNI;
 	private JPanel PNMedio;
-	private JPanel PNMenu;
 	private JPanel PNImg;
 	private JPanel PNTitUsu;
 	private JLabel LBImg;
@@ -77,14 +76,16 @@ public class BusCliView extends JFrame{
 	private JLabel LBNomUsu;
 	private JLabel LBApellidos;
 	private JTextField TFApellidos;
+	private JFrame llamada;
 	
 	/**
 	 * Create the application.
 	 */
 
-	public BusCliView(Usuarios miuser) {
+	public BusCliView(JFrame miLlamada, Usuarios miuser) {
 		usuario=miuser;
 		miClienteDAO = new ClientesDAO ();
+		llamada=miLlamada;
 		initialize();
 
 	}
@@ -194,7 +195,7 @@ public class BusCliView extends JFrame{
     		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
     			@Override
     			public void mouseClicked(MouseEvent e) {
-    				BusCliView miBuscCli = new BusCliView(usuario);
+    				BusCliView miBuscCli = new BusCliView(frame, usuario);
     				miBuscCli.getFrame().setAlwaysOnTop(true);
     				miBuscCli.getFrame().setVisible(true);
     				frame.dispose();
@@ -643,10 +644,25 @@ public class BusCliView extends JFrame{
 	protected void seleccionar() {
 		// coger id_cli de la tabla
 		int idCli=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
-		// llamada a ficha clientes con el idcli
-		FichaClienteView miFicCli = new FichaClienteView(usuario,idCli);
-		miFicCli.getFrame().setAlwaysOnTop(true);
-		miFicCli.getFrame().setVisible(true);
+		// volver a ficha que ha llamado a la busqueda con el idcli
+		llamada.setAlwaysOnTop(true);
+		llamada.setVisible(true);
+		// se ha llamado desde menu ventas
+		if (llamada.getKeyListeners().getClass().toString().equals("MenuVentasView")) {
+			MenuVentasView miFicV = new MenuVentasView(usuario);
+			miFicV.getFrame().setAlwaysOnTop(true);
+			miFicV.getFrame().setVisible(true);
+		} else {
+			// se ha llamado desde ficha de ventas
+			if (llamada.getClass().getSimpleName().toString().equals("FichaVentas")) {
+				// extraemos el dni del cliente
+				ClientesDAO miCliDAO = new ClientesDAO();
+				Clientes miCli = miCliDAO.goToIdCli(idCli);
+				
+				FichaVentasView miLlamada = (FichaVentasView) llamada;
+				miLlamada.getTFDni().setText(String.valueOf(miCli.getDNI()));;
+			}
+		}
 	}
 	
 	/**
