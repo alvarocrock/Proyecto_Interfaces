@@ -130,7 +130,7 @@ public class VerVentasView extends JFrame{
 		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BusCliView miBuscCli = new BusCliView(miuser);
+				BusCliView miBuscCli = new BusCliView(frame, miuser);
 				miBuscCli.getFrame().setAlwaysOnTop(true);
 				miBuscCli.getFrame().setVisible(true);
 				frame.dispose();

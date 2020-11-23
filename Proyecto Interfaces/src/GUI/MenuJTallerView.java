@@ -104,7 +104,7 @@ public class MenuJTallerView extends JFrame{
 		BT_ficha_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BusCliView miBuscCli = new BusCliView(miuser);
+				BusCliView miBuscCli = new BusCliView(frame, miuser);
 				miBuscCli.getFrame().setAlwaysOnTop(true);
 				miBuscCli.getFrame().setVisible(true);
 				frame.dispose();

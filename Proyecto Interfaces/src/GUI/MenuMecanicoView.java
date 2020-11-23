@@ -105,7 +105,7 @@ public class MenuMecanicoView extends JFrame {
 		BTProVen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FichaClienteView miFichaClientes = new FichaClienteView(miUsuario);
+				FichaClienteView miFichaClientes = new FichaClienteView(miUsuario,0);
 				miFichaClientes.getFrame().setAlwaysOnTop(true);
 				miFichaClientes.getFrame().setVisible(true);
 				frame.dispose();
@@ -118,7 +118,7 @@ public class MenuMecanicoView extends JFrame {
 		BTBusCli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VerTrabajoView miVerTra = new VerTrabajoView(miUsuario);
+				CrearTrabajoView miVerTra = new CrearTrabajoView(miUsuario);
 				miVerTra.getFrame().setAlwaysOnTop(true);
 				miVerTra.getFrame().setVisible(true);
 				frame.dispose();

@@ -208,7 +208,7 @@ public class FichaConce extends JFrame {
 		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BusCliView miBuscCli = new BusCliView(usuario);
+				BusCliView miBuscCli = new BusCliView(frame, usuario);
 				miBuscCli.getFrame().setAlwaysOnTop(true);
 				miBuscCli.getFrame().setVisible(true);
 				frame.dispose();

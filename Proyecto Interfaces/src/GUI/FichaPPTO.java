@@ -35,7 +35,7 @@ import Models.Presupuesto;
 import Models.Usuarios;
 import javax.swing.SwingConstants;
 
-public class FichaPPTO {
+public class FichaPPTO extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private Usuarios usuario;
@@ -206,7 +206,7 @@ public class FichaPPTO {
 		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BusCliView miBuscCli = new BusCliView(usuario);
+				BusCliView miBuscCli = new BusCliView(frame, usuario);
 				miBuscCli.getFrame().setAlwaysOnTop(true);
 				miBuscCli.getFrame().setVisible(true);
 				frame.dispose();
@@ -578,7 +578,7 @@ public class FichaPPTO {
 			JTF_precio_ppto.setColumns(10);
 			
 			
-			//añadimos al final al panel dentra la botonera
+			//aï¿½adimos al final al panel dentra la botonera
 			PNCentral.add(panelBotoneras, "cell 0 4");
 			
 			

@@ -39,6 +39,10 @@ import javax.swing.JTextField;
 
 public class FichaClienteView extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private Usuarios usuario;
 	private ClientesDAO miCliDAO;
@@ -201,7 +205,7 @@ public class FichaClienteView extends JFrame{
 		    		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
 		    			@Override
 		    			public void mouseClicked(MouseEvent e) {
-		    				BusCliView miBuscCli = new BusCliView(usuario);
+		    				BusCliView miBuscCli = new BusCliView(frame, usuario);
 		    				miBuscCli.getFrame().setAlwaysOnTop(true);
 		    				miBuscCli.getFrame().setVisible(true);
 		    				frame.dispose();
@@ -400,7 +404,7 @@ public class FichaClienteView extends JFrame{
 				public void actionPerformed(ActionEvent arg0) {
 					// llamada a buscar cliente
 					frame.dispose();
-					BusCliView miBusqueda = new BusCliView(usuario);
+					BusCliView miBusqueda = new BusCliView(frame, usuario);
 					miBusqueda.getFrame().setAlwaysOnTop(true);
 					miBusqueda.getFrame().setVisible(true);					
 				}

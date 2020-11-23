@@ -14,7 +14,7 @@ id_cli int AUTO_INCREMENT unique NOT NULL primary key
 create table if not exists usuarios(
 DNI varchar (9) unique NOT NULL,
 Nick varchar (20) not null,
-passwd varchar(20) not null,
+passwd varchar(64) not null,
 rango varchar(20),
 fecha_alta date,
 foto varchar(255),
@@ -106,7 +106,6 @@ descripcion  varchar(100),
 precio float,
 fecha_alta date
 );
-
 
 alter table empleados add foreign key (id_user) references usuarios (id_user);
 

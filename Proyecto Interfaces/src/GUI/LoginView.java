@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import com.sun.org.apache.xml.internal.security.algorithms.MessageDigestAlgorithm;
+
 import DAO.UsuarioDAO;
 import GUI.FichaClienteView.MyKeyListener;
 
@@ -20,8 +22,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.security.Key;
+import java.security.MessageDigest;
+import java.util.Base64;
+
 import javax.swing.JPasswordField;
 import java.awt.CardLayout;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
@@ -224,7 +233,12 @@ public class LoginView extends JFrame{
 	 * Comprueba el login 
 	 */
 	public void login() {
-		if (miuserdao.compobarlogin(JTF_usuario.getText(),Jpass.getText())==true) {
+		// encriptar contraseña
+		String cadena="";
+		cadena = encriptar(Jpass.getPassword());
+		
+		// comprobar login
+		if (miuserdao.compobarlogin(JTF_usuario.getText(),cadena)==true) {
 			frame.setVisible(false);
 			navegacion();
 		} else {
@@ -232,6 +246,32 @@ public class LoginView extends JFrame{
 		}
 	}
 	
+	/**
+	 * Encripta una cadena de char en SHA256
+	 * @param texto cadena de char a encriptar
+	 * @return String de 64 caracteres encriptados
+	 */
+	private String encriptar(char[] texto) {
+		// convierte la cadena de char en String
+		String cifrarTexto=String.valueOf(texto[0]);
+		for (int i=1;i<texto.length;i++){
+			cifrarTexto= String.valueOf(texto[i]);
+		}
+		try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] array = md.digest(cifrarTexto.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+            }
+            //System.out.println(sb.toString());
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+	}
+
 	/**
 	 * navegación al menú inicial
 	 */
