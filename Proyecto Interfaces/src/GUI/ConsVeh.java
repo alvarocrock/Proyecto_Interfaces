@@ -335,7 +335,7 @@ public class ConsVeh {
 				}
 				@Override
 				public void keyTyped(java.awt.event.KeyEvent arg0) {	
-					addFiltros();
+					
 				}
 			});
 			
@@ -355,7 +355,7 @@ public class ConsVeh {
 				}
 				@Override
 				public void keyTyped(java.awt.event.KeyEvent arg0) {
-					addFiltros();
+					
 				}
 
 			});
@@ -376,7 +376,7 @@ public class ConsVeh {
 				}
 				@Override
 				public void keyTyped(java.awt.event.KeyEvent arg0) {
-					addFiltros();
+					
 				}
 			});
 			
@@ -395,7 +395,7 @@ public class ConsVeh {
 				}
 				@Override
 				public void keyTyped(java.awt.event.KeyEvent arg0) {
-					addFiltros();
+					
 				}
 			});
 			

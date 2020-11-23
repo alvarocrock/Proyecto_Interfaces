@@ -264,7 +264,7 @@ public class BuscarPresupuestosView {
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
+				
 			}
 		});
 		
@@ -284,7 +284,7 @@ public class BuscarPresupuestosView {
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
+				
 			}
 		});
 		
@@ -304,7 +304,7 @@ public class BuscarPresupuestosView {
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
+				
 			}
 		});
 		
@@ -324,7 +324,7 @@ public class BuscarPresupuestosView {
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
+				
 			}
 		});
 		
@@ -348,7 +348,7 @@ public class BuscarPresupuestosView {
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
+				
 			}
 		});
 		
@@ -369,7 +369,7 @@ public class BuscarPresupuestosView {
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
+				
 			}
 		});
 		
@@ -389,7 +389,7 @@ public class BuscarPresupuestosView {
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
+				
 			}
 		});
 		
@@ -409,7 +409,7 @@ public class BuscarPresupuestosView {
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
+				
 			}
 		});
 		

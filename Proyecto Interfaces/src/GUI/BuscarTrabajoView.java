@@ -243,7 +243,7 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
-						addFiltros(arg0);
+						
 					}
 				});
 				Linea_1.add(JTF_id);
@@ -263,7 +263,7 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
-						addFiltros(arg0);
+						
 					}
 				});
 				Linea_1.add(JTF_nomcli);
@@ -283,7 +283,7 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
-						addFiltros(arg0);
+						
 					}
 				});
 				Linea_1.add(JTF_ape_cli);
@@ -303,7 +303,7 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
-						addFiltros(arg0);
+						
 					}
 				});
 				Linea_1.add(JTF_mec);
@@ -322,7 +322,7 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
-						addFiltros(arg0);
+						
 					}
 				});
 				Linea_1.add(JTF_matricula);
@@ -343,7 +343,7 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
-						addFiltros(arg0);
+						
 					}
 				});
 				JTF_jefe.setColumns(10);
@@ -366,7 +366,7 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
-						addFiltros(arg0);
+						
 					}
 				});
 				linea_2.add(JTF_fecha_crea);
@@ -386,7 +386,7 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
-						addFiltros(arg0);
+						
 					}
 				});
 				linea_2.add(JTF_fecha_ini);
@@ -406,7 +406,7 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
-						addFiltros(arg0);
+						
 					}
 				});
 				linea_2.add(JTF_fecha_fn);
@@ -430,7 +430,7 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
-						addFiltros(arg0);
+						
 					}
 				});
 				linea_3.add(JTF_T_Total);
@@ -457,7 +457,7 @@ public class BuscarTrabajoView {
 					}
 					@Override
 					public void keyTyped(java.awt.event.KeyEvent arg0) {
-						addFiltros(arg0);
+						
 					}
 				});
 				linea_3.add(JTF_precio);
