@@ -847,9 +847,8 @@ public class FichaVentasView extends JFrame {
 	public class MiWindowListener implements WindowListener {
 		@Override
 		public void windowActivated(java.awt.event.WindowEvent arg0) {
-			// comprueba si la consulta ha cambiado el id de cliente global
-			if (Constantes.idCliGlobal!=0) {
-				//ClientesDAO miCliDAO = new ClientesDAO ();
+			// comprueba si la consulta ha cambiado el id de cliente global o id vehículos global
+			if ((Constantes.idCliGlobal!=0) || (Constantes.idVehGlobal!=0)) {
 				Ventas miVenta= new Ventas(Integer.parseInt(TFIdVentas.getText()),
 											Constantes.idCliGlobal, 
 											Integer.parseInt(LBIdUser.getText()),
@@ -873,6 +872,8 @@ public class FichaVentasView extends JFrame {
 		@Override
 		public void windowDeactivated(java.awt.event.WindowEvent arg0) {
 			Constantes.idCliGlobal=0;
+			Constantes.idVehGlobal=0;
+
 		}
 		@Override
 		public void windowDeiconified(java.awt.event.WindowEvent arg0) {
