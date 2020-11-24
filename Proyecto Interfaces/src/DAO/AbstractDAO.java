@@ -161,6 +161,7 @@ public abstract class AbstractDAO {
             JOptionPane.showMessageDialog(null, strSQL, "Error: "+e.getMessage(), JOptionPane.ERROR_MESSAGE);
 			resultado=false;
 		} finally {
+			
 		}
         
 		return resultado;
@@ -176,10 +177,13 @@ public abstract class AbstractDAO {
 		try {
 			//stm = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
 			rst = stm.executeQuery(strSql);
+				return rst;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+
 		}
-		return rst;
+		return null;
 	}
 
 

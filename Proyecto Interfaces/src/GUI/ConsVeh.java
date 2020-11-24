@@ -40,6 +40,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import Common.Constantes;
 import DAO.ClientesDAO;
 import DAO.VehiculosDAO;
 import GUI.MenuVentasView.MyKeyListener;
@@ -79,13 +80,15 @@ public class ConsVeh {
 	private JLabel LBNomUsu;
 	private JLabel LBCliente;
 	private JTextField TFCliente;
+	private JFrame  llamada;
 	
 	/**
 	 * Constructor
 	 */
-	public ConsVeh(Usuarios miuser) {
+	public ConsVeh(JFrame llamada, Usuarios miuser) {
 		usuario=miuser;
 		miVehDAO = new VehiculosDAO ();
+		this.llamada = llamada;
 		initialize();
 	}
 	
@@ -240,7 +243,7 @@ public class ConsVeh {
     		Busca_vehiculos.addMouseListener(new MouseAdapter() {
     			@Override
     			public void mouseClicked(MouseEvent e) {
-    				ConsVeh busqueda= new ConsVeh(usuario);
+    				ConsVeh busqueda= new ConsVeh(frame, usuario);
     				busqueda.getFrame().setAlwaysOnTop(true);
     				busqueda.getFrame().setVisible(true);
     				frame.dispose();
@@ -635,13 +638,13 @@ public class ConsVeh {
 	 * llama a ficha de clientes con el  cliente seleccionado
 	 */
 	protected void seleccionar() {
-		// coger id_cli de la tabla
-
-		int idVeh=(int) TBVeh.getModel().getValueAt(TBVeh.getSelectedRow(),0);
+		// coger id vehículo de la tabla
+		Constantes.idVehGlobal=(int) TBVeh.getModel().getValueAt(TBVeh.getSelectedRow(),0);
 		// llamada a ficha vehículo con el idVeh
-		FichaVehiculoView miFicVeh = new FichaVehiculoView(usuario,idVeh);
-		miFicVeh.getFrame().setAlwaysOnTop(true);
-		miFicVeh.getFrame().setVisible(true);
+		llamada.setAlwaysOnTop(true);
+		llamada.setVisible(true);
+		frame.dispose();
+		frame.dispose();
 	}
 	
 	/**

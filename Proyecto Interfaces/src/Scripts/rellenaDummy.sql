@@ -120,4 +120,11 @@ values ("Pedal de freno",250, "2020-10-28");
 insert into piezas (descripcion, precio, fecha_alta)
 values ("Asiento completo",500, "2020-10-28");
 
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('1', '1', '1', '2020-12-11', '2020-12-21', '1', '10000');
 
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('2', '2', '2', '2020-12-11', '2020-12-21', '1', '20000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('3', '3', '3', '2020-12-11', '2020-12-21', '3', '30000');

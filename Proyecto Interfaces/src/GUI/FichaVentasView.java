@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
+import java.awt.peer.TextFieldPeer;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
@@ -30,9 +31,11 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import Common.Constantes;
 import Common.Constantes.TiposVeh;
 import DAO.ClientesDAO;
 import DAO.ConcesionarioDAO;
+import DAO.UsuarioDAO;
 import DAO.VehiculosDAO;
 import DAO.VentasDAO;
 import GUI.FichaVehiculoView.MiWindowListener;
@@ -69,6 +72,15 @@ public class FichaVentasView extends JFrame {
 	private JTextField TFIdVehiculo;
 	private JTextField TFFechaPpto;
 	private JTextField TFFechaVal;
+	private JLabel LBIdCli;
+	private JLabel LBMatrícula;
+	private JLabel LBMarca;
+	private JLabel LBIdVehiculo;
+	private JLabel LBIdUsuario;
+	private JLabel LBIdUser;
+	private JLabel LBNomUser;
+	private JLabel LBPrecio;
+	private JLabel LBModelo;
 
 	/**
 	 * Constructor con usuario e id de cliente
@@ -84,7 +96,7 @@ public class FichaVentasView extends JFrame {
 		LBNomUsu.setText(usuario.getNick());
 		if (idVenta==0) {
 			// carga primer registro
-			cargaVenta(miVentaDAO.primero());
+			if (miVentaDAO.primero()!=null) cargaVenta(miVentaDAO.primero());
 		} else {
 			// carga registro de la venta solicitada
 			cargaVenta(miVentaDAO.goToIdVenta(idVenta));
@@ -96,7 +108,7 @@ public class FichaVentasView extends JFrame {
 	 * Refresca el label de control de registros
 	 */
 	private void refrescaReg() {
-		String p="Registro " + String.valueOf(miVentaDAO.goToIdVenta(Integer.parseInt(TFIdVentas.getText())) + " de "+ 
+		String p="Registro " + (miVentaDAO.goToIdVenta(Integer.parseInt(TFIdVentas.getText())).getId_ventas() + " de "+ 
 				String.valueOf(miVentaDAO.count())+".");
 		LBRegistros.setText(p);	
 	}
@@ -162,7 +174,7 @@ public class FichaVentasView extends JFrame {
 		PNImg.setBackground(Color.decode("#2A9D8F"));
 		PNUsuario.add(PNImg);
 		 PNImg.setLayout(new BoxLayout(PNImg, BoxLayout.Y_AXIS));
-		// carga imagen
+		// carga imagen usuario
          try {
 			 BufferedImage img = ImageIO.read(new File(usuario.getFoto()));
 			 ImageIcon icon = new ImageIcon(img);
@@ -254,7 +266,7 @@ public class FichaVentasView extends JFrame {
 		Busca_vehiculos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ConsVeh busqueda= new ConsVeh(usuario);
+				ConsVeh busqueda= new ConsVeh(frame, usuario);
 				busqueda.getFrame().setAlwaysOnTop(true);
 				busqueda.getFrame().setVisible(true);
 				frame.dispose();
@@ -390,7 +402,6 @@ public class FichaVentasView extends JFrame {
 									miBusqueda.getFrame().setAlwaysOnTop(true);
 									miBusqueda.getFrame().setVisible(true);
 									frame.setVisible(false);
-
 								}
 							});
 							
@@ -403,7 +414,7 @@ public class FichaVentasView extends JFrame {
 							PNDatCli.add(TFDni);
 							TFDni.setColumns(10);
 							
-							JLabel LBIdCli = new JLabel("IdCli");
+							LBIdCli = new JLabel("IdCli");
 							PNDatCli.add(LBIdCli);
 							
 							LBNomCli = new JLabel("Nombre del cliente");
@@ -430,15 +441,18 @@ public class FichaVentasView extends JFrame {
 							flowLayout.setAlignment(FlowLayout.LEFT);
 							PNDatCli_1.setBackground(new Color(42, 157, 143));
 							PNEmpleado.add(PNDatCli_1);
+			
+			JButton BTBuscarEmple = new JButton(" ");
+			PNDatCli_1.add(BTBuscarEmple);
 							
-			JLabel LBIdUsuario = new JLabel("Empleado");
+			LBIdUsuario = new JLabel("Empleado");
 			PNDatCli_1.add(LBIdUsuario);
 			LBIdUsuario.setToolTipText("");
 			
-			JLabel LBIdUser = new JLabel("IdUser");
+			LBIdUser = new JLabel("IdUser");
 			PNDatCli_1.add(LBIdUser);
 			
-			JLabel LBNomUser = new JLabel("Nombre del usuario");
+			LBNomUser = new JLabel("Nombre del usuario");
 			PNDatCli_1.add(LBNomUser);
 			
 			JPanel PNVehiculo = new JPanel();
@@ -464,17 +478,29 @@ public class FichaVentasView extends JFrame {
 			PNDatVeh1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 			PNDatVeh1.setBackground(Color.decode("#2A9D8F"));
 			
-			JLabel LBIdVehculo = new JLabel("Id vehículo");
-			PNDatVeh1.add(LBIdVehculo);
+			JButton BTBuscarVeh = new JButton(" ");
+			PNDatVeh1.add(BTBuscarVeh);
+			LBIdVehiculo = new JLabel("Id vehículo");
+			PNDatVeh1.add(PNDatVeh1.add(LBIdVehiculo));
+			BTBuscarVeh.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// llamada a buscar vehículo
+					ConsVeh miBusqueda = new ConsVeh(frame, usuario);
+					miBusqueda.getFrame().setAlwaysOnTop(true);
+					miBusqueda.getFrame().setVisible(true);
+					frame.setVisible(false);
+				}
+			});
 			
 			TFIdVehiculo = new JTextField();
 			TFIdVehiculo.setColumns(10);
 			PNDatVeh1.add(TFIdVehiculo);
 			
-			JLabel LBMatrícula = new JLabel("Matricula");
+			LBMatrícula = new JLabel("Matricula");
 			PNDatVeh1.add(LBMatrícula);
 			
-			JLabel LBMarca = new JLabel("Marca");
+			LBMarca = new JLabel("Marca");
 			PNDatVeh1.add(LBMarca);
 			
 			// panel linea 5
@@ -483,10 +509,10 @@ public class FichaVentasView extends JFrame {
 						PNDatVeh2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 						PNDatVeh2.setBackground(Color.decode("#2A9D8F"));
 						
-						JLabel LBModelo = new JLabel("Modelo");
+						LBModelo = new JLabel("Modelo");
 						PNDatVeh2.add(LBModelo);
 						
-						JLabel LBPrecio = new JLabel("Precio");
+						LBPrecio = new JLabel("Precio");
 						PNDatVeh2.add(LBPrecio);
 
 			
@@ -542,7 +568,7 @@ public class FichaVentasView extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					if (comprobardatos()) {
 						// crea la nueva venta
-						Ventas miVenta=new Ventas(0,
+						Ventas miVenta=new Ventas(Integer.parseInt(TFIdVentas.getText()),
 								Integer.parseInt(LBIdCli.getText()),
 								Integer.parseInt(LBIdUser.getText()),
 								Date.valueOf(TFFechaPpto.getText()),
@@ -730,8 +756,8 @@ public class FichaVentasView extends JFrame {
 	}
 
 	/**
-	 * Carga el formulario con los datos de un cliente 
-	 * @param miCliente
+	 * Carga el formulario con los datos de una venta 
+	 * @param ventas
 	 */
 	protected void cargaVenta(Ventas ventas) {
 		TFIdVentas.setText(String.valueOf(ventas.getId_ventas()));
@@ -742,12 +768,32 @@ public class FichaVentasView extends JFrame {
 		Clientes miCli = miCliDAO.goToIdCli(ventas.getId_cli());
 		if (miCli!=null) {
 			LBNomCli.setText(miCli.getNombre()+" "+miCli.getApellido());
+			LBIdCli.setText(String.valueOf(miCli.getId()));
 			TFDni.setText(miCli.getDNI());
 		} else {
 			JOptionPane.showMessageDialog(frame,"Ese cliente no existe","Error",JOptionPane.ERROR_MESSAGE);
 		}
-		
-		
+		// recupera datos del Vehículo
+		VehiculosDAO miVehDAO= new VehiculosDAO();
+		Vehiculos miVeh = miVehDAO.goToIdVeh(ventas.getId_vehiculo());
+		if (miVeh!=null) {
+			TFIdVehiculo.setText(String.valueOf(miVeh.getIdVeh()));
+			LBMatrícula.setText(miVeh.getMatricula());
+			LBMarca.setText(miVeh.getMarca());
+			LBModelo.setText(miVeh.getModelo());
+			LBPrecio.setText(String.valueOf(miVeh.getPrecio()));
+		} else {
+			JOptionPane.showMessageDialog(frame,"Ese vehículo no existe","Error",JOptionPane.ERROR_MESSAGE);
+		}
+		// recupera datos del usuario
+		UsuarioDAO miUserDAO= new UsuarioDAO();
+		Usuarios miUser = miUserDAO.goToUserById(usuario.getId());
+		if (miUser!=null) {
+			LBNomUser.setText(miUser.getNick());
+			LBIdUser.setText(String.valueOf(miUser.getId()));
+		} else {
+			JOptionPane.showMessageDialog(frame,"Ese usuario no existe","Error",JOptionPane.ERROR_MESSAGE);
+		}
 }
 	
 /**
@@ -801,6 +847,20 @@ public class FichaVentasView extends JFrame {
 	public class MiWindowListener implements WindowListener {
 		@Override
 		public void windowActivated(java.awt.event.WindowEvent arg0) {
+			// comprueba si la consulta ha cambiado el id de cliente global
+			if (Constantes.idCliGlobal!=0) {
+				//ClientesDAO miCliDAO = new ClientesDAO ();
+				Ventas miVenta= new Ventas(Integer.parseInt(TFIdVentas.getText()),
+											Constantes.idCliGlobal, 
+											Integer.parseInt(LBIdUser.getText()),
+											Date.valueOf(TFFechaPpto.getText()),
+											Date.valueOf(TFFechaVal.getText()),
+											Integer.parseInt(TFIdVehiculo.getText()), 
+											Float.parseFloat(LBPrecio.getText())
+											);
+											
+				cargaVenta(miVenta);	
+				}
 		}
 		@Override
 		public void windowClosed(java.awt.event.WindowEvent arg0) {
@@ -812,6 +872,7 @@ public class FichaVentasView extends JFrame {
 		}
 		@Override
 		public void windowDeactivated(java.awt.event.WindowEvent arg0) {
+			Constantes.idCliGlobal=0;
 		}
 		@Override
 		public void windowDeiconified(java.awt.event.WindowEvent arg0) {

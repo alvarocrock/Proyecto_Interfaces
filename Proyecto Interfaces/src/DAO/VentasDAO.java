@@ -202,15 +202,18 @@ public class VentasDAO extends AbstractDAO{
 		ResultSet rst=super.consultaSQL(strSql);
 		try {
 			// se posiciona en el primer registro
-			rst.first();
-			// crea la venta
-			venta = new Ventas(rst.getInt(1),rst.getInt(2), rst.getInt(3), rst.getDate(4), rst.getDate(5), 
-					rst.getInt(6),rst.getFloat(7));	
+			if (rst.first()) {
+				// crea la venta
+				venta = new Ventas(rst.getInt(1),rst.getInt(2), rst.getInt(3), rst.getDate(4), rst.getDate(5), 
+						rst.getInt(6),rst.getFloat(7));	
+				// devuelve la venta 
+				return venta;
+			};
+			
 			} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		// devuelve el cliente 
-		return venta;
+		return null;
 	}
 	
 	/**

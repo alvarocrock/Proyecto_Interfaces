@@ -286,10 +286,7 @@ public class VehiculosDAO extends AbstractDAO{
 				e.printStackTrace();
 				 }
         	}
-		
         return veh;
-        	
-		
 	}
 	
 	/**

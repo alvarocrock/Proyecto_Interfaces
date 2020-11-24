@@ -28,6 +28,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
+import Common.Constantes;
 import DAO.ClientesDAO;
 import GUI.MenuVentasView.MyKeyListener;
 import Models.Clientes;
@@ -239,7 +241,7 @@ public class BusCliView extends JFrame{
     		Busca_vehiculos.addMouseListener(new MouseAdapter() {
     			@Override
     			public void mouseClicked(MouseEvent e) {
-    				ConsVeh busqueda= new ConsVeh(usuario);
+    				ConsVeh busqueda= new ConsVeh(frame, usuario);
     				busqueda.getFrame().setAlwaysOnTop(true);
     				busqueda.getFrame().setVisible(true);
     				frame.dispose();
@@ -643,26 +645,11 @@ public class BusCliView extends JFrame{
 	 */
 	protected void seleccionar() {
 		// coger id_cli de la tabla
-		int idCli=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
+		Constantes.idCliGlobal=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
 		// volver a ficha que ha llamado a la busqueda con el idcli
 		llamada.setAlwaysOnTop(true);
 		llamada.setVisible(true);
-		// se ha llamado desde menu ventas
-		if (llamada.getKeyListeners().getClass().toString().equals("MenuVentasView")) {
-			MenuVentasView miFicV = new MenuVentasView(usuario);
-			miFicV.getFrame().setAlwaysOnTop(true);
-			miFicV.getFrame().setVisible(true);
-		} else {
-			// se ha llamado desde ficha de ventas
-			if (llamada.getClass().getSimpleName().toString().equals("FichaVentas")) {
-				// extraemos el dni del cliente
-				ClientesDAO miCliDAO = new ClientesDAO();
-				Clientes miCli = miCliDAO.goToIdCli(idCli);
-				
-				FichaVentasView miLlamada = (FichaVentasView) llamada;
-				miLlamada.getTFDni().setText(String.valueOf(miCli.getDNI()));;
-			}
-		}
+		frame.dispose();
 	}
 	
 	/**

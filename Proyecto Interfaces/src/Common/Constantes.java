@@ -10,6 +10,8 @@ public abstract class Constantes{
 	public static final String CLAVE = "AdminMysql1211$";
 	public static final String SQLCREATE = "src/Scripts/scriptBBDD.sql";
 	public static final String SQLCARGA = "src/Scripts/rellenaDummy.sql";
+	public static int idCliGlobal=0;
+	public static int idVehGlobal=0;
 
 	//comportamientos
 	public Constantes() {}
