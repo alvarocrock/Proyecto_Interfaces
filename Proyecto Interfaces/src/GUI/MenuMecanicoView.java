@@ -99,26 +99,26 @@ public class MenuMecanicoView extends JFrame {
 		PNCentral.setBackground(Color.decode("#2A9D8F"));
 		PNCentral.setBackground(Color.decode("#2A9D8F"));
 		
-		JButton BTProVen = new JButton("Ficha clientes");
-		BTProVen.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Clientes.png")));
-		PNCentral.add(BTProVen, "flowx,cell 0 1,alignx right,aligny top");
-		BTProVen.addMouseListener(new MouseAdapter() {
+		JButton JBNBusc_cli = new JButton("Ficha clientes");
+		JBNBusc_cli.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Clientes.png")));
+		PNCentral.add(JBNBusc_cli, "flowx,cell 0 1,alignx right,aligny top");
+		JBNBusc_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FichaClienteView miFichaClientes = new FichaClienteView(miUsuario,0);
+				BusCliView miFichaClientes = new BusCliView(frame,miUsuario);
 				miFichaClientes.getFrame().setAlwaysOnTop(true);
 				miFichaClientes.getFrame().setVisible(true);
-				frame.dispose();
+				frame.setVisible(false);
 			}
 		});
 		
-		JButton BTBusCli = new JButton("Ver trabajo");
-		BTBusCli.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Trabajo.png")));
-		PNCentral.add(BTBusCli, "cell 2 1");
-		BTBusCli.addMouseListener(new MouseAdapter() {
+		JButton JBTN_vertrabajo = new JButton("Ver trabajo");
+		JBTN_vertrabajo.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Trabajo.png")));
+		PNCentral.add(JBTN_vertrabajo, "cell 2 1");
+		JBTN_vertrabajo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CrearTrabajoView miVerTra = new CrearTrabajoView(miUsuario);
+				BuscarTrabajoView miVerTra = new BuscarTrabajoView(miUsuario);
 				miVerTra.getFrame().setAlwaysOnTop(true);
 				miVerTra.getFrame().setVisible(true);
 				frame.dispose();

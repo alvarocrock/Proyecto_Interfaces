@@ -91,7 +91,10 @@ tiempo float,
 id_vehiculo int,
 presu_esrti float,
 fecha_ini date,
-fecha_fn date
+fecha_fn date,
+hora_ini char(6),
+hora_fn char(6)
+
 );
 
 create table if not exists PiezasRep(

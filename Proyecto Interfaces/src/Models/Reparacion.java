@@ -14,6 +14,8 @@ public class Reparacion {
 	float precio;
 	String fecha_ini; //este campo se pasara cuando el trabajador pulse inciar
 	String fecha_fn; //este campo se pasara cuando el trabajador pulse finalizar
+	String hora_ini;
+	String HoraFN;
 	
 	
 	/**
@@ -39,6 +41,8 @@ public class Reparacion {
 		tiempo=null;
 		fecha_ini=null;
 		fecha_fn=null;
+		hora_ini=null;
+		HoraFN=null;
 		
 	}
 	/**
@@ -56,7 +60,7 @@ public class Reparacion {
 	 * @param mifecha_fin
 	 */
 	
-	public Reparacion(int miid, int miid_cli,int miid_jefe,int miid_mec,String midesc,String fecha_repara,Integer mitiempo,int miid_veh,float miprecio,String mifecha_ini,String mifecha_fin) {
+	public Reparacion(int miid, int miid_cli,int miid_jefe,int miid_mec,String midesc,String fecha_repara,Integer mitiempo,int miid_veh,float miprecio,String mifecha_ini,String mifecha_fin,String horaini,String horafn) {
 		id=miid;
 		id_cli=miid_cli;
 		id_jefe=miid_jefe;
@@ -68,9 +72,42 @@ public class Reparacion {
 		tiempo=mitiempo;
 		fecha_ini=mifecha_ini;
 		fecha_fn=mifecha_fin;
+		HoraFN=horafn;
+		hora_ini=horaini;
+		
 	}
 
 
+	public String getHora_ini() {
+		return hora_ini;
+	}
+	public void setHora_ini(String hora_ini) {
+		this.hora_ini = hora_ini;
+	}
+	public String getHoraFN() {
+		return HoraFN;
+	}
+	public void setHoraFN(String horaFN) {
+		HoraFN = horaFN;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public void setId_cli(Integer id_cli) {
+		this.id_cli = id_cli;
+	}
+	public void setId_jefe(Integer id_jefe) {
+		this.id_jefe = id_jefe;
+	}
+	public void setId_mec(Integer id_mec) {
+		this.id_mec = id_mec;
+	}
+	public void setTiempo(Integer tiempo) {
+		this.tiempo = tiempo;
+	}
+	public void setId_veh(Integer id_veh) {
+		this.id_veh = id_veh;
+	}
 	public int getId() {
 		return id;
 	}

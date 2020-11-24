@@ -544,6 +544,7 @@ public class BuscarTrabajoView {
 				PNCentral.add(panelBotonera);
 				
 				BTSeleccionar = new JButton("Seleccionar");
+				BTSeleccionar.setPreferredSize(new Dimension(100,50));
 				panelBotonera.add(BTSeleccionar);
 				BTSeleccionar.addActionListener(new ActionListener() {
 					@Override
@@ -559,6 +560,7 @@ public class BuscarTrabajoView {
 				});
 				
 				BTSalir = new JButton("Salir");
+				BTSalir.setPreferredSize(new Dimension(100,50));
 				panelBotonera.add(BTSalir);
 				BTSalir.addActionListener(new ActionListener() {
 					@Override
@@ -694,14 +696,18 @@ public class BuscarTrabajoView {
 		 */
 		protected void seleccionar() {
 			// coger id_cli de la tabla
-			if (usuario.getRango().equals("jefeTaller")) {
 			int id=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
+			if (usuario.getRango().equals("jefeTaller")) {
 			// llamada a ficha clientes con el idcli
 			FichaTrabajo ficha = new FichaTrabajo(usuario,id);
 			ficha.getFrame().setAlwaysOnTop(true);
 			ficha.getFrame().setVisible(true);
+			frame.dispose();
 			} else {
-				
+			Empezar_FinalizarTrabajoView vista = new Empezar_FinalizarTrabajoView(usuario, id);
+			vista.getFrame().setVisible(true);
+			vista.getFrame().setAlwaysOnTop(true);
+			frame.dispose();
 			}
 		}
 		

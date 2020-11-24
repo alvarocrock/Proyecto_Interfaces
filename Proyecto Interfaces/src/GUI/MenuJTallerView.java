@@ -107,19 +107,11 @@ public class MenuJTallerView extends JFrame{
 				BusCliView miBuscCli = new BusCliView(frame, miuser);
 				miBuscCli.getFrame().setAlwaysOnTop(true);
 				miBuscCli.getFrame().setVisible(true);
-				frame.dispose();
+				frame.setVisible(false);
 			}
 		});
 		
 		JButton BT_vertrabajo = new JButton("Ver trabajo");
-		BT_vertrabajo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				BuscarTrabajoView view= new BuscarTrabajoView(miuser);
-				view.getFrame().setVisible(true);
-				view.getFrame().setAlwaysOnTop(true);
-				frame.dispose();
-			}
-		});
 		BT_vertrabajo.setIcon(new ImageIcon(MenuMecanicoView.class.getResource("/png/Trabajo.png")));
 		PNCentral.add(BT_vertrabajo, "cell 2 1");
 		BT_vertrabajo.addMouseListener(new MouseAdapter() {
