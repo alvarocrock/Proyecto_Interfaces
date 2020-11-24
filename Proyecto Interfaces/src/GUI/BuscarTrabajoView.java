@@ -104,6 +104,11 @@ public class BuscarTrabajoView {
 		usuario=user;
 		contro= new TrabajoHoyDAO();
 		initialize();
+		
+		if (usuario.getRango().equals("mecanico")) {
+		filtroespecial();
+		}
+		
 	}
 
 	/**
@@ -745,6 +750,14 @@ public class BuscarTrabajoView {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 			}
+		}
+		
+		protected void filtroespecial() {
+			ArrayList <RowFilter<TableModel,Integer>> filtros = new ArrayList <RowFilter<TableModel,Integer>>();
+				filtros.add(RowFilter.regexFilter(usuario.getNick(),4));
+				RowFilter<TableModel, Integer> filtroAnd = RowFilter.andFilter(filtros);
+				modeloOrdenado.setRowFilter(filtroAnd);
+	
 		}
 		
 		protected void addFiltros(KeyEvent e) {
