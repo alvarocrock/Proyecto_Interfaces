@@ -162,7 +162,7 @@ public class BuscarPresupuestosView {
 		Busca_vehiculos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ConsVeh busqueda= new ConsVeh(miuser);
+				ConsVeh busqueda= new ConsVeh(frame,miuser);
 				busqueda.getFrame().setAlwaysOnTop(true);
 				busqueda.getFrame().setVisible(true);
 				frame.dispose();

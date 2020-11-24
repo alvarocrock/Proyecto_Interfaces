@@ -250,7 +250,7 @@ public class FichaPPTO extends JFrame {
 		Busca_vehiculos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ConsVeh busqueda= new ConsVeh(usuario);
+				ConsVeh busqueda= new ConsVeh(frame, usuario);
 				busqueda.getFrame().setAlwaysOnTop(true);
 				busqueda.getFrame().setVisible(true);
 				frame.dispose();

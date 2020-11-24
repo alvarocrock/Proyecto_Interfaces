@@ -441,9 +441,6 @@ public class FichaVentasView extends JFrame {
 							flowLayout.setAlignment(FlowLayout.LEFT);
 							PNDatCli_1.setBackground(new Color(42, 157, 143));
 							PNEmpleado.add(PNDatCli_1);
-			
-			JButton BTBuscarEmple = new JButton(" ");
-			PNDatCli_1.add(BTBuscarEmple);
 							
 			LBIdUsuario = new JLabel("Empleado");
 			PNDatCli_1.add(LBIdUsuario);
@@ -847,14 +844,27 @@ public class FichaVentasView extends JFrame {
 	public class MiWindowListener implements WindowListener {
 		@Override
 		public void windowActivated(java.awt.event.WindowEvent arg0) {
-			// comprueba si la consulta ha cambiado el id de cliente global o id vehículos global
-			if ((Constantes.idCliGlobal!=0) || (Constantes.idVehGlobal!=0)) {
+			// comprueba si la consulta ha cambiado el id de cliente global
+			if (Constantes.idCliGlobal!=0) {
 				Ventas miVenta= new Ventas(Integer.parseInt(TFIdVentas.getText()),
 											Constantes.idCliGlobal, 
 											Integer.parseInt(LBIdUser.getText()),
 											Date.valueOf(TFFechaPpto.getText()),
 											Date.valueOf(TFFechaVal.getText()),
 											Integer.parseInt(TFIdVehiculo.getText()), 
+											Float.parseFloat(LBPrecio.getText())
+											);
+											
+				cargaVenta(miVenta);	
+				}
+			// comprueba si la consulta ha cambiado el id vehículos global
+			if (Constantes.idVehGlobal!=0) {
+				Ventas miVenta= new Ventas(Integer.parseInt(TFIdVentas.getText()),
+											Integer.parseInt(LBIdCli.getText()), 
+											Integer.parseInt(LBIdUser.getText()),
+											Date.valueOf(TFFechaPpto.getText()),
+											Date.valueOf(TFFechaVal.getText()),
+											Constantes.idVehGlobal, 
 											Float.parseFloat(LBPrecio.getText())
 											);
 											

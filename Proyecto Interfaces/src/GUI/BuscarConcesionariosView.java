@@ -176,7 +176,7 @@ public class BuscarConcesionariosView extends JFrame {
 		Busca_vehiculos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ConsVeh busqueda= new ConsVeh(miUser);
+				ConsVeh busqueda= new ConsVeh(frame,miUser);
 				busqueda.getFrame().setAlwaysOnTop(true);
 				busqueda.getFrame().setVisible(true);
 				frame.dispose();
