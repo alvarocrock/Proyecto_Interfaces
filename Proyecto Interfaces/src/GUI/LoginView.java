@@ -289,7 +289,8 @@ public class LoginView extends JFrame{
 				break;
 			case "jefe":
 				//llamar a la GUI de menú inicial Jefe
-
+				MenuJefeMax miMenuJ = new MenuJefeMax(miuserdao.getuser());
+				miMenuJ.getFrame().setVisible(true);
 				break;
 			case "jefeTaller":
 				//llamar a la GUI de menú inicial jefe de taller

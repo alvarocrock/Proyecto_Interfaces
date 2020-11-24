@@ -24,6 +24,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
+
 import DAO.ClientesDAO;
 import DAO.UsuarioDAO;
 import DAO.VehiculosDAO;
@@ -40,7 +46,7 @@ import java.util.ArrayList;
 import java.awt.Font;
 import javax.swing.JComboBox;
 
-public class VerVentasView extends JFrame{
+public class ResumenVentasView extends JFrame{
 
 	/**
 	 * serial version id
@@ -50,7 +56,7 @@ public class VerVentasView extends JFrame{
 	private Usuarios miuser;
 	private VentasDAO contro;
 	private JTable TBCli;
-	private JScrollPane scrollPane;
+	private JScrollPane spGrafico;
 	private DefaultTableModel modeloTBCli;
 	private TableRowSorter<TableModel> modeloOrdenado;
 	private JTextField textField_1;
@@ -67,7 +73,7 @@ public class VerVentasView extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public VerVentasView(Usuarios user) {
+	public ResumenVentasView(Usuarios user) {
 		contro= new VentasDAO();
 		miuser=user;
 		initialize();
@@ -97,7 +103,7 @@ public class VerVentasView extends JFrame{
 		panel_titulo.setBackground(Color.decode("#264653"));
 		panel.add(panel_titulo);
 		
-		JLabel JLB_titulo = new JLabel("Consulta de ventas");
+		JLabel JLB_titulo = new JLabel("Resumen de ventas");
 		JLB_titulo.setForeground(Color.ORANGE);
 		JLB_titulo.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panel_titulo.add(JLB_titulo);
@@ -430,77 +436,31 @@ public class VerVentasView extends JFrame{
 		Mi_combo.addItem(">");
 		panel_lin_2.add(Mi_combo);
 		
-		//panel de tabla
-		JPanel panel_tabla = new JPanel();
-		panel_cont_p_d.add(panel_tabla);
-		panel_tabla.setLayout(new BoxLayout(panel_tabla, BoxLayout.X_AXIS));
-		scrollPane = new JScrollPane();
-		panel_tabla.add(scrollPane);
+		//panel del gráfico
+		JPanel pnGrafico = new JPanel();
+		panel_cont_p_d.add(pnGrafico);
+		pnGrafico.setLayout(new BoxLayout(pnGrafico, BoxLayout.X_AXIS));
 		
-		// tabla
-		
-		TBCli = new JTable();
-		TBCli.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollPane.setViewportView(TBCli);
-		
-		
-		//crear modelo de la tabla
-		modeloTBCli = new DefaultTableModel(){
-			/**
-			 * definimos el modelo de la tabla con la 1ª columna integer
-			 */
-			private static final long serialVersionUID = 1L;
-			@Override
-			public Class getColumnClass(int columna) {
-				// primera columna integer
-				if (columna == 0)
-					return Integer.class;
-				return String.class;
-			}
-			@Override
-			public boolean isCellEditable (int row, int column)
-			   {
-			       // Aquí devolvemos true o false según queramos que una celda
-			       // identificada por fila,columna (row,column), sea o no editable
-			       if (column >=0)
-			          return false;
-			       return true;
-			   }
-		};
-		
-		// carga columnas de la tabla
-		modeloTBCli.addColumn("Id");
-		modeloTBCli.addColumn("Empleado");
-		modeloTBCli.addColumn("Nombre");
-		modeloTBCli.addColumn("Apellidos");
-		modeloTBCli.addColumn("Fecha Alta");
-		modeloTBCli.addColumn("Fecha limite");
-		modeloTBCli.addColumn("Matricula");
-		modeloTBCli.addColumn("precio");
-		//añade el modelo a la tabla
-		TBCli.setModel(modeloTBCli);
-					
-		// hace ordenable la tabla
-		modeloOrdenado = new TableRowSorter<TableModel>(modeloTBCli);
-		TBCli.setRowSorter(modeloOrdenado);
-		
-		textField_1 = new JTextField();
-		scrollPane.setColumnHeaderView(textField_1);
-		textField_1.setColumns(10);
-		
-		cargarVentas(contro.getventas());
-		
-		
-		//evento
-		TBCli.addMouseListener(new MouseAdapter(){
-			public void mouseReleased(MouseEvent e){
-			if(e.getClickCount()==2){
-				frame.dispose();
-				seleccionar();
-			}
-			}
-			});
-		
+		//------------------------------------------------------
+		// Fuente de Datos
+        DefaultPieDataset data = new DefaultPieDataset();
+        data.setValue("C", 40);
+        data.setValue("Java", 45);
+        data.setValue("Python", 15);
+ 
+        // Creando el Grafico
+        JFreeChart chart = ChartFactory.createPieChart(
+         "Resumen de ventas por meses", 
+         data, 
+         true, 
+         true, 
+         false);
+ 
+        // Mostrar Grafico
+       pnGrafico.add(new ChartPanel (chart));
+        
+        
+        // -----------------------------------------------------
 		//panel de botonera
 		JPanel panel_botonera = new JPanel();
 		panel_botonera.setBackground(Color.decode("#2A9D8F"));

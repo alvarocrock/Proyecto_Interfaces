@@ -35,7 +35,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class MenuVentasView extends JFrame {
+public class MenuJefeMax extends JFrame {
 
 	/**
 	 * 
@@ -49,7 +49,7 @@ public class MenuVentasView extends JFrame {
 	/**
 	 * Create the application.
 	 */
-	public MenuVentasView(Usuarios miuser) {
+	public MenuJefeMax(Usuarios miuser) {
 		usuario=miuser;
 		initialize();
 	}
@@ -80,7 +80,7 @@ public class MenuVentasView extends JFrame {
 		PNTitulo.setBackground(Color.decode("#264653"));
 		PNTitulo.setMaximumSize(new Dimension(2000,30));;
 		
-		JLabel LBTitulo = new JLabel("Menú de ventas");
+		JLabel LBTitulo = new JLabel("Menú de la gerencia");
 		LBTitulo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		LBTitulo.setForeground(Color.decode("#F4A261"));
 		PNTitulo.add(LBTitulo);
@@ -123,30 +123,58 @@ public class MenuVentasView extends JFrame {
 		panel_opciones.setBackground(Color.decode("#2A9D8F"));
 		panel_opciones.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 		
-		JLabel LBResumenVentas = new JLabel("Resumen de ventas");
-		LBResumenVentas.setBorder(new EmptyBorder(5, 0, 5, 0));
-		LBResumenVentas.addMouseListener(new MouseAdapter() {
+		JLabel JLB_ver_ventas = new JLabel("Ver ventas");
+		JLB_ver_ventas.setBorder(new EmptyBorder(5, 0, 5, 0));
+		JLB_ver_ventas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ResumenVentasView miResu = new ResumenVentasView(usuario);
-				miResu.getFrame().setAlwaysOnTop(true);
-				miResu.getFrame().setVisible(true);
+				VerVentasView miProVen = new VerVentasView(usuario);
+				miProVen.getFrame().setAlwaysOnTop(true);
+				miProVen.getFrame().setVisible(true);
 				frame.dispose();
 			}
 			@Override
 			public void mouseEntered (MouseEvent e) {
-				LBResumenVentas.setForeground(Color.RED);
-				LBResumenVentas.setFont(new Font("Tahoma",Font.BOLD,14));
+				JLB_ver_ventas.setForeground(Color.RED);
+				JLB_ver_ventas.setFont(new Font("Tahoma",Font.BOLD,14));
 			}
 			@Override
 			public void mouseExited (MouseEvent e) {
-				LBResumenVentas.setForeground(Color.ORANGE);
-				LBResumenVentas.setFont(new Font("Tahoma",Font.PLAIN,14));
+				JLB_ver_ventas.setForeground(Color.ORANGE);
+				JLB_ver_ventas.setFont(new Font("Tahoma",Font.PLAIN,14));
 			}
 		});
-		LBResumenVentas.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		LBResumenVentas.setForeground(Color.decode("#E9C46A"));
-		panel_opciones.add(LBResumenVentas);
+		
+		JLabel lbResumenVentas = new JLabel("Resumen de ventas");
+		lbResumenVentas.setForeground(new Color(233, 196, 106));
+		lbResumenVentas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbResumenVentas.setBorder(new EmptyBorder(5, 0, 5, 0));
+		panel_opciones.add(lbResumenVentas);
+		lbResumenVentas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ResumenVentasView miRS = new ResumenVentasView(usuario);
+				miRS.getFrame().setAlwaysOnTop(true);
+				miRS.getFrame().setVisible(true);
+				frame.dispose();
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				lbResumenVentas.setForeground(Color.RED);
+				lbResumenVentas.setFont(new Font("Tahoma",Font.BOLD,14));
+
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				lbResumenVentas.setForeground(Color.ORANGE);
+				lbResumenVentas.setFont(new Font("Tahoma",Font.PLAIN,14));
+			}
+		});
+		
+		
+		JLB_ver_ventas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLB_ver_ventas.setForeground(Color.decode("#E9C46A"));
+		panel_opciones.add(JLB_ver_ventas);
 		
 		JLabel LBVentas = new JLabel("Ficha Ventas");
 		LBVentas.setForeground(new Color(233, 196, 106));
