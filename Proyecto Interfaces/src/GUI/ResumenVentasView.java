@@ -14,6 +14,8 @@ import Models.vXmData;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
@@ -21,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.RowFilter.ComparisonType;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -61,10 +64,7 @@ public class ResumenVentasView extends JFrame{
 	private Usuarios miuser;
 	private VentasDAO contro;
 	private JTable TBCli;
-	private JScrollPane spGrafico;
 	private DefaultTableModel modeloTBCli;
-	private TableRowSorter<TableModel> modeloOrdenado;
-	private JTextField textField_1;
 	private JLabel LBRegistros;
 	/**
 	 * Create the application.
@@ -127,8 +127,122 @@ public class ResumenVentasView extends JFrame{
 		panel_izquierdo.add(JLB_USER_actual);
 		JLB_USER_actual.setText(miuser.getNick());
 		
+		JPanel panel_opciones = new JPanel();
+		panel_izquierdo.add(panel_opciones);
+		panel_opciones.setLayout(new BoxLayout(panel_opciones, BoxLayout.Y_AXIS));
+		panel_opciones.setBackground(Color.decode("#2A9D8F"));
+		panel_opciones.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
+		
+		JLabel JLB_ver_ventas = new JLabel("Ver ventas");
+		JLB_ver_ventas.setBorder(new EmptyBorder(5, 0, 5, 0));
+		JLB_ver_ventas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VerVentasView miProVen = new VerVentasView(miuser);
+				miProVen.getFrame().setAlwaysOnTop(true);
+				miProVen.getFrame().setVisible(true);
+				frame.dispose();
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				JLB_ver_ventas.setForeground(Color.RED);
+				JLB_ver_ventas.setFont(new Font("Tahoma",Font.BOLD,14));
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				JLB_ver_ventas.setForeground(Color.ORANGE);
+				JLB_ver_ventas.setFont(new Font("Tahoma",Font.PLAIN,14));
+			}
+		});
+		
+		JLabel lbFicUsu = new JLabel("Ficha Usuarios");
+		lbFicUsu.setForeground(new Color(233, 196, 106));
+		lbFicUsu.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbFicUsu.setBorder(new EmptyBorder(5, 0, 5, 0));
+		panel_opciones.add(lbFicUsu);
+		lbFicUsu.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FichaUsuarioView miFU = new FichaUsuarioView(miuser,0);
+				miFU.getFrame().setAlwaysOnTop(true);
+				miFU.getFrame().setVisible(true);
+				frame.dispose();
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				lbFicUsu.setForeground(Color.RED);
+				lbFicUsu.setFont(new Font("Tahoma",Font.BOLD,14));
+
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				lbFicUsu.setForeground(Color.ORANGE);
+				lbFicUsu.setFont(new Font("Tahoma",Font.PLAIN,14));
+			}
+		});
+		
+		JLabel lbResumenVentas = new JLabel("Resumen de ventas");
+		lbResumenVentas.setForeground(new Color(233, 196, 106));
+		lbResumenVentas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbResumenVentas.setBorder(new EmptyBorder(5, 0, 5, 0));
+		panel_opciones.add(lbResumenVentas);
+		lbResumenVentas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ResumenVentasView miRS = new ResumenVentasView(miuser);
+				miRS.getFrame().setAlwaysOnTop(true);
+				miRS.getFrame().setVisible(true);
+				frame.dispose();
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				lbResumenVentas.setForeground(Color.RED);
+				lbResumenVentas.setFont(new Font("Tahoma",Font.BOLD,14));
+
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				lbResumenVentas.setForeground(Color.ORANGE);
+				lbResumenVentas.setFont(new Font("Tahoma",Font.PLAIN,14));
+			}
+		});
+		
+		
+		JLB_ver_ventas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLB_ver_ventas.setForeground(Color.decode("#E9C46A"));
+		panel_opciones.add(JLB_ver_ventas);
+		
+		JLabel LBVentas = new JLabel("Ficha Ventas");
+		LBVentas.setForeground(new Color(233, 196, 106));
+		LBVentas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		LBVentas.setBorder(BorderFactory.createEmptyBorder(5,0,5,0));
+		panel_opciones.add(LBVentas);
+		LBVentas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FichaVentasView miFV = new FichaVentasView (miuser,0);
+				miFV.getFrame().setAlwaysOnTop(true);
+				miFV.getFrame().setVisible(true);
+				frame.dispose();
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				LBVentas.setForeground(Color.RED);
+				LBVentas.setFont(new Font("Tahoma",Font.BOLD,14));
+
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				LBVentas.setForeground(Color.ORANGE);
+				LBVentas.setFont(new Font("Tahoma",Font.PLAIN,14));
+			}
+		});
 		
 		JLabel JLB_buscar_cli = new JLabel("Buscar Clientes");
+		JLB_buscar_cli.setBorder(BorderFactory.createEmptyBorder(5,0,5,0));
+		JLB_buscar_cli.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLB_buscar_cli.setForeground(Color.decode("#E9C46A"));
+		panel_opciones.add(JLB_buscar_cli);
 		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -140,17 +254,22 @@ public class ResumenVentasView extends JFrame{
 			@Override
 			public void mouseEntered (MouseEvent e) {
 				JLB_buscar_cli.setForeground(Color.RED);
+				JLB_buscar_cli.setFont(new Font("Tahoma",Font.BOLD,14));
+
 			}
 			@Override
 			public void mouseExited (MouseEvent e) {
 				JLB_buscar_cli.setForeground(Color.ORANGE);
+				JLB_buscar_cli.setFont(new Font("Tahoma",Font.PLAIN,14));
 			}
 		});
-		JLB_buscar_cli.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		JLB_buscar_cli.setForeground(Color.decode("#E9C46A"));
-		panel_izquierdo.add(JLB_buscar_cli);
+
 		
 		JLabel JLB_ficha_cliente = new JLabel("Ficha Cliente");
+		JLB_ficha_cliente.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLB_ficha_cliente.setForeground(Color.decode("#E9C46A"));
+		JLB_ficha_cliente.setBorder(BorderFactory.createEmptyBorder(5,0,5,0));
+		panel_opciones.add(JLB_ficha_cliente);
 		JLB_ficha_cliente.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -162,21 +281,25 @@ public class ResumenVentasView extends JFrame{
 			@Override
 			public void mouseEntered (MouseEvent e) {
 				JLB_ficha_cliente.setForeground(Color.RED);
+				JLB_ficha_cliente.setFont(new Font("Tahoma",Font.BOLD,14));
 			}
 			@Override
 			public void mouseExited (MouseEvent e) {
 				JLB_ficha_cliente.setForeground(Color.ORANGE);
+				JLB_ficha_cliente.setFont(new Font("Tahoma",Font.PLAIN,14));
 			}
 		});
-		JLB_ficha_cliente.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		JLB_ficha_cliente.setForeground(Color.decode("#E9C46A"));
-		panel_izquierdo.add(JLB_ficha_cliente);
+
 		
 		JLabel Busca_vehiculos = new JLabel("Busca Vehiculos");
+		Busca_vehiculos.setBorder(BorderFactory.createEmptyBorder(5,0,5,0));
+		Busca_vehiculos.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		Busca_vehiculos.setForeground(Color.decode("#E9C46A"));
+		panel_opciones.add(Busca_vehiculos);
 		Busca_vehiculos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ConsVeh busqueda= new ConsVeh(frame, miuser,0);
+				ConsVeh busqueda= new ConsVeh(frame, miuser,1);
 				busqueda.getFrame().setAlwaysOnTop(true);
 				busqueda.getFrame().setVisible(true);
 				frame.dispose();
@@ -184,17 +307,22 @@ public class ResumenVentasView extends JFrame{
 			@Override
 			public void mouseEntered (MouseEvent e) {
 				Busca_vehiculos.setForeground(Color.RED);
+				Busca_vehiculos.setFont(new Font("Tahoma",Font.BOLD,14));
 			}
 			@Override
 			public void mouseExited (MouseEvent e) {
 				Busca_vehiculos.setForeground(Color.ORANGE);
+				Busca_vehiculos.setFont(new Font("Tahoma",Font.PLAIN,14));
 			}
 		});
-		Busca_vehiculos.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		Busca_vehiculos.setForeground(Color.decode("#E9C46A"));
-		panel_izquierdo.add(Busca_vehiculos);
+
 		
 		JLabel JLB_ficha_vehiculo = new JLabel("Ficha Vehiculo");
+		JLB_ficha_vehiculo.setBorder(BorderFactory.createEmptyBorder(5,0,5,0));
+		JLB_ficha_vehiculo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLB_ficha_vehiculo.setForeground(Color.decode("#E9C46A"));
+		panel_opciones.add(JLB_ficha_vehiculo);
+		
 		JLB_ficha_vehiculo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -206,37 +334,58 @@ public class ResumenVentasView extends JFrame{
 			@Override
 			public void mouseEntered (MouseEvent e) {
 				JLB_ficha_vehiculo.setForeground(Color.RED);
+				JLB_ficha_vehiculo.setFont(new Font("Tahoma",Font.BOLD,14));
 			}
 			@Override
 			public void mouseExited (MouseEvent e) {
 				JLB_ficha_vehiculo.setForeground(Color.ORANGE);
+				JLB_ficha_vehiculo.setFont(new Font("Tahoma",Font.PLAIN,14));
 			}
 		});
-		JLB_ficha_vehiculo.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		JLB_ficha_vehiculo.setForeground(Color.decode("#E9C46A"));
-		panel_izquierdo.add(JLB_ficha_vehiculo);
-		
-		JLabel JLB_cerrar_sesion = new JLabel("Cerrar sesi\u00F3n");
-		JLB_cerrar_sesion.addMouseListener(new MouseAdapter() {
+		JLabel JLB_buc_conce = new JLabel("Buscar Concesionarios");
+		JLB_buc_conce.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				BuscarConcesionariosView miconceview = new BuscarConcesionariosView(miuser);
+				miconceview.getFrame().setVisible(true);
+				miconceview.getFrame().setAlwaysOnTop(true);
 				frame.dispose();
-				LoginView miLogin = new LoginView();
-				miLogin.getFrame().setAlwaysOnTop(true);
-				miLogin.getFrame().setVisible(true);
 			}
 			@Override
 			public void mouseEntered (MouseEvent e) {
-				JLB_cerrar_sesion.setForeground(Color.RED);
+				JLB_buc_conce.setForeground(Color.RED);
+				JLB_buc_conce.setFont(new Font("Tahoma",Font.BOLD,14));
 			}
 			@Override
 			public void mouseExited (MouseEvent e) {
-				JLB_cerrar_sesion.setForeground(Color.ORANGE);
+				JLB_buc_conce.setForeground(Color.ORANGE);
+				JLB_buc_conce.setFont(new Font("Tahoma",Font.BOLD,14));
 			}
 		});
-		JLB_cerrar_sesion.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		JLB_cerrar_sesion.setForeground(Color.decode("#E76F51"));
-		panel_izquierdo.add(JLB_cerrar_sesion);
+		JLB_buc_conce.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLB_buc_conce.setForeground(Color.decode("#E9C46A"));
+		panel_opciones.add(JLB_buc_conce);
+		
+		JLabel JLB_buc_ppto = new JLabel("Buscar Presupuestos");
+		JLB_buc_ppto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				BuscarPresupuestosView miconceview = new BuscarPresupuestosView(miuser);
+				miconceview.getFrame().setVisible(true);
+				miconceview.getFrame().setAlwaysOnTop(true);
+				frame.dispose();
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				JLB_buc_ppto.setForeground(Color.RED);
+				JLB_buc_ppto.setFont(new Font("Tahoma",Font.BOLD,14));
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				JLB_buc_ppto.setForeground(Color.ORANGE);
+				JLB_buc_ppto.setFont(new Font("Tahoma",Font.BOLD,14));
+			}
+		});
 		
 		
 		JPanel panel_derecho = new JPanel();

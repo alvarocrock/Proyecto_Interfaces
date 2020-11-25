@@ -471,7 +471,11 @@ public class VentasDAO extends AbstractDAO{
 		return miArray;		
 		
 	}
-//********************** fin
+
+	/**
+	 * retorna un array con los id de usuarios que han vendido algo
+	 * @return
+	 */
 
 	public ArrayList<Integer> getUsuVentas() {
 		String 	strSql="select distinct id_emple from ventas order by id_emple";

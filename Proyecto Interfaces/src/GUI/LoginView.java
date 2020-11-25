@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 
 import com.sun.org.apache.xml.internal.security.algorithms.MessageDigestAlgorithm;
 
+import Common.Constantes;
 import DAO.UsuarioDAO;
 import GUI.FichaClienteView.MyKeyListener;
 
@@ -235,7 +236,7 @@ public class LoginView extends JFrame{
 	public void login() {
 		// encriptar contraseña
 		String cadena="";
-		cadena = encriptar(Jpass.getPassword());
+		cadena = Constantes.encriptar(Jpass.getPassword());
 		
 		// comprobar login
 		if (miuserdao.compobarlogin(JTF_usuario.getText(),cadena)==true) {
@@ -246,31 +247,7 @@ public class LoginView extends JFrame{
 		}
 	}
 	
-	/**
-	 * Encripta una cadena de char en SHA256
-	 * @param texto cadena de char a encriptar
-	 * @return String de 64 caracteres encriptados
-	 */
-	private String encriptar(char[] texto) {
-		// convierte la cadena de char en String
-		String cifrarTexto=String.valueOf(texto[0]);
-		for (int i=1;i<texto.length;i++){
-			cifrarTexto= String.valueOf(texto[i]);
-		}
-		try {
-            java.security.MessageDigest md = java.security.MessageDigest.getInstance("SHA-256");
-            byte[] array = md.digest(cifrarTexto.getBytes());
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < array.length; ++i) {
-                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
-            }
-            //System.out.println(sb.toString());
-            return sb.toString();
-        } catch (java.security.NoSuchAlgorithmException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
-	}
+
 
 	/**
 	 * navegación al menú inicial

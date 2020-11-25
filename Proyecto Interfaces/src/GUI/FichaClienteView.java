@@ -179,6 +179,7 @@ public class FichaClienteView extends JFrame{
 		    		PNUsuario.add(PNMenu);
 		    		PNMenu.setLayout(new BoxLayout(PNMenu, BoxLayout.Y_AXIS));
 		    		
+		    		
 		            JLabel JLB_buc_ventas = new JLabel("Buscar ventas");
 		    		JLB_buc_ventas.addMouseListener(new MouseAdapter() {
 		    			@Override
@@ -557,7 +558,7 @@ public class FichaClienteView extends JFrame{
 	// comprueba que los datos son correctos 
 	protected boolean comprobarDatos() {
 
-		if (!comprobarDNI() || (TFDni.getText().length()==0) || (TFApellidos.getText().length()==0)  || (TFDir.getText().length()==0) 
+		if (!Constantes.comprobarDNI(TFDni.getText()) || (TFDni.getText().length()==0) || (TFApellidos.getText().length()==0)  || (TFDir.getText().length()==0) 
 				||  (TFNombre.getText().length()==0)  || (TFPob.getText().length()==0)  || (TFProv.getText().length()==0)) {
 			return false;
 		} else {
@@ -566,82 +567,7 @@ public class FichaClienteView extends JFrame{
 
 	}
 
-	private boolean comprobarDNI() {
-		boolean resultado = true;
-		String dni = TFDni.getText();
-
-		
-		// el dni tiene que tener 9 dígitos
-		if ((dni.length()>9) || (dni.length()<9)) {
-			resultado= false;
-			System.out.println("El NIF/NIE debe tener 9 dígitos");
-		} else {
-		// comprueba que los formatos DNI/NIE sean correctos
-			if (
-					(dni.substring(8, 9).matches("[a-zA-Z]")
-					&& dni.substring(0, 8).matches("[0-9]{8}")) 
-					|| (dni.substring(0, 1).matches("[x-zX-Z]") 
-					&& dni.substring(8, 9).matches("[a-zA-Z]") 
-					&& dni.substring(1, 8).matches("[0-9]{7}")))  {
-		// Es un NIE
-				if (dni.substring(0, 1).matches("[x-zX-Z]")) {
-		// cambiamos el primer dígito por el número correspondiente de un NIE
-					switch (dni.substring(0, 1).toUpperCase()) {
-						case "X":
-							dni = "0" + dni.substring(1, 9);
-							break;
-						case "Y":
-							dni = "1" + dni.substring(1, 9);
-							break;
-						case "Z":
-							dni = "2" + dni.substring(1, 9);
-							break;
-						default:
-							System.out.println("algo ha ido fatal");
-							resultado=false;
-					}
-		// calculamos la letra del NIE
-					resultado=comprueba(dni);
-		// Es un DNI
-				} else {
-		// calculamos la letra del DNI
-					resultado=comprueba(dni);
-				}
-			} else {
-				System.out.println("El DNI debe tener 8 números y una letra./n"
-						+ " el NIE debe tener una letra (X, Y o Z), 7 números y una letra final."
-						+ "O no ha introducido todos los datos requeridos.");
-				resultado = false;
-			}
-		}
-		
-		return resultado;
-	}
-
-	/**
-	 * Comprueba que la letra del DNI/NIE sea correcta
-	 * @param dni
-	 * @return
-	 */
-	private boolean comprueba(String dni) {
-		boolean resultado=true;
-		// divide entre 23 y extrae el resto
-		int resto = (Integer.parseInt(dni.substring(1,8))%23)+1;
-		// carga la lista de letras del dni
-		ArrayList<String> miArray = new ArrayList<String>();
-		// guarda el enum en un array
-		for (DigitoDni d: DigitoDni.values()) {
-			miArray.add(d.toString());
-		};
-		// comprueba la letra 
-		if (!miArray.get(resto).equals(dni.substring(8,9))) {
-			System.out.println("Letra errónea. " + miArray.get(resto));
-			resultado=false;
-		}	
-		return resultado;
-	}
-
-	/**
+		/**
 	 * Activa/desactiva botones
 	 * @param estado
 	 */

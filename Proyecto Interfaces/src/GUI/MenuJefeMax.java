@@ -145,6 +145,32 @@ public class MenuJefeMax extends JFrame {
 			}
 		});
 		
+		JLabel lbFicUsu = new JLabel("Ficha Usuarios");
+		lbFicUsu.setForeground(new Color(233, 196, 106));
+		lbFicUsu.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbFicUsu.setBorder(new EmptyBorder(5, 0, 5, 0));
+		panel_opciones.add(lbFicUsu);
+		lbFicUsu.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FichaUsuarioView miFU = new FichaUsuarioView(usuario,0);
+				miFU.getFrame().setAlwaysOnTop(true);
+				miFU.getFrame().setVisible(true);
+				frame.dispose();
+			}
+			@Override
+			public void mouseEntered (MouseEvent e) {
+				lbFicUsu.setForeground(Color.RED);
+				lbFicUsu.setFont(new Font("Tahoma",Font.BOLD,14));
+
+			}
+			@Override
+			public void mouseExited (MouseEvent e) {
+				lbFicUsu.setForeground(Color.ORANGE);
+				lbFicUsu.setFont(new Font("Tahoma",Font.PLAIN,14));
+			}
+		});
+		
 		JLabel lbResumenVentas = new JLabel("Resumen de ventas");
 		lbResumenVentas.setForeground(new Color(233, 196, 106));
 		lbResumenVentas.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -306,7 +332,7 @@ public class MenuJefeMax extends JFrame {
 				JLB_ficha_vehiculo.setFont(new Font("Tahoma",Font.PLAIN,14));
 			}
 		});
-		JLabel JLB_buc_conce = new JLabel("Buscar conce");
+		JLabel JLB_buc_conce = new JLabel("Buscar Concesionarios");
 		JLB_buc_conce.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -350,6 +376,7 @@ public class MenuJefeMax extends JFrame {
 				JLB_buc_ppto.setFont(new Font("Tahoma",Font.BOLD,14));
 			}
 		});
+		
 		JLB_buc_ppto.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		JLB_buc_ppto.setForeground(Color.decode("#E9C46A"));
 		panel_opciones.add(JLB_buc_ppto);

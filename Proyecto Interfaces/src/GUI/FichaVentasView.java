@@ -854,7 +854,6 @@ public class FichaVentasView extends JFrame {
 											Integer.parseInt(TFIdVehiculo.getText()), 
 											Float.parseFloat(LBPrecio.getText())
 											);
-											
 				cargaVenta(miVenta);	
 				}
 			// comprueba si la consulta ha cambiado el id vehículos global
@@ -867,7 +866,6 @@ public class FichaVentasView extends JFrame {
 											Constantes.idVehGlobal, 
 											Float.parseFloat(LBPrecio.getText())
 											);
-											
 				cargaVenta(miVenta);	
 				}
 		}
