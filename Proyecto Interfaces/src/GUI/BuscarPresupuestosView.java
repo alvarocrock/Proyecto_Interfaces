@@ -58,6 +58,7 @@ public class BuscarPresupuestosView {
 	private JLabel LBRegistros;
 	private JTextField JTF_id;
 	private JComboBox <String> Mi_combo;
+	private JTextField JTF_estado;
 	
 	public BuscarPresupuestosView(Usuarios user) {
 		contro=new PresupuestoDAO();
@@ -85,7 +86,7 @@ public class BuscarPresupuestosView {
 		panel_titulo.setBackground(Color.decode("#264653"));
 		panel.add(panel_titulo);
 		
-		JLabel JLB_titulo = new JLabel("Consulta de ventas");
+		JLabel JLB_titulo = new JLabel("Consulta de presupuestos");
 		JLB_titulo.setForeground(Color.ORANGE);
 		JLB_titulo.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panel_titulo.add(JLB_titulo);
@@ -419,6 +420,26 @@ public class BuscarPresupuestosView {
 		Mi_combo.addItem(">");
 		panel_lin_2.add(Mi_combo);
 		
+		JLabel lblNewLabel_1 = new JLabel("Estado");
+		panel_lin_2.add(lblNewLabel_1);
+		
+		JTF_estado = new JTextField();
+		JTF_estado.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(java.awt.event.KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(java.awt.event.KeyEvent arg0) {
+				addFiltros(arg0);
+			}
+			@Override
+			public void keyTyped(java.awt.event.KeyEvent arg0) {
+				
+			}
+		});
+		panel_lin_2.add(JTF_estado);
+		JTF_estado.setColumns(10);
+		
 		//panel de tabla
 		JPanel panel_tabla = new JPanel();
 		panel_cont_p_d.add(panel_tabla);
@@ -466,6 +487,7 @@ public class BuscarPresupuestosView {
 		modeloTBCli.addColumn("Fecha limite");
 		modeloTBCli.addColumn("Matricula");
 		modeloTBCli.addColumn("precio");
+		modeloTBCli.addColumn("estado");
 		//añade el modelo a la tabla
 		TBCli.setModel(modeloTBCli);
 					
@@ -584,7 +606,7 @@ public class BuscarPresupuestosView {
 	}
 	
 	public void cargargetpresupuestos(ArrayList<Presupuesto> lista) {
-		Object [] fila = new Object[8];
+		Object [] fila = new Object[9];
 
 		for (int i=0;i<lista.size();i++) {
 			fila[0]=(int) lista.get(i).getId();
@@ -595,6 +617,7 @@ public class BuscarPresupuestosView {
 			fila[5]=lista.get(i).getFecha_validez();
 			fila[6]=contro.getmatricula(lista.get(i).getId_veh());
 			fila[7]=lista.get(i).getPrecio();
+			fila[8]=lista.get(i).getEstado();
 			modeloTBCli.addRow(fila);
 		}
 		
@@ -682,6 +705,11 @@ public class BuscarPresupuestosView {
 			    filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",7));
 		
 			   }
+		if (JTF_estado.getText().length()>0) {
+			filtros.add(RowFilter.regexFilter(JTF_estado.getText(),8));
+		} else {
+			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",8));
+		}
 			
 		
 		RowFilter<TableModel, Integer> filtroAnd = RowFilter.andFilter(filtros);

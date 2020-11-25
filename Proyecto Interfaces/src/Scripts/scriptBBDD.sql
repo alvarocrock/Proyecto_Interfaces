@@ -67,7 +67,8 @@ id_emple int,
 fecha_ppto date,
 fecha_validez date,
 id_vehiculo int,
-precio float
+precio float,
+estado varchar(15)
 );
 
 

@@ -14,6 +14,9 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -29,10 +32,13 @@ import javax.swing.border.TitledBorder;
 
 import DAO.ConcesionarioDAO;
 import DAO.PresupuestoDAO;
+import DAO.VentasDAO;
 import GUI.FichaConce.MyKeyListener;
 import Models.Concesionario;
 import Models.Presupuesto;
 import Models.Usuarios;
+import Models.Ventas;
+
 import javax.swing.SwingConstants;
 
 public class FichaPPTO extends JFrame {
@@ -62,6 +68,8 @@ public class FichaPPTO extends JFrame {
 	private JTextField JTF_fecha_validez;
 	private JTextField JTF_matricula;
 	private JTextField JTF_precio_ppto;
+	private JTextField JTF_estado;
+	private JButton BTN_vender;
 	
 	/**
 	 * Create the application.
@@ -336,185 +344,6 @@ public class FichaPPTO extends JFrame {
 				PNLinea1.add(JTF_id_presu);
 				JTF_id_presu.setColumns(10);
 			
-			// Panel para los botones del control de registros
-			JPanel panelBotoneras = new JPanel();
-			panelBotoneras.setMaximumSize(new Dimension(1000, 60));
-			panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
-			
-			
-			JPanel panelBotonera = new JPanel();
-			panelBotonera.setBackground(new Color(42, 157, 143));
-			panelBotoneras.add(panelBotonera);
-			
-			BTBuscar = new JButton("Buscar");
-			panelBotonera.add(BTBuscar);
-			BTBuscar.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// llamada a buscar cliente
-					frame.dispose();
-					BuscarPresupuestosView miBusqueda = new BuscarPresupuestosView(usuario);
-					miBusqueda.getFrame().setAlwaysOnTop(true);
-					miBusqueda.getFrame().setVisible(true);
-
-				}
-			});
-			
-			BTBorra = new JButton("Borrar");
-			panelBotonera.add(BTBorra);
-			BTBorra.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (JOptionPane.showConfirmDialog(
-							frame, 
-							"¿Seguro que quiere borrar el registro?", 
-							"Borrar registro", 
-							JOptionPane.YES_NO_OPTION,
-							JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_NO_OPTION) {
-						contro.borrappto(Integer.parseInt(JTF_id_presu.getText()));	
-						Presupuesto presu = contro.primero();
-						// cargar cliente en form
-						cargaPPTO(presu);
-						refrescaReg();
-					}
-
-				}
-			});
-			
-			BTGuardar = new JButton("Guardar");
-			panelBotonera.add(BTGuardar);
-			BTGuardar.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (comprobardatos()) {
-						// crea el nuevo concesionario
-						int id=Integer.parseInt(JTF_id_presu.getText());
-						int id_cli= contro.getidclibydni(JTF_DNI_cli.getText());
-						int id_emple=contro.getidemplebynick(JTF_empleado.getText());
-						int id_veh=contro.getidvehbymat(JTF_matricula.getText());
-						Presupuesto mipresu=new Presupuesto(id,id_cli,id_emple,JTF_fechappto.getText(),JTF_fecha_validez.getText(),id_veh,Float.parseFloat(JTF_precio_ppto.getText()));
-								
-						// comprobar si ya existe el registro
-						if (contro.comprobarppto(Integer.parseInt(JTF_id_presu.getText()))) {
-							// guardar el registro
-							contro.updateppto(mipresu);	
-						} else {
-							// insertar el registro
-							contro.addpresu(mipresu);
-						}
-						daBotones(true);
-						refrescaReg();
-					} 
-				}
-
-			});
-			
-			BTNuevo = new JButton("Nuevo");
-			panelBotonera.add(BTNuevo);
-			BTNuevo.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					JTF_nombre_cli.setText("");
-					JTF_DNI_cli.setText("");
-					JTF_empleado.setText(usuario.getNick());
-					JTF_fecha_validez.setText("");
-					JTF_fechappto.setText("");
-					JTF_matricula.setText("");
-					JTF_id_presu.setText( String.valueOf(contro.ultimo().getId()+1));
-					JTF_precio_ppto.setText("");
-					JTF_nombre_cli.requestFocus();
-					daBotones(false);
-				}
-			});
-			
-			BTSalir = new JButton("Salir");
-			panelBotonera.add(BTSalir);
-			BTSalir.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					salir();
-				}
-			});
-			
-			JPanel panelRegistros = new JPanel();
-			panelBotoneras.add(panelRegistros);
-			panelRegistros.setBackground(new Color(42, 157, 143));
-			panelRegistros.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
-			
-			BTPrimero = new JButton("<<");
-			BTPrimero.setToolTipText("Primer registro.");
-			BTPrimero.setForeground(Color.RED);
-			BTPrimero.setFont(new Font("Tahoma", Font.BOLD, 8));
-			panelRegistros.add(BTPrimero);
-			BTPrimero.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					Presupuesto miconce = contro.primero();
-					// cargar vehiculo en form
-					cargaPPTO(miconce);
-					refrescaReg();
-				}
-			});
-			
-			BTAnterior = new JButton("<");
-			BTAnterior.setToolTipText("Registro anterior.");
-			BTAnterior.setForeground(Color.RED);
-			BTAnterior.setFont(new Font("Tahoma", Font.BOLD, 8));
-			panelRegistros.add(BTAnterior);
-			BTAnterior.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					Presupuesto miconce = contro.anterior(JTF_id_presu.getText());
-					if (miconce!=null) {
-						cargaPPTO(miconce);
-						refrescaReg();
-					}
-				}
-			});
-			
-			LBRegistros = new JLabel(" No se han encontrado registros.");
-			LBRegistros.setBorder(new LineBorder(Color.BLUE, 1, true));
-			LBRegistros.setBackground(Color.WHITE);
-			panelRegistros.add(LBRegistros);
-			
-			BTSiguiente = new JButton(">");
-			BTSiguiente.setToolTipText("Registro siguiente.");
-			BTSiguiente.setForeground(Color.RED);
-			BTSiguiente.setFont(new Font("Tahoma", Font.BOLD, 8));
-			panelRegistros.add(BTSiguiente);
-			BTSiguiente.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					Presupuesto miConce = contro.siguiente(JTF_id_presu.getText());
-					// cargar cliente en form
-					if (miConce!=null) {
-						cargaPPTO(miConce);
-						refrescaReg();
-					}
-				}
-			});
-			
-			BTultimo = new JButton(">>");
-			BTultimo.setToolTipText("Último registro.");
-			BTultimo.setForeground(Color.RED);
-			BTultimo.setFont(new Font("Tahoma", Font.BOLD, 8));
-			panelRegistros.add(BTultimo);
-			
-			JPanel PNLinea3 = new JPanel();
-			PNCentral.add(PNLinea3);
-			PNLinea3.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-			PNLinea3.setBackground(new Color(42, 157, 143));
-			
-			JLabel JLB_DNI_cli = new JLabel("DNI Cliente");
-			PNLinea3.add(JLB_DNI_cli);
-			
-			JTF_DNI_cli = new JTextField();
-			PNLinea3.add(JTF_DNI_cli);
-			JTF_DNI_cli.setColumns(15);
-			
-				JTF_nombre_cli = new JLabel();
-				PNLinea3.add(JTF_nombre_cli);
-			
 			
 			JPanel PNLinea4 = new JPanel();
 			PNLinea4.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -577,9 +406,232 @@ public class FichaPPTO extends JFrame {
 			PNLinea8.add(JTF_precio_ppto);
 			JTF_precio_ppto.setColumns(10);
 			
+			JPanel PNLinea9 = new JPanel();
+			PNLinea9.setBackground(new Color(42, 157, 143));
+			PNCentral.add(PNLinea9);
+			PNLinea9.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 			
-			//a�adimos al final al panel dentra la botonera
+			JLabel lblNewLabel = new JLabel("Estado");
+			PNLinea9.add(lblNewLabel);
+			
+			JTF_estado = new JTextField();
+			PNLinea9.add(JTF_estado);
+			JTF_estado.setColumns(10);
+			
+			
+			
+			// Panel para los botones del control de registros
+			
+		JPanel panelBotoneras = new JPanel();
+		panelBotoneras.setMaximumSize(new Dimension(1000, 60));
+		panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
+		
+		
+		JPanel panelBotonera = new JPanel();
+		panelBotonera.setBackground(new Color(42, 157, 143));
+		panelBotoneras.add(panelBotonera);
+		
+		BTBuscar = new JButton("Buscar");
+		panelBotonera.add(BTBuscar);
+		BTBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// llamada a buscar cliente
+				frame.dispose();
+				BuscarPresupuestosView miBusqueda = new BuscarPresupuestosView(usuario);
+				miBusqueda.getFrame().setAlwaysOnTop(true);
+				miBusqueda.getFrame().setVisible(true);
+
+			}
+		});
+		
+		BTBorra = new JButton("Borrar");
+		panelBotonera.add(BTBorra);
+		BTBorra.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(
+						frame, 
+						"¿Seguro que quiere borrar el registro?", 
+						"Borrar registro", 
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_NO_OPTION) {
+					contro.borrappto(Integer.parseInt(JTF_id_presu.getText()));	
+					Presupuesto presu = contro.primero();
+					// cargar cliente en form
+					cargaPPTO(presu);
+					refrescaReg();
+				}
+
+			}
+		});
+		
+		BTGuardar = new JButton("Guardar");
+		panelBotonera.add(BTGuardar);
+		BTGuardar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (comprobardatos()) {
+					// crea el nuevo concesionario
+					int id=Integer.parseInt(JTF_id_presu.getText());
+					int id_cli= contro.getidclibydni(JTF_DNI_cli.getText());
+					int id_emple=contro.getidemplebynick(JTF_empleado.getText());
+					int id_veh=contro.getidvehbymat(JTF_matricula.getText());
+					String estado=contro.goToPPTO(Integer.parseInt(JTF_id_presu.getText())).getEstado();
+					Presupuesto mipresu=new Presupuesto(id,id_cli,id_emple,JTF_fechappto.getText(),JTF_fecha_validez.getText(),id_veh,Float.parseFloat(JTF_precio_ppto.getText()),estado);
+							
+					// comprobar si ya existe el registro
+					if (contro.comprobarppto(Integer.parseInt(JTF_id_presu.getText()))) {
+						// guardar el registro
+						contro.updateppto(mipresu);	
+					} else {
+						// insertar el registro
+						contro.addpresu(mipresu);
+					}
+					daBotones(true);
+					refrescaReg();
+				} 
+			}
+
+		});
+		
+		BTNuevo = new JButton("Nuevo");
+		panelBotonera.add(BTNuevo);
+		BTNuevo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JTF_nombre_cli.setText("");
+				JTF_DNI_cli.setText("");
+				JTF_empleado.setText(usuario.getNick());
+				JTF_fecha_validez.setText("");
+				JTF_fechappto.setText("");
+				JTF_matricula.setText("");
+				JTF_id_presu.setText( String.valueOf(contro.ultimo().getId()+1));
+				JTF_precio_ppto.setText("");
+				JTF_nombre_cli.requestFocus();
+				JTF_estado.setText("");
+				daBotones(false);
+			}
+		});
+		
+		BTSalir = new JButton("Salir");
+		panelBotonera.add(BTSalir);
+		
+		BTN_vender = new JButton("Vender");
+		BTN_vender.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentasDAO ventas=new VentasDAO();
+				Presupuesto presu= contro.goToPPTO(Integer.parseInt(JTF_id_presu.getText()));
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				java.sql.Date fn=null;
+				java.sql.Date ppto=null;
+		        try {
+					Date parsed1 = sdf.parse(presu.getFecha_validez());
+					Date parsed = sdf.parse(presu.getFecha_ppto());
+					fn = new java.sql.Date(parsed.getDate());
+					ppto = new java.sql.Date(parsed.getDate());
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		        
+				Ventas miventa= new Ventas(1,presu.getId_cli(),presu.getId_emple(),ppto,fn,presu.getId_veh(),presu.getPrecio());
+				ventas.addVenta(miventa);
+				contro.actualizarvendido(Integer.parseInt(JTF_id_presu.getText()));
+				cargaPPTO(contro.goToPPTO(Integer.parseInt(JTF_id_presu.getText())));
+			}
+		});
+		panelBotonera.add(BTN_vender);
+		BTSalir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				salir();
+			}
+		});
+		
+		JPanel panelRegistros = new JPanel();
+		panelBotoneras.add(panelRegistros);
+		panelRegistros.setBackground(new Color(42, 157, 143));
+		panelRegistros.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
+		
+		BTPrimero = new JButton("<<");
+		BTPrimero.setToolTipText("Primer registro.");
+		BTPrimero.setForeground(Color.RED);
+		BTPrimero.setFont(new Font("Tahoma", Font.BOLD, 8));
+		panelRegistros.add(BTPrimero);
+		BTPrimero.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Presupuesto miconce = contro.primero();
+				// cargar vehiculo en form
+				cargaPPTO(miconce);
+				refrescaReg();
+			}
+		});
+		
+		BTAnterior = new JButton("<");
+		BTAnterior.setToolTipText("Registro anterior.");
+		BTAnterior.setForeground(Color.RED);
+		BTAnterior.setFont(new Font("Tahoma", Font.BOLD, 8));
+		panelRegistros.add(BTAnterior);
+		BTAnterior.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Presupuesto miconce = contro.anterior(JTF_id_presu.getText());
+				if (miconce!=null) {
+					cargaPPTO(miconce);
+					refrescaReg();
+				}
+			}
+		});
+		
+		LBRegistros = new JLabel(" No se han encontrado registros.");
+		LBRegistros.setBorder(new LineBorder(Color.BLUE, 1, true));
+		LBRegistros.setBackground(Color.WHITE);
+		panelRegistros.add(LBRegistros);
+		
+		BTSiguiente = new JButton(">");
+		BTSiguiente.setToolTipText("Registro siguiente.");
+		BTSiguiente.setForeground(Color.RED);
+		BTSiguiente.setFont(new Font("Tahoma", Font.BOLD, 8));
+		panelRegistros.add(BTSiguiente);
+		BTSiguiente.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Presupuesto miConce = contro.siguiente(JTF_id_presu.getText());
+				// cargar cliente en form
+				if (miConce!=null) {
+					cargaPPTO(miConce);
+					refrescaReg();
+				}
+			}
+		});
+		
+		BTultimo = new JButton(">>");
+		BTultimo.setToolTipText("Último registro.");
+		BTultimo.setForeground(Color.RED);
+		BTultimo.setFont(new Font("Tahoma", Font.BOLD, 8));
+		panelRegistros.add(BTultimo);
+		
+		JPanel PNLinea3 = new JPanel();
+		PNCentral.add(PNLinea3);
+		PNLinea3.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		PNLinea3.setBackground(new Color(42, 157, 143));
+		
+		JLabel JLB_DNI_cli = new JLabel("DNI Cliente");
+		PNLinea3.add(JLB_DNI_cli);
+		
+		JTF_DNI_cli = new JTextField();
+		PNLinea3.add(JTF_DNI_cli);
+		JTF_DNI_cli.setColumns(15);
+		
+			JTF_nombre_cli = new JLabel();
+			PNLinea3.add(JTF_nombre_cli);
+		
+		
 			PNCentral.add(panelBotoneras, "cell 0 4");
+			
 			
 			
 			
@@ -592,6 +644,8 @@ public class FichaPPTO extends JFrame {
 					refrescaReg();
 				}
 			});
+			
+			
 	}
 	
 	/**
@@ -601,7 +655,7 @@ public class FichaPPTO extends JFrame {
 	private boolean comprobardatos() {
 		if (JTF_DNI_cli.getText().length()==0 || JTF_empleado.getText().length()==0
 			|| JTF_fecha_validez.getText().length()==0|| JTF_fechappto.getText().length()==0 ||
-			JTF_matricula.getText().length()==0 || JTF_precio_ppto.getText().length()==0)
+			JTF_matricula.getText().length()==0 || JTF_precio_ppto.getText().length()==0 || JTF_estado.getText().length()==0)
 		{
 			return false;
 		} else {
@@ -631,6 +685,8 @@ public class FichaPPTO extends JFrame {
 		BTSiguiente.setEnabled(estado);
 		BTultimo.setEnabled(estado);
 		BTBuscar.setEnabled(estado);
+		BTN_vender.setEnabled(estado);
+		
 	}
 
 	/**
@@ -647,6 +703,7 @@ public class FichaPPTO extends JFrame {
 		JTF_matricula.setText(contro.getmatricula(mipresu.getId_veh()));
 		JTF_precio_ppto.setText(String.valueOf(mipresu.getPrecio()));
 		JTF_empleado.setText(contro.getnick(mipresu.getId_emple()));
+		JTF_estado.setText(mipresu.getEstado());
 	}
 
 	/*

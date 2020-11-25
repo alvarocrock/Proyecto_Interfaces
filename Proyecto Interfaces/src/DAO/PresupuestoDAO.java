@@ -114,10 +114,41 @@ public class PresupuestoDAO extends AbstractDAO{
 		return vehiculo.getidbymat(mat);
 	}
 	
+	public void actualizarvendido(int id) {
+		String 	strSql="UPDATE `proyecto`.`ppto` SET `estado` = 'pagado' WHERE (`id_presupuesto` = '"+id+"');";
+		Statement stmt = null;
+
+	    try {
+
+	      super.conectar();
+	      stmt = (Statement) cn.createStatement();
+
+	      stmt.executeUpdate(strSql);
+
+	      
+
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    	
+	    } finally {
+	      try {
+	        // Close connection
+	        if (stmt != null) {
+	          stmt.close();
+	        }
+	        if (cn != null) {
+	          cn.close();
+	        }
+	      } catch (Exception e) {
+	        e.printStackTrace();
+	      }
+	    }
+	}
+	
 	
 	public void addpresu(Presupuesto presu) {
-		String 	strSql="INSERT INTO ppto (`id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) "
-				+ "VALUES ('"+presu.getId_cli()+"', '"+presu.getId_emple()+"', '"+presu.getFecha_ppto()+"', '"+presu.getFecha_validez()+"', '"+presu.getId_veh()+"', '"+presu.getPrecio()+"');";
+		String 	strSql="INSERT INTO ppto (`id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`,'estado') "
+				+ "VALUES ('"+presu.getId_cli()+"', '"+presu.getId_emple()+"', '"+presu.getFecha_ppto()+"', '"+presu.getFecha_validez()+"', '"+presu.getId_veh()+"', '"+presu.getPrecio()+"','pendiente');";
 		super.ejecutaSQL(strSql);
 	}
 	
@@ -151,7 +182,7 @@ public class PresupuestoDAO extends AbstractDAO{
             rs = stm.executeQuery("SELECT * FROM ppto;");
             while (rs.next()) {
             	int idveh=rs.getInt(6);
-            	mipresu=new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7));
+            	mipresu=new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7),rs.getString(8));
             	lista.add(mipresu);
             }
             
@@ -211,7 +242,7 @@ public class PresupuestoDAO extends AbstractDAO{
             stm = (Statement) cn.createStatement();
 	        rs = stm.executeQuery("SELECT * FROM ppto where id_presupuesto="+miId+";");
 	         rs.first();
-	         mipresu=new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7));
+	         mipresu=new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7),rs.getString(8));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -241,15 +272,19 @@ public class PresupuestoDAO extends AbstractDAO{
 		int count=0;
 		
 		// ejecuta la consulta
-		ResultSet rst=super.consultaSQL(strSql);
+				ResultSet rs=null;
+				Statement stmt=null;
 			try {
+				super.conectar();
+	            stmt = (Statement) cn.createStatement();
+		        rs = stmt.executeQuery(strSql);
 				// si hay registros
-				if (rst.next()) {
+				if (rs.next()) {
 					// se posiciona en el primer registro
-					rst.first();
+					rs.first();
 					count=1;
 					// mientras haya registros suma 1 al contador
-					while (rst.next()) {
+					while (rs.next()) {
 						count++;
 					}
 				} else count=0;
@@ -271,7 +306,7 @@ public class PresupuestoDAO extends AbstractDAO{
 			// se posiciona en el primer registro
 			rs.first();
 			// crea el concesionario
-			mipresu = new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7));	
+			mipresu = new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7),rs.getString(8));	
 			} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -290,7 +325,7 @@ public class PresupuestoDAO extends AbstractDAO{
 			// se posiciona en el primer registro
 			rs.last();
 			// crea el concesionario
-			mipresu = new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7));	
+			mipresu = new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7),rs.getString(8));	
 			} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -310,7 +345,7 @@ public class PresupuestoDAO extends AbstractDAO{
 			rs.absolute(Integer.parseInt(id));
 			rs.next();
 			// crea el concesionario
-			mipresu = new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7));	
+			mipresu = new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7),rs.getString(8));	
 			} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -329,7 +364,7 @@ public class PresupuestoDAO extends AbstractDAO{
 			rs.absolute(Integer.parseInt(id));
 			rs.previous();
 			// crea el concesionario
-			mipresu = new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7));	
+			mipresu = new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7),rs.getString(8));	
 			} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -348,7 +383,7 @@ public class PresupuestoDAO extends AbstractDAO{
 
 		try {
 			rs.first();
-			mipresu = new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7));	
+			mipresu = new Presupuesto(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getFloat(7),rs.getString(8));	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

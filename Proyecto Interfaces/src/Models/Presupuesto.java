@@ -9,9 +9,20 @@ public class Presupuesto {
 	String fecha_validez;
 	int id_veh;
 	float precio;
+	String estado;
 	
 	
-	public Presupuesto(int id,int id_cliente,int id_empleado,String fecha_inicio,String fecha_lim,int id_vehiculo,float miprecio) {
+	public String getEstado() {
+		return estado;
+	}
+
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+
+	public Presupuesto(int id,int id_cliente,int id_empleado,String fecha_inicio,String fecha_lim,int id_vehiculo,float miprecio,String miestado) {
 		this.id=id;
 		id_cli=id_cliente;
 		id_emple=id_empleado;
@@ -19,6 +30,7 @@ public class Presupuesto {
 		fecha_validez=fecha_lim;
 		id_veh=id_vehiculo;
 		precio=miprecio;
+		estado=miestado;
 	}
 
 
