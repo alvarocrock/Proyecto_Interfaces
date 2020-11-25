@@ -15,7 +15,14 @@ public abstract class Constantes{
 
 	//comportamientos
 	public Constantes() {}
-	
+	/**
+	 * enumerado para los meses
+	 * @author Roque
+	 *
+	 */
+	public enum Meses {
+		enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre
+		}
 	/**
 	 * enumerado para usar en el cálculo de DNI
 	 * @author Roque

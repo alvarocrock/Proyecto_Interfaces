@@ -6,8 +6,12 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.Statement;
 
+import Common.Constantes.DigitoDni;
+import Common.Constantes.Meses;
 import Models.Usuarios;
 import Models.Ventas;
+import Models.vXeData;
+import Models.vXmData;
 
 public class VentasDAO extends AbstractDAO{
 	
@@ -405,7 +409,90 @@ public class VentasDAO extends AbstractDAO{
 		}
 		return venta;
 		}
-	
-	
+
+	/**
+	 * retorna array con los objetos de ventas por meses
+	 * para el dataset del gráfico circular
+	 * @return 
+	 */
+	public ArrayList<vXmData> VentaXMes() {
+		String 	strSql="";
+		vXmData vxm=null;
+		ResultSet rst=null;
+		ArrayList <vXmData> miArray = new ArrayList<vXmData> ();
+		
+		int contador=0;
+		// recorre el enum de meses
+		for (Meses mes: Meses.values()) {
+			contador++;
+			strSql="select sum(precio) from ventas where month(fecha_ppto) = " + contador + ";";
+			// ejecuta la consulta
+			rst=super.consultaSQL(strSql);
+			// crea el dataset
+			try {
+				rst.first();
+				vxm = new vXmData(mes.toString(),rst.getInt(1));
+				miArray.add(vxm);
+				rst.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return miArray;		
+		
+	}
+
+	/**
+	 * retorna array con los datos de ventas por empleado
+	 * para el dataset del gráfico
+	 * @return
+	 */
+	public ArrayList<vXeData> VentaXEmp(ArrayList<Usuarios> ArrayEmp) {
+		String 	strSql="";
+		vXeData vxe=null;
+		ResultSet rst=null;
+		ArrayList <vXeData> miArray = new ArrayList<vXeData> ();
+
+		// recorre el el array de empleados
+		for (int i=0;i<ArrayEmp.size();i++) {
+			strSql="select sum(precio) from ventas where id_emple = " + ArrayEmp.get(i).getId() + ";";
+			// ejecuta la consulta
+			rst=super.consultaSQL(strSql);
+			// crea el dataset
+			try {
+				rst.first();
+				vxe = new vXeData(rst.getFloat(1),"Ventas",ArrayEmp.get(i).getNick());
+				miArray.add(vxe);
+				rst.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return miArray;		
+		
+	}
 //********************** fin
+
+	public ArrayList<Integer> getUsuVentas() {
+		String 	strSql="select distinct id_emple from ventas order by id_emple";
+		ResultSet rst=null;
+		ArrayList <Integer> miArray=new ArrayList<Integer>();
+		// ejecuta la consulta
+		rst=super.consultaSQL(strSql);
+		try {
+			while (rst.next()) {
+				miArray.add(rst.getInt(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rst!=null)
+				try {
+					rst.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		return miArray;	
+	}
 }

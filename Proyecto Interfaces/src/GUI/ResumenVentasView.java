@@ -8,6 +8,8 @@ import javax.swing.JTable;
 
 import Models.Usuarios;
 import Models.Ventas;
+import Models.vXeData;
+import Models.vXmData;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -28,6 +30,9 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 import DAO.ClientesDAO;
@@ -60,16 +65,7 @@ public class ResumenVentasView extends JFrame{
 	private DefaultTableModel modeloTBCli;
 	private TableRowSorter<TableModel> modeloOrdenado;
 	private JTextField textField_1;
-	private JTextField JTF_empleado;
-	private JTextField JTF_nom_cli;
-	private JTextField JTF_ape_cli;
-	private JTextField JTF_fecha_registro;
-	private JTextField JTF_Fecha_lim;
-	private JTextField JTF_matricula;
-	private JTextField JTF_precio;
 	private JLabel LBRegistros;
-	private JTextField JTF_id;
-	private JComboBox <String> Mi_combo;
 	/**
 	 * Create the application.
 	 */
@@ -260,205 +256,39 @@ public class ResumenVentasView extends JFrame{
 		panel_busqueda.setBackground(Color.decode("#2A9D8F"));
 		panel_busqueda.setLayout(new BoxLayout(panel_busqueda, BoxLayout.Y_AXIS));
 		
-		JPanel panel_lin_1 = new JPanel();
-		panel_lin_1.setBackground(Color.decode("#2A9D8F"));
-		panel_busqueda.add(panel_lin_1);
-		
-		JLabel ID_Venta = new JLabel("ID Ventas");
-		panel_lin_1.add(ID_Venta);
-		
-		JTF_id = new JTextField();
-		JTF_id.setText("");
-		panel_lin_1.add(JTF_id);
-		JTF_id.setColumns(10);
-		JTF_id.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(java.awt.event.KeyEvent arg0) {
-			}
-			@Override
-			public void keyReleased(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
-			}
-			@Override
-			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				
-			}
-		});
-		
-		JLabel JLB_empleado = new JLabel("Empleado");
-		panel_lin_1.add(JLB_empleado);
-		
-		JTF_empleado = new JTextField();
-		JTF_empleado.setColumns(10);
-		panel_lin_1.add(JTF_empleado);
-		JTF_empleado.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(java.awt.event.KeyEvent arg0) {
-			}
-			@Override
-			public void keyReleased(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
-			}
-			@Override
-			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				
-			}
-		});
-		
-		JLabel JLB_nombre_cliente = new JLabel("Nombre Cliente");
-		panel_lin_1.add(JLB_nombre_cliente);
-		
-		JTF_nom_cli = new JTextField();
-		JTF_nom_cli.setColumns(10);
-		panel_lin_1.add(JTF_nom_cli);
-		JTF_nom_cli.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(java.awt.event.KeyEvent arg0) {
-			}
-			@Override
-			public void keyReleased(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
-			}
-			@Override
-			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				
-			}
-		});
-		
-		JLabel JLB_apellido_cli = new JLabel("Apellido cliente");
-		panel_lin_1.add(JLB_apellido_cli);
-		
-		JTF_ape_cli = new JTextField();
-		JTF_ape_cli.setColumns(10);
-		panel_lin_1.add(JTF_ape_cli);
-		JTF_ape_cli.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(java.awt.event.KeyEvent arg0) {
-			}
-			@Override
-			public void keyReleased(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
-			}
-			@Override
-			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				
-			}
-		});
-		
-		JPanel panel_lin_2 = new JPanel();
-		panel_lin_2.setBackground(Color.decode("#2A9D8F"));
-		panel_busqueda.add(panel_lin_2);
-		
-		JLabel JLB_fecha_ini = new JLabel("Fecha registro");
-		panel_lin_2.add(JLB_fecha_ini);
-		
-		JTF_fecha_registro = new JTextField();
-		JTF_fecha_registro.setColumns(10);
-		panel_lin_2.add(JTF_fecha_registro);
-		JTF_fecha_registro.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(java.awt.event.KeyEvent arg0) {
-			}
-			@Override
-			public void keyReleased(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
-			}
-			@Override
-			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				
-			}
-		});
-		
-		JLabel JLB_fecha_lim = new JLabel("Fecha limite");
-		panel_lin_2.add(JLB_fecha_lim);
-		
-		
-		JTF_Fecha_lim = new JTextField();
-		JTF_Fecha_lim.setColumns(10);
-		panel_lin_2.add(JTF_Fecha_lim);
-		JTF_Fecha_lim.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(java.awt.event.KeyEvent arg0) {
-			}
-			@Override
-			public void keyReleased(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
-			}
-			@Override
-			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				
-			}
-		});
-		
-		JLabel JLB_mat_veh = new JLabel("Matricula");
-		panel_lin_2.add(JLB_mat_veh);
-		
-		JTF_matricula = new JTextField();
-		JTF_matricula.setColumns(10);
-		panel_lin_2.add(JTF_matricula);
-		JTF_matricula.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(java.awt.event.KeyEvent arg0) {
-			}
-			@Override
-			public void keyReleased(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
-			}
-			@Override
-			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				
-			}
-		});
-		
-		JLabel JLB_precio = new JLabel("precio");
-		panel_lin_2.add(JLB_precio);
-		
-		JTF_precio = new JTextField();
-		JTF_precio.setColumns(10);
-		panel_lin_2.add(JTF_precio);
-		JTF_precio.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(java.awt.event.KeyEvent arg0) {
-			}
-			@Override
-			public void keyReleased(java.awt.event.KeyEvent arg0) {
-				addFiltros(arg0);
-			}
-			@Override
-			public void keyTyped(java.awt.event.KeyEvent arg0) {
-				
-			}
-		});
-		
-		Mi_combo = new JComboBox();
-		Mi_combo.addItem("=");
-		Mi_combo.addItem("<");
-		Mi_combo.addItem(">");
-		panel_lin_2.add(Mi_combo);
-		
 		//panel del gráfico
 		JPanel pnGrafico = new JPanel();
 		panel_cont_p_d.add(pnGrafico);
-		pnGrafico.setLayout(new BoxLayout(pnGrafico, BoxLayout.X_AXIS));
+		pnGrafico.setLayout(new BoxLayout(pnGrafico, BoxLayout.Y_AXIS));
 		
 		//------------------------------------------------------
 		// Fuente de Datos
-        DefaultPieDataset data = new DefaultPieDataset();
-        data.setValue("C", 40);
-        data.setValue("Java", 45);
-        data.setValue("Python", 15);
+        DefaultPieDataset dataC = new DefaultPieDataset();
+        VentasDAO miVenDAO = new VentasDAO();
+        UsuarioDAO miUsuDAO = new UsuarioDAO ();
+        ArrayList <vXmData> miArray = miVenDAO.VentaXMes();
+        for (int i=0 ; i<miArray.size();i++) {
+        	dataC.setValue(miArray.get(i).getMes()+" - "+String.valueOf(miArray.get(i).getVenta()),miArray.get(i).getVenta());
+        }
+
+        
+        DefaultCategoryDataset dataB = new DefaultCategoryDataset();
+        ArrayList<Integer> ArrayUsuInt = miVenDAO.getUsuVentas();
+        ArrayList<Usuarios> ArrayUsu = miUsuDAO.getUsuVentas(ArrayUsuInt);
+        ArrayList <vXeData> miArrayB = miVenDAO.VentaXEmp(ArrayUsu);
+        for (int i=0 ; i<miArrayB.size();i++) {
+        	dataB.setValue(miArrayB.get(i).getVenta(),miArrayB.get(i).getyAxis(),miArrayB.get(i).getVendedor());
+        }
+
  
         // Creando el Grafico
-        JFreeChart chart = ChartFactory.createPieChart(
-         "Resumen de ventas por meses", 
-         data, 
-         true, 
-         true, 
-         false);
- 
-        // Mostrar Grafico
-       pnGrafico.add(new ChartPanel (chart));
+        JFreeChart grafCircular = ChartFactory.createPieChart("Ventas por meses", dataC,true, true, false);
+        JFreeChart grafBarras = ChartFactory.createBarChart3D("Ventas por empleado", "Empleados", "Ventas", dataB
+        		,PlotOrientation.VERTICAL,true,true,false);
         
+        // Mostrar Grafico
+        pnGrafico.add(new ChartPanel (grafCircular));
+        pnGrafico.add(new ChartPanel(grafBarras));
         
         // -----------------------------------------------------
 		//panel de botonera
@@ -578,82 +408,6 @@ public class ResumenVentasView extends JFrame{
 	
 	protected void seleccionar() {
 		//implementar navegacion a la ficha
-	}
-	
-	protected void addFiltros(KeyEvent e) {
-		ArrayList <RowFilter<TableModel,Integer>> filtros = new ArrayList <RowFilter<TableModel,Integer>>();
-		int ascii = e.getKeyChar();
-		if ((JTF_id.getText().length()>0) && (ascii>47) && (ascii<58)) {
-			   filtros.add(RowFilter.numberFilter(
-			     ComparisonType.EQUAL,
-			     Integer.parseInt(String.valueOf(JTF_id.getText()))
-			     ,0)); 
-			   } else {
-			    filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
-		
-			   }
-		if (JTF_empleado.getText().length()>0) {
-			filtros.add(RowFilter.regexFilter(JTF_empleado.getText(),1));
-		} else {
-			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",1));
-		}
-		
-		if (JTF_nom_cli.getText().length()>0) {
-			filtros.add(RowFilter.regexFilter(JTF_nom_cli.getText(),2));
-		} else {
-			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",2));
-		}
-		
-		if (JTF_ape_cli.getText().length()>0) {
-			filtros.add(RowFilter.regexFilter(JTF_ape_cli.getText(),3));
-		} else {
-			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",3));
-		}
-		if (JTF_fecha_registro.getText().length()>0) {
-			filtros.add(RowFilter.regexFilter(JTF_fecha_registro.getText(),4));
-		} else {
-			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",4));
-		}
-		
-		if (JTF_Fecha_lim.getText().length()>0) {
-			filtros.add(RowFilter.regexFilter(JTF_Fecha_lim.getText(),5));
-		} else {
-			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",5));
-		}
-		
-		if (JTF_matricula.getText().length()>0) {
-			filtros.add(RowFilter.regexFilter(JTF_matricula.getText(),6));
-		} else {
-			filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",6));
-		}
-		
-		if ((JTF_precio.getText().length()>0)) {
-			if (Mi_combo.getSelectedItem().toString()=="=") {
-			   filtros.add(RowFilter.numberFilter(
-			     ComparisonType.EQUAL,
-			     Float.parseFloat(String.valueOf(JTF_precio.getText()))
-			     ,7));
-			} else if (Mi_combo.getSelectedItem().toString()=="<") {
-				  	filtros.add(RowFilter.numberFilter(
-					ComparisonType.BEFORE,
-					Float.parseFloat(String.valueOf(JTF_precio.getText()))
-					,7));
-				}else if (Mi_combo.getSelectedItem().toString()==">") {
-				  	filtros.add(RowFilter.numberFilter(
-					ComparisonType.AFTER,
-					Float.parseFloat(String.valueOf(JTF_precio.getText()))
-					,7));
-				}
-			}   
-			else {
-			    filtros.add(RowFilter.regexFilter("[a-zA-Z0-9_]",7));
-		
-			   }
-			
-		
-		RowFilter<TableModel, Integer> filtroAnd = RowFilter.andFilter(filtros);
-		modeloOrdenado.setRowFilter(filtroAnd);
-		
 	}
 	
 	/**

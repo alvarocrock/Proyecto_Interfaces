@@ -79,17 +79,23 @@ public class BusCliView extends JFrame{
 	private JLabel LBApellidos;
 	private JTextField TFApellidos;
 	private JFrame llamada;
+	// tipo de llamada 
+	// 0 al salir llama a la ficha
+	// 1 al salir llama al menú ventas
+	// 2 reservado
+	int tipoLlamada=0;
+	
 	
 	/**
 	 * Create the application.
 	 */
 
-	public BusCliView(JFrame miLlamada, Usuarios miuser) {
+	public BusCliView(JFrame miLlamada, Usuarios miuser, int tipoLlamada) {
 		usuario=miuser;
 		miClienteDAO = new ClientesDAO ();
 		llamada=miLlamada;
 		initialize();
-
+		this.tipoLlamada=tipoLlamada;
 	}
 	/**
 	 * Initialize the contents of the frame.
@@ -197,7 +203,7 @@ public class BusCliView extends JFrame{
     		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
     			@Override
     			public void mouseClicked(MouseEvent e) {
-    				BusCliView miBuscCli = new BusCliView(frame, usuario);
+    				BusCliView miBuscCli = new BusCliView(frame, usuario,0);
     				miBuscCli.getFrame().setAlwaysOnTop(true);
     				miBuscCli.getFrame().setVisible(true);
     				frame.dispose();
@@ -644,12 +650,29 @@ public class BusCliView extends JFrame{
 	 * llama a ficha de clientes con el  cliente seleccionado
 	 */
 	protected void seleccionar() {
-		// coger id_cli de la tabla
-		Constantes.idCliGlobal=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
+
 		// volver a ficha que ha llamado a la busqueda con el idcli
-		llamada.setAlwaysOnTop(true);
-		llamada.setVisible(true);
-		frame.dispose();
+		switch (tipoLlamada) {
+		case 0:
+			// llamada desde menú (a ficha ventas)
+			Constantes.idCliGlobal=0;
+			FichaClienteView miFV=new FichaClienteView(usuario,(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0));
+			miFV.setAlwaysOnTop(true);
+			miFV.setVisible(true);
+			miFV.dispose();
+			break;
+		case 1:
+			//llamada desde ficha de ventas (a ficha ventas)
+			// coger id_cli de la tabla y guardar en el idglobal para cogerlo desde la ficha de ventas
+			Constantes.idCliGlobal=(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0);
+			llamada.setAlwaysOnTop(true);
+			llamada.setVisible(true);
+			frame.dispose();
+			break;
+		default:
+			System.out.println("aqui no deberías de haber llegado forastero");
+
+		}
 	}
 	
 	/**

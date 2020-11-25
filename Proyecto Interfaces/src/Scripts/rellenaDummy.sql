@@ -126,3 +126,116 @@ VALUES ('2', '2', '2', '2020-12-11', '2020-12-21', '1', '20000');
 
 INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
 VALUES ('3', '3', '3', '2020-12-11', '2020-12-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('4', '2', '2', '2020-01-11', '2020-12-21', '1', '20000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('5', '3', '3', '2020-02-11', '2020-12-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('6', '3', '1', '2020-02-11', '2020-03-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('7', '4', '2', '2020-02-11', '2020-04-21', '3', '20000');
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('8', '3', '3', '2020-03-11', '2020-12-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('9', '1', '1', '2020-04-11', '2020-03-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('10', '5', '2', '2020-05-11', '2020-04-21', '3', '20000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('11', '3', '3', '2020-06-11', '2020-12-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('12', '6', '1', '2020-07-11', '2020-03-21', '3', '30000');
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('13', '3', '2', '2020-08-11', '2020-04-21', '3', '20000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('14', '8', '3', '2020-09-11', '2020-12-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('15', '3', '1', '2020-10-11', '2020-03-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('16', '3', '2', '2020-11-11', '2020-04-21', '3', '20000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('17', '9', '3', '2020-12-11', '2020-12-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('18', '3', '1', '2020-02-11', '2020-03-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('19', '3', '2', '2020-03-11', '2020-04-21', '3', '20000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('20', '2', '3', '2020-04-11', '2020-12-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('21', '6', '1', '2020-05-11', '2020-03-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('22', '7', '2', '2020-06-11', '2020-04-21', '3', '20000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('23', '2', '2', '2020-01-11', '2020-12-21', '1', '20000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('24', '3', '3', '2020-02-11', '2020-12-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('25', '3', '1', '2020-02-11', '2020-03-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('26', '4', '2', '2020-02-11', '2020-04-21', '3', '20000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('27', '3', '3', '2020-03-11', '2020-12-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('28', '1', '1', '2020-04-11', '2020-03-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('29', '5', '2', '2020-05-11', '2020-04-21', '3', '20000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('30', '3', '3', '2020-06-11', '2020-12-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('31', '6', '1', '2020-07-11', '2020-03-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('32', '3', '2', '2020-08-11', '2020-04-21', '3', '20000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('33', '8', '3', '2020-09-11', '2020-12-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('34', '3', '1', '2020-10-11', '2020-03-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('35', '3', '2', '2020-11-11', '2020-04-21', '3', '20000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('36', '9', '3', '2020-12-11', '2020-12-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('37', '3', '1', '2020-02-11', '2020-03-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('38', '3', '2', '2020-03-11', '2020-04-21', '3', '20000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('39', '2', '3', '2020-04-11', '2020-12-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('40', '6', '1', '2020-05-11', '2020-03-21', '3', '30000');
+
+INSERT INTO `proyecto`.`ventas` (`id_ventas`, `id_cli`, `id_emple`, `fecha_ppto`, `fecha_validez`, `id_vehiculo`, `precio`) 
+VALUES ('41', '7', '2', '2020-06-11', '2020-04-21', '3', '20000');
+

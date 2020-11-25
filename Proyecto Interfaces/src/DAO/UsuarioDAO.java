@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.mysql.jdbc.Statement;
 
@@ -171,6 +172,33 @@ public class UsuarioDAO extends  AbstractDAO{
 	public Usuarios getuser() {
 		return miusuario;
 	}
+
+	/**
+	 * devuelve un array con los objetos usuario que contiene el array de integers dado
+	 * @param arrayUsuInt
+	 * @return
+	 */
+	public ArrayList<Usuarios> getUsuVentas(ArrayList<Integer> arrayUsuInt) {
+		String 	strSql="";
+		ResultSet rst=null;
+		Usuarios miUser = null;
+		ArrayList <Usuarios> miArray=new ArrayList<Usuarios>();
+		
+		for (int i=0;i<arrayUsuInt.size();i++) {
+			strSql="select * from usuarios where id_user = " + arrayUsuInt.get(i) + ";";
+			try {
+				rst = stm.executeQuery(strSql);
+				rst.next();
+				miUser =  new Usuarios(rst.getString(1),rst.getString(2),
+	        			rst.getString(3),rst.getString(4),rst.getString(5),rst.getInt(7), rst.getString(6));
+				miArray.add(miUser);
+				rst.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		}
+		return miArray;	
 	
-	
+	}
 }
