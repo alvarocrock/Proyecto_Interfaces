@@ -49,7 +49,10 @@ fecha_alta date,
 id_cliente int,
 id_usuario int,
 id_conce int,
-tipo varchar(20)
+tipo varchar(20),
+ano int,
+kilometros int,
+combustible varchar(10)
 );
 
 create table if not exists concesionario(

@@ -17,11 +17,14 @@ public class Vehiculos {
 	int id_user;
 	int id_conce;
 	String tipo;
+	int year;
+	int km;
+	String combustible;
 
 	
 	public Vehiculos(int idVeh,String mimatricula, String mibastidor,String mimarca, String 
 			mimodelo, float miprecio,Date mifecha_alta , int miid_cli,int mi_id_user,
-			int miid_conce, String tipo) {
+			int miid_conce, String tipo,int miyear,int mikm,String micombu) {
 
 		this.idVeh=idVeh;
 		matricula=mimatricula;
@@ -34,8 +37,56 @@ public class Vehiculos {
 		id_user=mi_id_user;
 		id_conce=miid_conce;
 		this.tipo=tipo;
+		year=miyear;
+		km=mikm;
+		combustible=micombu;
 
 		
+	}
+
+
+	public int getYear() {
+		return year;
+	}
+
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+
+	public int getKm() {
+		return km;
+	}
+
+
+	public void setKm(int km) {
+		this.km = km;
+	}
+
+
+	public String getCombustible() {
+		return combustible;
+	}
+
+
+	public void setCombustible(String combustible) {
+		this.combustible = combustible;
+	}
+
+
+	public void setIdVeh(int idVeh) {
+		this.idVeh = idVeh;
+	}
+
+
+	public void setFecha_alta(Date fecha_alta) {
+		this.fecha_alta = fecha_alta;
+	}
+
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 

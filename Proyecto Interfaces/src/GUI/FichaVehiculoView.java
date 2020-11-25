@@ -77,6 +77,9 @@ public class FichaVehiculoView extends JFrame {
 	private JLabel LBNomCli;
 	private JLabel LBNomConce;
 	private JComboBox <String> CBTipo ;
+	private JTextField JTF_año;
+	private JTextField JTF_km;
+	private JTextField JTF_combustible;
 
 	/**
 	 * Constructor con usuario e id de cliente
@@ -424,6 +427,42 @@ public class FichaVehiculoView extends JFrame {
 						
 						CBTipo = new JComboBox <String>();
 						PNLinea5.add(CBTipo);
+						
+						JPanel PNLinea6 = new JPanel();
+						PNLinea6.setBackground(Color.decode("#2A9D8F"));
+						PNCentral.add(PNLinea6);
+						PNLinea6.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+						
+						JLabel JLB_year = new JLabel("A\u00F1o");
+						PNLinea6.add(JLB_year);
+						
+						JTF_año = new JTextField();
+						PNLinea6.add(JTF_año);
+						JTF_año.setColumns(10);
+						
+						JPanel PNLinea7 = new JPanel();
+						PNLinea7.setBackground(Color.decode("#2A9D8F"));
+						PNCentral.add(PNLinea7);
+						PNLinea7.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+						
+						JLabel lblNewLabel = new JLabel("Kilometros");
+						PNLinea7.add(lblNewLabel);
+						
+						JTF_km = new JTextField();
+						PNLinea7.add(JTF_km);
+						JTF_km.setColumns(10);
+						
+						JPanel PNLinea8 = new JPanel();
+						PNLinea8.setBackground(Color.decode("#2A9D8F"));
+						PNCentral.add(PNLinea8);
+						PNLinea8.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+						
+						JLabel lblNewLabel_1 = new JLabel("Combustible");
+						PNLinea8.add(lblNewLabel_1);
+						
+						JTF_combustible = new JTextField();
+						PNLinea8.add(JTF_combustible);
+						JTF_combustible.setColumns(10);
 						// guarda el enum en un array
 						for (TiposVeh d: TiposVeh.values()) {
 							CBTipo.addItem(d.toString());
@@ -431,6 +470,7 @@ public class FichaVehiculoView extends JFrame {
 
 			
 			// Panel para los botones del control de registros
+					
 			JPanel panelBotoneras = new JPanel();
 			panelBotoneras.setMaximumSize(new Dimension(1000, 60));
 			panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
@@ -491,7 +531,7 @@ public class FichaVehiculoView extends JFrame {
 								Integer.parseInt(TFIdCli.getText()),
 								usuario.getId(),
 								Integer.parseInt(TFConce.getText()),
-								miTipo
+								miTipo,Integer.parseInt(JTF_año.getText()),Integer.parseInt(JTF_km.getText()),JTF_combustible.getText()
 								);
 						// comprobar si ya existe el registro
 						if (miVehDAO.Comprobarvehiculo(TFMatricula.getText())) {
@@ -521,6 +561,9 @@ public class FichaVehiculoView extends JFrame {
 					TFPrecio.setText("");
 					TFIdCli.setText("");
 					TFConce.setText("");
+					JTF_año.setText("");
+					JTF_combustible.setText("");
+					JTF_km.setText("");
 					daBotones(false);
 				}
 			});
@@ -606,6 +649,7 @@ public class FichaVehiculoView extends JFrame {
 					refrescaReg();
 				}
 			});
+
 	
 	}
 	
@@ -700,6 +744,9 @@ public class FichaVehiculoView extends JFrame {
 		Concesionario miCon = miConDAO.goToConce(Integer.parseInt(TFConce.getText()));
 		LBNomConce.setText(miCon.getNombre());
 		CBTipo.setSelectedItem(miVeh.getTipo());
+		JTF_año.setText(String.valueOf(miVeh.getYear()));
+		JTF_combustible.setText(miVeh.getCombustible());
+		JTF_km.setText(String.valueOf(miVeh.getKm()));
 		
 }
 

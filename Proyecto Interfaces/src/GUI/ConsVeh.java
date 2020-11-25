@@ -48,6 +48,7 @@ import Models.Clientes;
 import Models.Usuarios;
 import Models.Vehiculos;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JComboBox;
 
 public class ConsVeh {
 
@@ -81,6 +82,15 @@ public class ConsVeh {
 	private JLabel LBCliente;
 	private JTextField TFCliente;
 	private JFrame  llamada;
+	private JLabel label;
+	private JLabel Kilometros;
+	private JTextField JTF_km;
+	private JComboBox JCB_km;
+	private JLabel JLB_year;
+	private JTextField JTF_year;
+	private JComboBox JCB_year;
+	private JLabel lblNewLabel;
+	private JTextField JTF_combustible;
 	
 	/**
 	 * Constructor
@@ -99,7 +109,7 @@ public class ConsVeh {
 	// Frame principal
 			frame = new JFrame();
 			frame.setAlwaysOnTop(true);
-			frame.setBounds(100, 100, 900, 400);
+			frame.setBounds(100, 100, 1400, 400);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(),BoxLayout.Y_AXIS));
 			
@@ -405,6 +415,78 @@ public class ConsVeh {
 			// panel busquedas
 			PNBusquedas.add(TFCliente);
 			
+			Kilometros = new JLabel("kilometros");
+			PNBusquedas.add(Kilometros);
+			
+			JTF_km = new JTextField();
+			JTF_km.addKeyListener(new KeyListener() {
+				@Override
+				public void keyPressed(java.awt.event.KeyEvent arg0) {
+				}
+				@Override
+				public void keyReleased(java.awt.event.KeyEvent arg0) {
+					addFiltros();
+				}
+				@Override
+				public void keyTyped(java.awt.event.KeyEvent arg0) {
+					
+				}
+			});
+			PNBusquedas.add(JTF_km);
+			JTF_km.setColumns(10);
+			
+			JCB_km = new JComboBox();
+			JCB_km.addItem("=");
+			JCB_km.addItem("<");
+			JCB_km.addItem(">");
+			PNBusquedas.add(JCB_km);
+			
+			JLB_year = new JLabel("A\u00F1o");
+			PNBusquedas.add(JLB_year);
+			
+			JTF_year = new JTextField();
+			JTF_year.addKeyListener(new KeyListener() {
+				@Override
+				public void keyPressed(java.awt.event.KeyEvent arg0) {
+				}
+				@Override
+				public void keyReleased(java.awt.event.KeyEvent arg0) {
+					addFiltros();
+				}
+				@Override
+				public void keyTyped(java.awt.event.KeyEvent arg0) {
+					
+				}
+			});
+			PNBusquedas.add(JTF_year);
+			JTF_year.setColumns(10);
+			
+			JCB_year = new JComboBox();
+			JCB_year.addItem("=");
+			JCB_year.addItem("<");
+			JCB_year.addItem(">");
+			PNBusquedas.add(JCB_year);
+			
+			lblNewLabel = new JLabel("Combustible");
+			PNBusquedas.add(lblNewLabel);
+			
+			JTF_combustible = new JTextField();
+			JTF_combustible.addKeyListener(new KeyListener() {
+				@Override
+				public void keyPressed(java.awt.event.KeyEvent arg0) {
+				}
+				@Override
+				public void keyReleased(java.awt.event.KeyEvent arg0) {
+					addFiltros();
+				}
+				@Override
+				public void keyTyped(java.awt.event.KeyEvent arg0) {
+					
+				}
+			});
+			PNBusquedas.add(JTF_combustible);
+			JTF_combustible.setColumns(10);
+			
 			// panel para la tabla
 			scrollPane = new JScrollPane();
 			PNCentral.add(scrollPane);
@@ -438,6 +520,9 @@ public class ConsVeh {
 			modeloTBVeh.addColumn("IdConce");
 			modeloTBVeh.addColumn("Concesionario");
 			modeloTBVeh.addColumn("Precio");
+			modeloTBVeh.addColumn("Año");
+			modeloTBVeh.addColumn("Kilometros");
+			modeloTBVeh.addColumn("Combustible");
 
 			//aÃ±ade el modelo a la tabla
 			TBVeh.setModel(modeloTBVeh);
@@ -557,6 +642,9 @@ public class ConsVeh {
 			panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
 			PNCentral.add(panelBotoneras);
 			panelBotonera.setBackground(Color.decode("#2A9D8F"));
+			
+			label = new JLabel("New label");
+			panelBotonera.add(label);
 			panelBotoneras.setBackground(Color.decode("#2A9D8F"));
 
 		}
@@ -601,6 +689,51 @@ public class ConsVeh {
 			modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",5));
 		}
 		
+		if ((JTF_year.getText().length()>0)) {
+			if (JCB_year.getSelectedItem().toString()=="=") {
+			   filtros.add(RowFilter.numberFilter(
+			     ComparisonType.EQUAL,
+			     Float.parseFloat(String.valueOf(JTF_year.getText()))
+			     ,9));
+			} else if (JCB_year.getSelectedItem().toString()=="<") {
+				  	filtros.add(RowFilter.numberFilter(
+					ComparisonType.BEFORE,
+					Float.parseFloat(String.valueOf(JTF_year.getText()))
+					,9));
+				}else if (JCB_year.getSelectedItem().toString()==">") {
+				  	filtros.add(RowFilter.numberFilter(
+					ComparisonType.AFTER,
+					Float.parseFloat(String.valueOf(JTF_year.getText()))
+					,9));
+				}
+			}
+		
+		if ((JTF_km.getText().length()>0)) {
+			if (JCB_km.getSelectedItem().toString()=="=") {
+			   filtros.add(RowFilter.numberFilter(
+			     ComparisonType.EQUAL,
+			     Float.parseFloat(String.valueOf(JTF_km.getText()))
+			     ,10));
+			} else if (JCB_km.getSelectedItem().toString()=="<") {
+				  	filtros.add(RowFilter.numberFilter(
+					ComparisonType.BEFORE,
+					Float.parseFloat(String.valueOf(JTF_km.getText()))
+					,10));
+				}else if (JCB_km.getSelectedItem().toString()==">") {
+				  	filtros.add(RowFilter.numberFilter(
+					ComparisonType.AFTER,
+					Float.parseFloat(String.valueOf(JTF_km.getText()))
+					,10));
+				}
+			}  
+		
+		if (JTF_combustible.getText().length()>0) {
+			filtros.add((RowFilter.regexFilter(JTF_combustible.getText(),11)));
+		} else {
+			modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",11));
+		}
+		
+		
 		
 		RowFilter<TableModel, Integer> filtroAnd = RowFilter.andFilter(filtros);
 		modeloOrdenado.setRowFilter(filtroAnd);
@@ -613,7 +746,7 @@ public class ConsVeh {
 	 */
 
 	protected void cargaVeh(ArrayList<Vehiculos> miArray) {
-		Object [] fila = new Object[9];
+		Object [] fila = new Object[12];
 		Clientes miCli;
 		ClientesDAO miCliDAO=new ClientesDAO();
 
@@ -630,6 +763,9 @@ public class ConsVeh {
 			// aqui hay que sacar nombre del concesionario
 			//fila[7]=miArray.get(i).getId_conce();
 			fila[8]=miArray.get(i).getPrecio();
+			fila[9]=miArray.get(i).getYear();
+			fila[10]=miArray.get(i).getKm();
+			fila[11]=miArray.get(i).getCombustible();
 			modeloTBVeh.addRow(fila);
 		}
 	}

@@ -60,35 +60,33 @@ values ("Jefe de taller", 4, 3,"2020-10-28","4444444D", "Paco", "Martínez Soria
 insert into concesionario (nombre)
 values ("Concesionaro número 1" );
 
-insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente)
-values ("1111ABC", "número de bastidor 1", "Peugeot","406", 30000,"2020-10-28",1,1,"Coche",1 );
+insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente,ano,kilometros,combustible)
+values ("1111ABC", "número de bastidor 1", "Peugeot","406", 30000,"2020-10-28",1,1,"Coche",1,2005,3000,"diesel" );
 
-insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente)
-values ("2222DEF", "número de bastidor 2", "Renault","307 SW", 20000,"2020-10-28",2,1,"Ciclomotor",2 );
+insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente,ano,kilometros,combustible)
+values ("2222DEF", "número de bastidor 2", "Renault","307 SW", 20000,"2020-10-28",2,1,"Ciclomotor",2,2013,1000,"gasolina");
 
-insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente)
-values ("3333DEF", "número de bastidor 3", "Fiat","406 SW", 40000,"2020-10-28",3,1,"Motocicleta",3 );
+insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente,ano,kilometros,combustible)
+values ("3333DEF", "número de bastidor 3", "Fiat","406 SW", 40000,"2020-10-28",3,1,"Motocicleta",3,2010,300,"hibrido");
 
-insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente)
-values ("4444GFR", "número de bastidor 4", "Peugeot","5001", 50000,"2020-10-28",4,1,"Coche",4);
+insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente,ano,kilometros,combustible)
+values ("4444GFR", "número de bastidor 4", "Peugeot","5001", 50000,"2020-10-28",4,1,"Coche",4,2005,200,"electrico");
 
-insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente)
-values ("5555HGT", "número de bastidor 5", "Fiat","6008", 60000,"2020-10-28",2,1,"Ciclomotor",5 );
+insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente,ano,kilometros,combustible)
+values ("5555HGT", "número de bastidor 5", "Fiat","6008", 60000,"2020-10-28",2,1,"Ciclomotor",5,2007,0,"diesel");
 
-insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente)
-values ("6666LOI", "número de bastidor 6", "Peugeot","206 SW", 70000,"2020-10-28",2,1,"Motocicleta",6 );
+insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente,ano,kilometros,combustible)
+values ("6666LOI", "número de bastidor 6", "Peugeot","206 SW", 70000,"2020-10-28",2,1,"Motocicleta",6,2010,7800,"gasolina");
 
-insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente)
-values ("7777RTF", "número de bastidor 7", "Peugeot","206", 40000,"2020-10-28",2,1,"Motocicleta",7 );
+insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente,ano,kilometros,combustible)
+values ("7777RTF", "número de bastidor 7", "Peugeot","206", 40000,"2020-10-28",2,1,"Motocicleta",7,2040,2,"gasolina");
 
-insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente)
-values ("8888HGT", "número de bastidor 8", "Peugeot","3001", 10000,"2020-10-28",2,1,"Coche",8 );
 
-insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente)
-values ("9999HYU", "número de bastidor 9", "Peugeot","2022", 33000,"2020-10-28",2,1,"Ciclomotor",8 );
+insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente,ano,kilometros,combustible)
+values ("9999HYU", "número de bastidor 9", "Peugeot","2022", 33000,"2020-10-28",2,1,"Ciclomotor",8,2015,200,"hibrido");
 
-insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente)
-values ("1010KJU", "número de bastidor 10", "Peugeot","5006", 15000,"2020-10-28",2,1,"Motocicleta",9 );
+insert into vehiculos (matricula, bastidor, marca, modelo, precio, fecha_alta, id_usuario, id_conce, tipo, id_cliente,ano,kilometros,combustible)
+values ("1010KJU", "número de bastidor 10", "Peugeot","5006", 15000,"2020-10-28",2,1,"Motocicleta",9,2019,0,"electrico");
 
 
 

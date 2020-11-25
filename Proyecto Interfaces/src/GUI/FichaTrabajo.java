@@ -73,7 +73,6 @@ public class FichaTrabajo {
 			// carga registro del usuario solicitado
 			cargatrabajo(contro.gotoTrabajo(id));
 		}
-		refrescaReg();
 	}
 
 	/**
@@ -289,7 +288,6 @@ public class FichaTrabajo {
 						Reparacion rep = contro.first();
 						// cargar cliente en form
 						cargatrabajo(rep);
-						refrescaReg();
 					}
 
 				}
@@ -310,7 +308,6 @@ public class FichaTrabajo {
 							contro.update(rep);	
 						} 
 						daBotones(true);
-						refrescaReg();
 					} 
 				}
 
@@ -326,10 +323,7 @@ public class FichaTrabajo {
 			});
 	}
 	
-	private void refrescaReg() {
-		String valor = String.valueOf(contro.gotoTrabajo(Integer.parseInt(JTFId.getText())).getId());
-		String p="Registro " + valor + " de "+ String.valueOf(contro.count())+".";
-	}
+	
 	
 	/**
 	 * Comprueba si los datos son correctos
