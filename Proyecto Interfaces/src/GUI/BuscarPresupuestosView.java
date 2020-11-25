@@ -118,7 +118,7 @@ public class BuscarPresupuestosView {
 		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BusCliView miBuscCli = new BusCliView(frame,miuser);
+				BusCliView miBuscCli = new BusCliView(frame,miuser,0);
 				miBuscCli.getFrame().setAlwaysOnTop(true);
 				miBuscCli.getFrame().setVisible(true);
 				frame.dispose();
@@ -162,7 +162,7 @@ public class BuscarPresupuestosView {
 		Busca_vehiculos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ConsVeh busqueda= new ConsVeh(frame,miuser);
+				ConsVeh busqueda= new ConsVeh(frame,miuser,0);
 				busqueda.getFrame().setAlwaysOnTop(true);
 				busqueda.getFrame().setVisible(true);
 				frame.dispose();

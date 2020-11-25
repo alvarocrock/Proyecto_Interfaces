@@ -234,7 +234,8 @@ public class VehiculosDAO extends AbstractDAO{
 			while (rst.next()) {
 				Vehiculos miVeh = new Vehiculos(rst.getInt(1), rst.getString(2), rst.getString(3), 
 						rst.getString(4), rst.getString(5), rst.getFloat(6), rst.getDate(7), rst.getInt(8), 
-						rst.getInt(9), rst.getInt(10), rst.getString(11),rst.getInt(12),rst.getInt(13),rst.getNString(14));
+						rst.getInt(9), rst.getInt(10), rst.getString(11),rst.getInt(12),rst.getInt(13),
+						rst.getNString(14));
 					miArray.add(miVeh);
 
 			}

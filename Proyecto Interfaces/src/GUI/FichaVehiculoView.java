@@ -77,7 +77,7 @@ public class FichaVehiculoView extends JFrame {
 	private JLabel LBNomCli;
 	private JLabel LBNomConce;
 	private JComboBox <String> CBTipo ;
-	private JTextField JTF_año;
+	private JTextField JTF_year;
 	private JTextField JTF_km;
 	private JTextField JTF_combustible;
 
@@ -221,7 +221,7 @@ public class FichaVehiculoView extends JFrame {
 		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BusCliView miBuscCli = new BusCliView(frame, usuario);
+				BusCliView miBuscCli = new BusCliView(frame, usuario,0);
 				miBuscCli.getFrame().setAlwaysOnTop(true);
 				miBuscCli.getFrame().setVisible(true);
 				frame.dispose();
@@ -265,7 +265,7 @@ public class FichaVehiculoView extends JFrame {
 		Busca_vehiculos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ConsVeh busqueda= new ConsVeh(frame, usuario);
+				ConsVeh busqueda= new ConsVeh(frame, usuario,0);
 				busqueda.getFrame().setAlwaysOnTop(true);
 				busqueda.getFrame().setVisible(true);
 				frame.dispose();
@@ -436,9 +436,9 @@ public class FichaVehiculoView extends JFrame {
 						JLabel JLB_year = new JLabel("A\u00F1o");
 						PNLinea6.add(JLB_year);
 						
-						JTF_año = new JTextField();
-						PNLinea6.add(JTF_año);
-						JTF_año.setColumns(10);
+						JTF_year = new JTextField();
+						PNLinea6.add(JTF_year);
+						JTF_year.setColumns(10);
 						
 						JPanel PNLinea7 = new JPanel();
 						PNLinea7.setBackground(Color.decode("#2A9D8F"));
@@ -487,7 +487,7 @@ public class FichaVehiculoView extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// llamada a buscar cliente
 					frame.dispose();
-					ConsVeh miBusqueda = new ConsVeh(frame, usuario);
+					ConsVeh miBusqueda = new ConsVeh(frame, usuario,0);
 					miBusqueda.getFrame().setAlwaysOnTop(true);
 					miBusqueda.getFrame().setVisible(true);
 
@@ -531,7 +531,7 @@ public class FichaVehiculoView extends JFrame {
 								Integer.parseInt(TFIdCli.getText()),
 								usuario.getId(),
 								Integer.parseInt(TFConce.getText()),
-								miTipo,Integer.parseInt(JTF_año.getText()),Integer.parseInt(JTF_km.getText()),JTF_combustible.getText()
+								miTipo,Integer.parseInt(JTF_year.getText()),Integer.parseInt(JTF_km.getText()),JTF_combustible.getText()
 								);
 						// comprobar si ya existe el registro
 						if (miVehDAO.Comprobarvehiculo(TFMatricula.getText())) {
@@ -561,7 +561,7 @@ public class FichaVehiculoView extends JFrame {
 					TFPrecio.setText("");
 					TFIdCli.setText("");
 					TFConce.setText("");
-					JTF_año.setText("");
+					JTF_year.setText("");
 					JTF_combustible.setText("");
 					JTF_km.setText("");
 					daBotones(false);
@@ -744,7 +744,7 @@ public class FichaVehiculoView extends JFrame {
 		Concesionario miCon = miConDAO.goToConce(Integer.parseInt(TFConce.getText()));
 		LBNomConce.setText(miCon.getNombre());
 		CBTipo.setSelectedItem(miVeh.getTipo());
-		JTF_año.setText(String.valueOf(miVeh.getYear()));
+		JTF_year.setText(String.valueOf(miVeh.getYear()));
 		JTF_combustible.setText(miVeh.getCombustible());
 		JTF_km.setText(String.valueOf(miVeh.getKm()));
 		

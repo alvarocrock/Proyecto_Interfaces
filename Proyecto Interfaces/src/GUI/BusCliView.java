@@ -80,9 +80,11 @@ public class BusCliView extends JFrame{
 	private JTextField TFApellidos;
 	private JFrame llamada;
 	// tipo de llamada 
-	// 0 al salir llama a la ficha
+	// 0 al salir llama a la ficha de clientes
 	// 1 al salir llama al menú ventas
-	// 2 reservado
+	// 2 al salir llama al menú jefe taller
+	// 3 al salir llama al menu jefe máximo
+	// 4 al salir llama al menú mecánico
 	int tipoLlamada=0;
 	
 	
@@ -247,7 +249,7 @@ public class BusCliView extends JFrame{
     		Busca_vehiculos.addMouseListener(new MouseAdapter() {
     			@Override
     			public void mouseClicked(MouseEvent e) {
-    				ConsVeh busqueda= new ConsVeh(frame, usuario);
+    				ConsVeh busqueda= new ConsVeh(frame, usuario,0);
     				busqueda.getFrame().setAlwaysOnTop(true);
     				busqueda.getFrame().setVisible(true);
     				frame.dispose();
@@ -654,12 +656,13 @@ public class BusCliView extends JFrame{
 		// volver a ficha que ha llamado a la busqueda con el idcli
 		switch (tipoLlamada) {
 		case 0:
-			// llamada desde menú (a ficha ventas)
+			// llamada desde menú  ventas (a ficha ventas)
+			frame.dispose();
 			Constantes.idCliGlobal=0;
 			FichaClienteView miFV=new FichaClienteView(usuario,(int) TBCli.getModel().getValueAt(TBCli.getSelectedRow(),0));
-			miFV.setAlwaysOnTop(true);
-			miFV.setVisible(true);
-			miFV.dispose();
+			miFV.getFrame().setAlwaysOnTop(true);
+			miFV.getFrame().setVisible(true);
+
 			break;
 		case 1:
 			//llamada desde ficha de ventas (a ficha ventas)
@@ -669,6 +672,7 @@ public class BusCliView extends JFrame{
 			llamada.setVisible(true);
 			frame.dispose();
 			break;
+			
 		default:
 			System.out.println("aqui no deberías de haber llegado forastero");
 

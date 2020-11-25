@@ -208,7 +208,7 @@ public class FichaConce extends JFrame {
 		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BusCliView miBuscCli = new BusCliView(frame, usuario);
+				BusCliView miBuscCli = new BusCliView(frame, usuario,0);
 				miBuscCli.getFrame().setAlwaysOnTop(true);
 				miBuscCli.getFrame().setVisible(true);
 				frame.dispose();
@@ -252,7 +252,7 @@ public class FichaConce extends JFrame {
 		Busca_vehiculos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ConsVeh busqueda= new ConsVeh(frame, usuario);
+				ConsVeh busqueda= new ConsVeh(frame, usuario,0);
 				busqueda.getFrame().setAlwaysOnTop(true);
 				busqueda.getFrame().setVisible(true);
 				frame.dispose();
@@ -368,7 +368,7 @@ public class FichaConce extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// llamada a buscar cliente
 					frame.dispose();
-					ConsVeh miBusqueda = new ConsVeh(frame, usuario);
+					ConsVeh miBusqueda = new ConsVeh(frame, usuario,0);
 					miBusqueda.getFrame().setAlwaysOnTop(true);
 					miBusqueda.getFrame().setVisible(true);
 

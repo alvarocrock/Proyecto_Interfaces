@@ -91,15 +91,23 @@ public class ConsVeh {
 	private JComboBox JCB_year;
 	private JLabel lblNewLabel;
 	private JTextField JTF_combustible;
+	// tipo de llamada 
+	// 0 al salir llama a la ficha de clientes
+	// 1 al salir llama al menú ventas
+	// 2 al salir llama al menú jefe taller
+	// 3 al salir llama al menu jefe máximo
+	// 4 al salir llama al menú mecánico
+	int tipoLlamada=0;
 	
 	/**
 	 * Constructor
 	 */
-	public ConsVeh(JFrame llamada, Usuarios miuser) {
+	public ConsVeh(JFrame llamada, Usuarios miuser, int tipoLlamada) {
 		usuario=miuser;
 		miVehDAO = new VehiculosDAO ();
 		this.llamada = llamada;
 		initialize();
+		this.tipoLlamada=tipoLlamada;
 	}
 	
 	/**
@@ -209,7 +217,7 @@ public class ConsVeh {
     		JLB_buscar_cli.addMouseListener(new MouseAdapter() {
     			@Override
     			public void mouseClicked(MouseEvent e) {
-    				BusCliView miBuscCli = new BusCliView(frame,usuario);
+    				BusCliView miBuscCli = new BusCliView(frame,usuario,0);
     				miBuscCli.getFrame().setAlwaysOnTop(true);
     				miBuscCli.getFrame().setVisible(true);
     				frame.dispose();
@@ -253,7 +261,7 @@ public class ConsVeh {
     		Busca_vehiculos.addMouseListener(new MouseAdapter() {
     			@Override
     			public void mouseClicked(MouseEvent e) {
-    				ConsVeh busqueda= new ConsVeh(frame, usuario);
+    				ConsVeh busqueda= new ConsVeh(frame, usuario,0);
     				busqueda.getFrame().setAlwaysOnTop(true);
     				busqueda.getFrame().setVisible(true);
     				frame.dispose();
@@ -520,7 +528,7 @@ public class ConsVeh {
 			modeloTBVeh.addColumn("IdConce");
 			modeloTBVeh.addColumn("Concesionario");
 			modeloTBVeh.addColumn("Precio");
-			modeloTBVeh.addColumn("A�o");
+			modeloTBVeh.addColumn("A�o");
 			modeloTBVeh.addColumn("Kilometros");
 			modeloTBVeh.addColumn("Combustible");
 
@@ -732,9 +740,7 @@ public class ConsVeh {
 		} else {
 			modeloOrdenado.setRowFilter(RowFilter.regexFilter("[a-zA-Z0-9_]",11));
 		}
-		
-		
-		
+				
 		RowFilter<TableModel, Integer> filtroAnd = RowFilter.andFilter(filtros);
 		modeloOrdenado.setRowFilter(filtroAnd);
 		
@@ -774,13 +780,29 @@ public class ConsVeh {
 	 * llama a ficha de clientes con el  cliente seleccionado
 	 */
 	protected void seleccionar() {
-		// coger id vehículo de la tabla
-		Constantes.idVehGlobal=(int) TBVeh.getModel().getValueAt(TBVeh.getSelectedRow(),0);
-		// llamada a ficha vehículo con el idVeh
-		llamada.setAlwaysOnTop(true);
-		llamada.setVisible(true);
-		frame.dispose();
-		frame.dispose();
+
+		switch (tipoLlamada) {
+			case 0:
+				// llamada desde menú  (a ficha vehículos)
+				frame.dispose();
+				Constantes.idCliGlobal=0;
+				FichaVehiculoView miFV=new FichaVehiculoView(usuario,(int) TBVeh.getModel().getValueAt(TBVeh.getSelectedRow(),0));
+				miFV.getFrame().setAlwaysOnTop(true);
+				miFV.getFrame().setVisible(true);
+	
+				break;
+			case 1:
+				// coger id vehículo de la tabla
+				Constantes.idVehGlobal=(int) TBVeh.getModel().getValueAt(TBVeh.getSelectedRow(),0);
+				// llamada a ficha vehículo con el idVeh
+				llamada.setAlwaysOnTop(true);
+				llamada.setVisible(true);
+				frame.dispose();
+				frame.dispose();
+				break;
+			default:
+				System.out.println("aqui no deberías de haber llegado forastero");
+			}
 	}
 	
 	/**

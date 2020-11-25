@@ -105,7 +105,7 @@ public class MenuMecanicoView extends JFrame {
 		JBNBusc_cli.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BusCliView miFichaClientes = new BusCliView(frame,miUsuario);
+				BusCliView miFichaClientes = new BusCliView(frame,miUsuario,0);
 				miFichaClientes.getFrame().setAlwaysOnTop(true);
 				miFichaClientes.getFrame().setVisible(true);
 				frame.setVisible(false);
