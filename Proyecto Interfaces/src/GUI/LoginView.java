@@ -234,17 +234,22 @@ public class LoginView extends JFrame{
 	 * Comprueba el login 
 	 */
 	public void login() {
-		// encriptar contraseña
-		String cadena="";
-		cadena = Constantes.encriptar(Jpass.getPassword());
-		
-		// comprobar login
-		if (miuserdao.compobarlogin(JTF_usuario.getText(),cadena)==true) {
-			frame.setVisible(false);
-			navegacion();
+		if ((JTF_usuario.getText().length()>0)||Jpass.getText().length()>0) {
+			// encriptar contraseña
+			String cadena="";
+			cadena = Constantes.encriptar(Jpass.getPassword());
+			
+			// comprobar login
+			if (miuserdao.compobarlogin(JTF_usuario.getText(),cadena)==true) {
+				frame.setVisible(false);
+				navegacion();
+			} else {
+				Jpass.setBackground(Color.decode("#FF0000"));
+			}
 		} else {
-			Jpass.setBackground(Color.decode("#FF0000"));
+			JOptionPane.showMessageDialog(frame, "Debe rellenar todos los datos");
 		}
+
 	}
 	
 

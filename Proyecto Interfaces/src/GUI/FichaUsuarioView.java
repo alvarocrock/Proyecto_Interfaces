@@ -14,7 +14,10 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 import javax.imageio.ImageIO;
@@ -22,6 +25,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,16 +36,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import Common.Constantes;
-import DAO.ClientesDAO;
 import DAO.UsuarioDAO;
-import DAO.VehiculosDAO;
-import DAO.VentasDAO;
-import GUI.FichaVentasView.MiWindowListener;
-import GUI.FichaVentasView.MyKeyListener;
-import Models.Clientes;
 import Models.Usuarios;
-import Models.Vehiculos;
-import Models.Ventas;
 import javax.swing.JPasswordField;
 
 public class FichaUsuarioView extends JFrame{
@@ -62,13 +58,17 @@ private JButton BTNuevo;
 private JButton BTPrimero;
 private JButton BTSiguiente;
 private JButton BTultimo;
-private JButton BTBuscar;
 private JButton BTGuardar;
 private JButton BTSalir;
 private UsuarioDAO miUsuarioDAO;
 private JPasswordField pfPasswd;
 private JTextField tfRango;
 private JLabel lbFoto;
+private JLabel lbFecAlta;
+private JLabel LBImg;
+private JPanel PNLinea2;
+private JLabel lbUrlFoto;
+private JLabel lbIdUsuario;
 
 /**
  * Constructor con usuario e id de cliente
@@ -165,15 +165,11 @@ private void initialize() {
 	PNImg.setBackground(Color.decode("#2A9D8F"));
 	PNUsuario.add(PNImg);
 	 PNImg.setLayout(new BoxLayout(PNImg, BoxLayout.Y_AXIS));
-	// carga imagen usuario
-     try {
-		 BufferedImage img = ImageIO.read(new File(usuario.getFoto()));
-		 ImageIcon icon = new ImageIcon(img);
-		 JLabel LBImg = new JLabel(icon);
-		 PNUsuario.add(LBImg);
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
+	 
+	 LBImg = new JLabel();
+	 cargaFoto(LBImg,usuario.getFoto(),PNUsuario);
+	 PNUsuario.add(LBImg);
+	
 	
 	LBNomUsu = new JLabel("Nombre de Usuario");
 	PNUsuario.add(LBNomUsu);
@@ -513,37 +509,54 @@ private void initialize() {
 		PNLinea1.add(tfRango);
 		tfRango.setColumns(10);
 		
+		lbIdUsuario = new JLabel("id");
+		lbIdUsuario.setEnabled(false);
+		lbIdUsuario.setVisible(false);
+		PNLinea1.add(lbIdUsuario);
+		
 		// panel linea 2
-		JPanel PNLinea2 = new JPanel();
+		PNLinea2 = new JPanel();
 		PNCentral.add(PNLinea2, "cell 0 1,grow");
 		PNLinea2.setBackground(Color.decode("#2A9D8F"));
 		PNLinea2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
-		
-		JButton BTBuscarVeh = new JButton(" ");
-		PNLinea2.add(BTBuscarVeh);
-		BTBuscarVeh.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// llamada a buscar vehículo
-				ConsVeh miBusqueda = new ConsVeh(frame, usuario,1);
-				miBusqueda.getFrame().setAlwaysOnTop(true);
-				miBusqueda.getFrame().setVisible(true);
-				frame.setVisible(false);
-			}
-		});
-		
-		lbFoto = new JLabel("Foto");
-		PNLinea2.add(lbFoto);
-		
 		JLabel lbFechaAlta = new JLabel("Fecha de alta");
 		PNLinea2.add(lbFechaAlta);
-		
-		JLabel lbFecAlta = new JLabel("fecAlta");
+		lbFecAlta = new JLabel("fecAlta");
 		lbFecAlta.setForeground(Color.BLUE);
 		PNLinea2.add(lbFecAlta);
 		
-		// Panel para los botones del control de registros
+		JButton BTBuscarFoto = new JButton(" ");
+		BTBuscarFoto.setIcon(new ImageIcon(FichaVentasView.class.getResource("/png/lupa.png")));
+		PNLinea2.add(BTBuscarFoto);
+		BTBuscarFoto.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setCurrentDirectory((new File (System.getProperty("user.dir") + "\\src\\png")));
+				int seleccion = fileChooser.showOpenDialog(frame);
+				
+				if (seleccion == JFileChooser.APPROVE_OPTION)
+				{
+				   File fichero = fileChooser.getSelectedFile();
+				   cargaFoto(lbFoto, fichero.getAbsolutePath(), PNLinea2);
+				   Path path = FileSystems.getDefault().getPath(fichero.getAbsolutePath());
+				   lbUrlFoto.setText(path.toString());
+				}
+			}
+		});
+		
+		lbFoto = new JLabel();
+		PNLinea2.add(lbFoto);
+		// carga foto
+		cargaFoto(lbFoto,usuario.getFoto(),PNLinea2);
+		
+		
+		lbUrlFoto = new JLabel();
+		lbUrlFoto.setVisible(false);
+		PNLinea2.add(lbUrlFoto);
+		
+		// Panel para los botones del control de registros	
 		JPanel panelBotoneras = new JPanel();
 		panelBotoneras.setMaximumSize(new Dimension(1000, 60));
 		panelBotoneras.setLayout(new BoxLayout(panelBotoneras, BoxLayout.Y_AXIS));
@@ -552,20 +565,6 @@ private void initialize() {
 		JPanel panelBotonera = new JPanel();
 		panelBotonera.setBackground(new Color(42, 157, 143));
 		panelBotoneras.add(panelBotonera);
-		
-		BTBuscar = new JButton("Buscar");
-		panelBotonera.add(BTBuscar);
-		BTBuscar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// llamada a buscar cliente
-				frame.dispose();
-				VerVentasView miBusqueda = new VerVentasView(usuario);
-				miBusqueda.getFrame().setAlwaysOnTop(true);
-				miBusqueda.getFrame().setVisible(true);
-
-			}
-		});
 		
 		BTBorra = new JButton("Borrar");
 		panelBotonera.add(BTBorra);
@@ -578,7 +577,7 @@ private void initialize() {
 						"Borrar registro", 
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_NO_OPTION) {
-					miUsuarioDAO.borraUsuario(TFDni.getText());	
+					miUsuarioDAO.borraUsuario(Integer.parseInt(lbIdUsuario.getText()));	
 					Usuarios miUsuario = miUsuarioDAO.primero();
 					// cargar venta en form
 					cargaUsuario(miUsuario);
@@ -600,11 +599,12 @@ private void initialize() {
 							Constantes.encriptar(pfPasswd.getPassword()),
 							tfRango.getText(),
 							String.valueOf(Date.valueOf(LocalDate.now())),
-							0, lbFoto.getText()
+							Integer.valueOf(lbIdUsuario.getText()),
+							lbUrlFoto.getText()
 							);
 					
 					// comprobar si ya existe el registro
-					if (miUsuarioDAO.ComprobarUsuario((tfNick.getText()))) {
+					if (miUsuarioDAO.ComprobarUsuario((Integer.parseInt(lbIdUsuario.getText())))) {
 						// guardar el registro
 						miUsuarioDAO.updateUsuario(usuario);	
 					} else {
@@ -670,7 +670,7 @@ private void initialize() {
 		BTAnterior.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Usuarios miUsuario = miUsuarioDAO.anterior(TFDni.getText());
+				Usuarios miUsuario = miUsuarioDAO.anterior(Integer.parseInt(lbIdUsuario.getText()));
 				if (miUsuario!=null) {
 					cargaUsuario(miUsuario);
 					refrescaReg();
@@ -691,7 +691,7 @@ private void initialize() {
 		BTSiguiente.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Usuarios miUsuario = miUsuarioDAO.siguiente(TFDni.getText());
+				Usuarios miUsuario = miUsuarioDAO.siguiente(Integer.parseInt(lbIdUsuario.getText()));
 				// cargar usuario en form
 				if (miUsuario!=null) {
 					cargaUsuario(miUsuario);
@@ -755,7 +755,7 @@ protected void daBotones(boolean estado) {
 	BTPrimero.setEnabled(estado);
 	BTSiguiente.setEnabled(estado);
 	BTultimo.setEnabled(estado);
-	BTBuscar.setEnabled(estado);
+	//BTBuscar.setEnabled(estado);
 }
 
 /**
@@ -767,17 +767,33 @@ protected void cargaUsuario(Usuarios usuario) {
 	tfNick.setText(usuario.getNick());
 	pfPasswd.setText(usuario.getPasswd());
 	tfRango.setText(usuario.getRango());
+	String fecha = new SimpleDateFormat("dd-MM-yyyy").format(Date.valueOf(usuario.getFecha()));
+	lbFecAlta.setText(fecha);
+// transforma los slash de la ruta
+	Path path = FileSystems.getDefault().getPath(usuario.getFoto());
+	lbUrlFoto.setText(path.toString());
+	cargaFoto (lbFoto, lbUrlFoto.getText(),PNLinea2);
+	lbIdUsuario.setText(String.valueOf(usuario.getId()));
+}
+
+/**
+ * carga la foto del usuario en el label pasado como parámetro, en el panel dado y desde la ruta dada
+ * @param lbFoto2
+ * @param imgStr
+ */
+private void cargaFoto(JLabel lbFoto2, String imgStr, JPanel panel) {
 	// carga imagen usuario
     try {
-		 BufferedImage img = ImageIO.read(new File(usuario.getFoto()));
+		 BufferedImage img = ImageIO.read(new File(imgStr));
 		 ImageIcon icon = new ImageIcon(img);
-		 lbFoto = new JLabel(icon);
+		 lbFoto2.setIcon(icon);;
+		 panel.add(lbFoto2);
      } catch (IOException e) {
         e.printStackTrace();
-     }
-    
+     }	
+
 }
-	
+
 /**
  * getters
  * @param tFDni

@@ -392,7 +392,7 @@ public class FichaVentasView extends JFrame {
 							PNCliente.add(PNDatCli);
 							
 							JButton BTBuscarCli = new JButton(" ");
-							BTBuscarCli.setSelectedIcon(new ImageIcon(FichaVentasView.class.getResource("/png/lupa.png")));
+							BTBuscarCli.setIcon(new ImageIcon(FichaVentasView.class.getResource("/png/lupa.png")));
 							PNDatCli.add(BTBuscarCli);
 							BTBuscarCli.addActionListener(new ActionListener() {
 								@Override
@@ -476,6 +476,7 @@ public class FichaVentasView extends JFrame {
 			PNDatVeh1.setBackground(Color.decode("#2A9D8F"));
 			
 			JButton BTBuscarVeh = new JButton(" ");
+			BTBuscarVeh.setIcon(new ImageIcon(FichaVentasView.class.getResource("/png/lupa.png")));
 			PNDatVeh1.add(BTBuscarVeh);
 			LBIdVehiculo = new JLabel("Id vehículo");
 			PNDatVeh1.add(PNDatVeh1.add(LBIdVehiculo));

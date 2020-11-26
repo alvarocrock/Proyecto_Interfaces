@@ -1,5 +1,8 @@
 package DAO;
 
+import java.net.MalformedURLException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -176,19 +179,21 @@ public class UsuarioDAO extends  AbstractDAO{
 		return miusuario;
 	}
 	/**
-	 * Comprueba que existe el usuario con un DNI dado
-	 * @param DNI
+	 * Comprueba que existe el usuario con un id dado
+	 * @param id
 	 * @return verdadero si existe ese usuario
 	 */
-	public boolean ComprobarUsuario(String DNI) {
+	public boolean ComprobarUsuario(int idUsu) {
 		boolean resultado=false;
-		String 	strSql="select DNI from usuarios where DNI='"+DNI+"'";
+		String 	strSql="select DNI from usuarios where id_user='"+idUsu+"'";
 		
-		// ejecuta la consulta
-		ResultSet rst=super.consultaSQL(strSql);
 		
 		// devuelve rst.next (falso si no existe, true si existe)
 		try {
+			// ejecuta la consulta
+		 super.conectar();
+         stm = (Statement) cn.createStatement();
+         ResultSet rst = stm.executeQuery(strSql);
 			resultado= rst.next();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -198,11 +203,11 @@ public class UsuarioDAO extends  AbstractDAO{
 	}
 	
 	/**
-	 * Borra un usuario con un DNI determinado
-	 * @param DNI
+	 * Borra un usuario con un id determinado
+	 * @param id
 	 */
-	public void borraUsuario(String DNI) {
-		String 	strSql="delete from usuarios where DNI='"+DNI+"'";
+	public void borraUsuario(int idUsu) {
+		String 	strSql="delete from usuarios where id_user='"+idUsu+"'";
 		super.ejecutaSQL(strSql);
 	}
 	/**
@@ -210,7 +215,7 @@ public class UsuarioDAO extends  AbstractDAO{
 	 * @param usuario objeto cliente a añadir
 	 */
 	public void addUsuario(Usuarios usuario) {
-		String 	strSql="insert into usuario "
+		String 	strSql="insert into usuarios "
 				+ " (DNI,Nick, passwd,rango,fecha_alta,foto,id_user) "
 				+ "values ('" + usuario.getDni() +"', '"
 				+ usuario.getPasswd() +"', '"
@@ -226,6 +231,9 @@ public class UsuarioDAO extends  AbstractDAO{
 	 * @param cliente objeto cliente a modificar
 	 */
 	public void updateUsuario(Usuarios usuario) {
+		String urlFoto = usuario.getFoto();
+		Path path = FileSystems.getDefault().getPath(urlFoto);
+		urlFoto=path.toUri().toString().substring(8);
 		
 		String 	strSql="update usuarios "
 				+ " set DNI = '" + usuario.getDni() +"',"
@@ -233,9 +241,8 @@ public class UsuarioDAO extends  AbstractDAO{
 				+" passwd = '" + usuario.getPasswd() +"',"
 				+" rango = '" + usuario.getRango() +"',"
 				+" fecha_alta = '" + Date.valueOf(LocalDate.now()) +"',"
-				+" foto = '" + usuario.getFoto() +"',"
-				+ " id_user = '" + usuario.getId()+ "' "
-				+ "where DNI='"+usuario.getDni()+"';";
+				+" foto = '" + urlFoto + "' "
+				+ "where id_user='"+usuario.getId()+"';";
 		super.ejecutaSQL(strSql);
 	}
 	
@@ -270,17 +277,17 @@ public class UsuarioDAO extends  AbstractDAO{
 	 * busca el registro anterior
 	 * @return Objeto usuario que representa el registro anterior
 	 */
-	public Usuarios anterior(String DNI) {
+	public Usuarios anterior(int idUsu) {
 		String 	strSql="select * from usuarios order by id_user";
 		Usuarios usuario=null;
 		int miFila;
-		miFila=buscaDNI(DNI);
 
 		try {
 			// ejecuta la consulta
 			super.conectar();
 			Statement stmt= (Statement) cn.createStatement();
 			ResultSet rst = stmt.executeQuery(strSql);
+			miFila=buscaId(idUsu);
 			// se posiciona en la fila dado el DNI
 			rst.absolute(miFila);
 			// se posiciona en el anterior registro
@@ -301,10 +308,10 @@ public class UsuarioDAO extends  AbstractDAO{
 	 * @param dNI
 	 * @return
 	 */
-	public int buscaDNI(String dNI) {
+	public int buscaId(int idUsu) {
 		int resultado=1;
 		boolean encontrado=false;
-		String 	strSql="select DNI from usuarios order by id_user";
+		String 	strSql="select id_user from usuarios order by id_user";
 		
 		// ejecuta la consultaa
 		ResultSet rs=null;
@@ -316,7 +323,7 @@ public class UsuarioDAO extends  AbstractDAO{
 			rs.last();
 			rs.first();
 			while (!encontrado) {
-				if (dNI.equals(rs.getString(1))) {
+				if (idUsu==rs.getInt(1)) {
 					encontrado=true;
 				} else {
 					rs.next();
@@ -343,18 +350,17 @@ public class UsuarioDAO extends  AbstractDAO{
 	 * busca el registro siguiente
 	 * @return Objeto usuario que representa el registro siguiente
 	 */
-	public Usuarios siguiente(String DNI) {
+	public Usuarios siguiente(int idUsu) {
 		String 	strSql="select * from usuarios order by id_user";
 		Usuarios usuario=null;
 				
-		//Obtengo la fila
-		int miFila=buscaDNI(DNI);
-	 
 		try {
 			// ejecuta la consulta
 			super.conectar();
 			Statement stmt= (Statement) cn.createStatement();
 			ResultSet rst = stmt.executeQuery(strSql);
+			//Obtengo la fila
+			int miFila=buscaId(idUsu);
 			// se posiciona en la fila dado el DNI
 			rst.absolute(miFila);
 			// se posiciona en el siguiente registro
@@ -399,7 +405,7 @@ public class UsuarioDAO extends  AbstractDAO{
 	 * @return número de registros en la tabla de usuarios
 	 */
 	public int count() {
-		String 	strSql="select DNI from usuarios order by id_user";
+		String 	strSql="select id_user from usuarios order by id_user";
 		int count=0;
 		
 		// ejecuta la consulta
